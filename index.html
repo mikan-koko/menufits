@@ -242,10 +242,10 @@ input[type=range]{width:100%;accent-color:#1b1b1b}
 /* ---------- narrow screens ---------- */
 @media screen and (max-width:900px){
   .app{flex-direction:column}
+  .stagewrap{order:-1;padding:12px 8px 18px}
   .side{width:auto;flex:none;height:auto;position:static;overflow:visible;
-    border-right:0;border-bottom:1px solid var(--ui-line);padding:16px 16px 22px}
+    border-right:0;border-top:1px solid var(--ui-line);padding:16px 16px 40px}
   .designs{grid-template-columns:repeat(3,1fr)}
-  .stagewrap{padding:14px 10px 60px}
 }
 
 /* ---------- inline text toolbar ---------- */
@@ -927,7 +927,7 @@ input[type=range]{width:100%;accent-color:#1b1b1b}
   <section class="lphero">
     <div class="lpeyebrow">FREE ・ NO SIGN-UP ・ A4 PDF</div>
     <h1>お店のメニューを、<br>ひらいて、打ちかえて、<em>PDF。</em></h1>
-    <p class="lplead">飲食店のためのメニュー作成ツール。登録もインストールも不要。<br class="pcbr">デザイン11種 × 書体378通り。縦書きの品書きも、写真メニューも。</p>
+    <p class="lplead">飲食店のためのメニュー作成ツール。登録もインストールも不要。<br class="pcbr">機能はメニュー作りに必要なものだけ。マニュアルなしで、直感的に。</p>
     <div class="lpcta">
       <button class="lpbtn primary lpstart" data-sample="cafe">サンプルから始める</button>
       <button class="lpbtn lpstart" data-sample="blank">白紙から作る</button>
@@ -1884,9 +1884,10 @@ $('#shopDelBtn').onclick=()=>{
 refreshShopLib();
 
 /* --- collapsible sidebar groups --- */
-$$('.side .grp').forEach(g=>{
+$$('.side .grp').forEach((g,gi)=>{
   const lb=g.querySelector(':scope > .lb');
   if(lb) lb.onclick=()=>g.classList.toggle('closed');
+  if(matchMedia('(max-width:900px)').matches && gi>1) g.classList.add('closed');
 });
 
 let photoTarget=null;
