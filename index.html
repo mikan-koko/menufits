@@ -44,7 +44,6 @@ body{
   --f-en-sans:"Jost","Helvetica Neue",Arial,sans-serif;
   --f-serif-jp:"Noto Serif JP","Shippori Mincho","Yu Mincho",YuMincho,serif;
   --f-maru:"Zen Maru Gothic","Zen Kaku Gothic New","Hiragino Maru Gothic ProN",sans-serif;
-  --f-pop:"Mochiy Pop One","Zen Maru Gothic",sans-serif;
   --f-en-disp:"Marcellus","Cormorant Garamond","Times New Roman",serif;
   --ui:#fbfaf7; --ui-line:rgba(28,25,18,.09); --ui-ink:#232019; --ui-mut:#807b70; --ui-acc:#1e1c17;
   --ease:cubic-bezier(.16,1,.3,1);
@@ -571,14 +570,14 @@ input[type=range]{width:100%;accent-color:#1b1b1b}
 .d-pop .h-en{display:table;margin:0 auto 4.5mm;font-family:var(--f-en);font-size:calc(7.5pt*var(--fs));font-weight:600;letter-spacing:.32em;
   text-transform:uppercase;border:1.8pt solid var(--ink);border-radius:99mm;padding:1.2mm 4.5mm 1mm;
   background:#fff;box-shadow:1.4mm 1.4mm 0 color-mix(in srgb,var(--accent) 65%,transparent)}
-.d-pop .h-ttl{font-family:var(--f-pop);font-size:calc(24pt*var(--fs));font-weight:400;letter-spacing:.1em;margin:0;line-height:1.4;
+.d-pop .h-ttl{font-family:var(--f-jp);font-size:calc(24pt*var(--fs));font-weight:400;letter-spacing:.1em;margin:0;line-height:1.4;
   background:linear-gradient(transparent 60%,color-mix(in srgb,var(--accent) 42%,transparent) 60% 92%,transparent 92%);
   display:inline;padding:0 .18em;box-decoration-break:clone;-webkit-box-decoration-break:clone}
 .d-pop .h-tag{font-size:calc(8.6pt*var(--fs));font-weight:500;letter-spacing:.2em;color:var(--muted);margin-top:3.6mm}
 .d-pop .mbody{column-count:var(--cols);column-gap:10mm}
 .d-pop .cat{margin-bottom:7mm}
 .d-pop .cat-head{display:flex;align-items:center;gap:2.6mm;margin-bottom:4mm}
-.d-pop .cat-ttl{font-family:var(--f-pop);font-size:calc(11pt*var(--fs));font-weight:400;letter-spacing:.14em;margin:0;
+.d-pop .cat-ttl{font-family:var(--f-jp);font-size:calc(11pt*var(--fs));font-weight:400;letter-spacing:.14em;margin:0;
   border:1.8pt solid var(--ink);border-radius:99mm;padding:1.2mm 4.2mm 1mm;background:#fff;
   box-shadow:1.4mm 1.4mm 0 color-mix(in srgb,var(--accent) 65%,transparent)}
 .d-pop .cat-en{font-family:var(--f-en);font-size:calc(7pt*var(--fs));font-weight:500;letter-spacing:.26em;color:var(--muted);text-transform:uppercase}
@@ -588,7 +587,7 @@ input[type=range]{width:100%;accent-color:#1b1b1b}
 .d-pop .it-price{margin-left:auto;font-family:var(--f-en);font-size:calc(9pt*var(--fs));font-weight:600;white-space:nowrap;
   border:1.4pt solid var(--ink);border-radius:99mm;padding:.4mm 2.4mm;background:#fffefa}
 .d-pop .it-desc{font-size:calc(7.6pt*var(--fs));font-weight:500;line-height:1.75;color:var(--muted);margin-top:1mm}
-.d-pop .it-badge{font-family:var(--f-pop);font-size:calc(6.2pt*var(--fs));letter-spacing:.06em;
+.d-pop .it-badge{font-family:var(--f-jp);font-size:calc(6.2pt*var(--fs));letter-spacing:.06em;
   background:var(--accent);color:#fffdf8;border:1.4pt solid var(--ink);padding:.6mm 1.8mm;border-radius:1mm;
   transform:rotate(-4deg);box-shadow:.8mm .8mm 0 var(--ink);}
 .d-pop .item.has-badge .it-badge{display:inline-block}
@@ -654,18 +653,18 @@ input[type=range]{width:100%;accent-color:#1b1b1b}
 .d-split .cat-head::after{content:"";flex:1;height:.4pt;background:rgba(38,37,31,.18)}
 .d-split .item{margin-bottom:4mm}
 .d-split .it-top{display:flex;align-items:baseline;gap:2.6mm}
-.d-split .it-name{font-family:var(--f-gothic);font-size:calc(9.8pt*var(--fs));font-weight:500;
+.d-split .it-name{font-size:calc(9.8pt*var(--fs));font-weight:500;
   letter-spacing:.06em;line-height:1.5}
 .d-split .it-price{margin-left:auto;font-family:var(--f-en);font-size:calc(11pt*var(--fs));
   font-weight:500;letter-spacing:.04em;white-space:nowrap}
-.d-split .it-desc{font-family:var(--f-gothic);font-size:calc(7.4pt*var(--fs));line-height:1.8;
+.d-split .it-desc{font-size:calc(7.4pt*var(--fs));line-height:1.8;
   color:var(--muted);margin-top:1mm;letter-spacing:.04em}
 .d-split .it-badge{font-family:var(--f-en-sans);font-size:calc(6pt*var(--fs));letter-spacing:.16em;
   border:.5pt solid var(--accent);color:var(--accent);padding:.5mm 1.6mm;border-radius:.8mm;
   text-transform:uppercase}
 .d-split .mfoot{position:absolute;left:0;bottom:0;width:62mm;z-index:1;
   padding:0 8mm 14mm 10mm;display:flex;flex-direction:column;gap:1.8mm;
-  color:var(--panel-mut);font-family:var(--f-gothic);font-size:calc(7.4pt*var(--fs));
+  color:var(--panel-mut);font-size:calc(7.4pt*var(--fs));
   letter-spacing:.13em;line-height:2.05}
 .d-split .mfoot::before{content:"";width:9mm;height:.5pt;background:var(--accent);margin-bottom:2.2mm}
 .d-split .it-photo{float:left;width:15mm;height:15mm;margin:.5mm 3mm .5mm 0;border-radius:1mm;overflow:hidden}
@@ -755,6 +754,65 @@ input[type=range]{width:100%;accent-color:#1b1b1b}
 .d-asia .it-photo{float:left;width:15mm;height:15mm;margin:.5mm 3mm .5mm 0;border-radius:50% 50% 1mm 1mm;overflow:hidden;border:.6pt solid var(--accent)}
 .d-asia .item::after{content:"";display:block;clear:both}
 .d-asia .hero-w{display:block;height:32mm;margin-bottom:6mm;border-radius:24mm 24mm 2mm 2mm;border:.6pt solid var(--accent)}
+
+/* ============================================================
+   COVER PAGES  表紙 / 裏表紙（デザインとは独立した専用レイアウト）
+   ============================================================ */
+.page.cover{--paper:#faf8f3;--ink:#211d17;--muted:#8a8274;--f-jp:var(--f-mincho2);--f-en:var(--f-en-serif);
+  background:var(--paper)}
+.page.cover .page-in{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;
+  justify-content:center;text-align:center;padding:26mm 22mm;gap:6mm}
+.page.cover .cov-logo{width:26mm;height:26mm;display:flex;align-items:center;justify-content:center}
+.page.cover .cov-logo img{max-width:100%;max-height:100%;object-fit:contain}
+.cover-front .cov-img{width:100%;max-height:118mm;border-radius:1.5mm;overflow:hidden;margin-bottom:2mm}
+.cover-front .cov-img img{width:100%;height:100%;object-fit:cover;display:block}
+.cover-front .cov-en{font-family:var(--f-en);font-size:calc(8pt*var(--fs));letter-spacing:.5em;
+  text-transform:uppercase;color:var(--accent)}
+.cover-front .cov-title{font-size:calc(30pt*var(--fs));font-weight:600;letter-spacing:.2em;margin:0;line-height:1.4}
+.cover-front .cov-tag{font-size:calc(9.5pt*var(--fs));letter-spacing:.24em;color:var(--muted)}
+.cover-back .cov-msg{font-size:calc(10.5pt*var(--fs));line-height:2.1;letter-spacing:.06em;max-width:130mm}
+.cover-back .cov-foot{font-size:calc(8.4pt*var(--fs));color:var(--muted);letter-spacing:.18em;line-height:2.1;margin-top:4mm}
+.cover-back .cov-title{font-size:calc(13pt*var(--fs));font-weight:600;letter-spacing:.3em;margin:0}
+
+/* --- cover style: frame（細二重枠・中央） --- */
+.page.cover.style-frame::before{content:"";position:absolute;inset:8mm;
+  border:.6pt solid color-mix(in srgb,var(--ink) 45%,transparent);pointer-events:none}
+.page.cover.style-frame::after{content:"";position:absolute;inset:9.8mm;
+  border:1.4pt solid var(--accent);pointer-events:none}
+.page.cover.style-frame .page-in{padding:34mm 28mm}
+.style-frame.cover-front .cov-en{padding-bottom:2.6mm;border-bottom:.5pt solid var(--accent)}
+.style-frame.cover-front .cov-title{font-size:calc(27pt*var(--fs));letter-spacing:.3em}
+.style-frame.cover-back .page-in{padding:30mm 26mm}
+
+/* --- cover style: photo（写真ベタ・下部にテキスト） --- */
+.page.cover.style-photo{background:var(--ink)}
+.style-photo.cover-front .page-in{padding:0 20mm 22mm;align-items:flex-start;text-align:left;
+  justify-content:flex-end;gap:2.6mm}
+.style-photo.cover-front .page-in::before{content:"";position:absolute;inset:0;z-index:1;
+  background:linear-gradient(to top,rgba(12,9,6,.85),rgba(12,9,6,.18) 48%,transparent 68%)}
+.style-photo.cover-front .cov-logo{position:absolute;top:14mm;left:16mm;z-index:2;width:22mm;height:22mm}
+.style-photo.cover-front .cov-logo img{filter:brightness(0) invert(1);opacity:.95}
+.style-photo.cover-front .cov-img{position:absolute;inset:0;margin:0;max-height:none;border-radius:0;z-index:0}
+.style-photo.cover-front .cov-en,.style-photo.cover-front .cov-title,.style-photo.cover-front .cov-tag{
+  position:relative;z-index:2;color:#fbf8f2}
+.style-photo.cover-front .cov-tag{color:rgba(251,248,242,.75)}
+.style-photo.cover-back{background:var(--ink)}
+.style-photo.cover-back .cov-logo img{filter:brightness(0) invert(1);opacity:.95}
+.style-photo.cover-back .cov-title{color:#fbf8f2}
+.style-photo.cover-back .cov-msg{color:rgba(251,248,242,.88)}
+.style-photo.cover-back .cov-foot{color:rgba(251,248,242,.6)}
+
+/* --- cover style: editorial（左寄せ・大見出し） --- */
+.style-editorial.cover-front .page-in{align-items:flex-start;text-align:left;
+  padding:26mm 22mm 24mm;justify-content:flex-end;gap:3.5mm}
+.style-editorial.cover-front .cov-logo{align-self:flex-start;margin-bottom:auto;width:22mm;height:22mm}
+.style-editorial.cover-front .cov-img{width:100%;max-height:88mm;margin-bottom:4mm}
+.style-editorial.cover-front .cov-title{font-size:calc(34pt*var(--fs));font-weight:700;
+  letter-spacing:.01em;line-height:1.18;max-width:130mm}
+.style-editorial.cover-front .cov-tag{padding-top:3mm;border-top:1.4pt solid var(--accent);
+  align-self:stretch}
+.style-editorial.cover-back .page-in{align-items:flex-start;text-align:left;padding:30mm 26mm}
+.style-editorial.cover-back .cov-title{letter-spacing:.2em}
 
 /* ============================================================
    MATERIALS — background patterns & decorative frames
@@ -1152,7 +1210,17 @@ input[type=range]{width:100%;accent-color:#1b1b1b}
     </div>
 
     <div class="grp">
-      <span class="lb">07 ＿ 保存・読み込み</span>
+      <span class="lb">07 ＿ 表紙・裏表紙</span>
+      <div class="row">
+        <button class="btn" id="coverFrontBtn">表紙を追加</button>
+        <button class="btn" id="coverBackBtn">裏表紙を追加</button>
+      </div>
+      <div class="chips" id="coverStyleChips" style="margin-top:10px"></div>
+      <div style="font-size:11.5px;color:var(--ui-mut);margin-top:9px;line-height:1.75">表紙には<b>ロゴ・ヘッダー写真・店名</b>、裏表紙には<b>メッセージ・住所・営業時間</b>を、通常ページとは独立したレイアウトで配置します。</div>
+    </div>
+
+    <div class="grp">
+      <span class="lb">08 ＿ 保存・読み込み</span>
       <div class="row">
         <button class="btn" id="slotSaveBtn">スロットへ保存</button>
       </div>
@@ -1173,7 +1241,7 @@ input[type=range]{width:100%;accent-color:#1b1b1b}
     </div>
 
     <div class="grp">
-      <span class="lb">08 ＿ マイデータ（店舗・品目）</span>
+      <span class="lb">09 ＿ マイデータ（店舗・品目）</span>
       <div class="row">
         <select id="shopSel" style="flex:1"><option value="">店舗プロフィール…</option></select>
       </div>
@@ -1186,7 +1254,7 @@ input[type=range]{width:100%;accent-color:#1b1b1b}
     </div>
 
     <div class="grp">
-      <span class="lb">09 ＿ 中身を差し替える</span>
+      <span class="lb">10 ＿ 中身を差し替える</span>
       <select id="samplesel">
         <option value="">サンプルを読み込む…</option>
         <option value="cafe">カフェ</option>
@@ -1237,11 +1305,11 @@ const KEY = 'menu-template-v1';
 
 const DESIGNS = [
   {id:'noir',  nm:'NOIR',      jp:'ビストロ・バー',   sw:'linear-gradient(160deg,#2a2f39,#14161a)'},
-  {id:'kinari',nm:'KINARI',    jp:'和モダン・縦書き', sw:'linear-gradient(160deg,#f7f4ec,#e7e2d4)'},
+  {id:'kinari',nm:'KINARI',    jp:'和モダン・縦書き', sw:'repeating-linear-gradient(90deg,transparent 0 8px,#c3b48c 8px 9px) 42% 0/58% 100% no-repeat,linear-gradient(90deg,transparent 0 36.5%,#221c14 36.5% 37.1%,transparent 37.1% 100%),linear-gradient(160deg,#f8f5ec,#eae3d0)'},
   {id:'edit',  nm:'EDITORIAL', jp:'ミニマル・カフェ', sw:'linear-gradient(#fff,#fff) padding-box,#111'},
   {id:'terra', nm:'TERRA',     jp:'ナチュラル・定食', sw:'linear-gradient(#f8f3ea 52%,#e6cdb8 52%)'},
   {id:'bold',  nm:'BOLD',      jp:'居酒屋・ラーメン', sw:'linear-gradient(#111 46%,#f2f0eb 46%)'},
-  {id:'lum',   nm:'LUMIERE',   jp:'コース・フレンチ', sw:'linear-gradient(160deg,#fdfbf6,#efe7d6)'},
+  {id:'lum',   nm:'LUMIERE',   jp:'コース・フレンチ', sw:'linear-gradient(0deg,transparent 0 7px,#c9a227 7px 7.6px,transparent 7.6px calc(100% - 7.6px),#c9a227 calc(100% - 7.6px) calc(100% - 7px),transparent calc(100% - 7px) 100%),linear-gradient(90deg,transparent 0 9px,#c9a227 9px 9.6px,transparent 9.6px calc(100% - 9.6px),#c9a227 calc(100% - 9.6px) calc(100% - 9px),transparent calc(100% - 9px) 100%),linear-gradient(160deg,#fdfbf6,#f2ead6)'},
   {id:'shu',   nm:'SHU ／ 朱', jp:'中華・点心',       sw:'linear-gradient(135deg,#c73e2e 0 42%,#f8f2e3 42%)'},
   {id:'pop',   nm:'POP',       jp:'喫茶・ポップ',     sw:'repeating-linear-gradient(-45deg,#ffb45e 0 7px,#fffcf3 7px 14px)'},
   {id:'grid',  nm:'ALBUM',     jp:'写真メニュー',     sw:'linear-gradient(90deg,#cfd8d0 0 32%,#fff 32% 34%,#e7ded2 34% 66%,#fff 66% 68%,#d9cfc4 68%)'},
@@ -1435,7 +1503,8 @@ function fresh(key){
     design:s.design, accent:s.accent, fontJp:'', fontEn:'', cols:0, fs:1, cur:s.cur,
     pattern:'', patOp:.08, patScale:1, patX:0, patY:0, deco:'', decoIn:6.5,
     colors:{paper:'',ink:'',pat:'',deco:''}, bgImg:null, bgOp:1,
-    logo:null, hero:null, shop:s.shop, foot:s.foot, categories:s.categories
+    logo:null, hero:null, shop:s.shop, foot:s.foot, categories:s.categories,
+    cover:{front:false,back:false}, coverStyle:'center', backMsg:''
   };
 }
 let state, zoom='fit';
@@ -1452,8 +1521,17 @@ if(typeof state.patX!=='number') state.patX=0;
 if(typeof state.patY!=='number') state.patY=0;
 if(typeof state.decoIn!=='number') state.decoIn=6.5;
 state.colors=state.colors||{paper:'',ink:'',pat:'',deco:''};
+state.cover=state.cover||{front:false,back:false};
+state.coverStyle=state.coverStyle||'center';
+state.backMsg=state.backMsg||'';
 
-const save = ()=>{ try{ localStorage.setItem(KEY,JSON.stringify(state)) }catch(e){} };
+let saveFailed=false;
+const save = ()=>{
+  try{ localStorage.setItem(KEY,JSON.stringify(state)); saveFailed=false; }
+  catch(e){
+    if(!saveFailed){ saveFailed=true; toast('保存容量の上限に達し、自動保存が止まっています。「ファイルに保存（.json）」で控えを取ってください。'); }
+  }
+};
 const get = p=>p.split('.').reduce((o,k)=>(o==null?o:o[k]),state);
 function set(p,v){ const ks=p.split('.'), last=ks.pop(); ks.reduce((o,k)=>o[k],state)[last]=v; }
 
@@ -1550,8 +1628,8 @@ function buildCat(c,ci){
   s.appendChild(ul);
   return s;
 }
-function buildPage(p){
-  const page=el('div','page d-'+state.design);
+function makeSheet(cls){
+  const page=el('div','page '+cls);
   page.style.setProperty('--accent',state.accent);
   page.style.setProperty('--fs',state.fs);
   if(+state.cols) page.style.setProperty('--cols',state.cols);
@@ -1571,6 +1649,10 @@ function buildPage(p){
   if(state.bgImg){ const bw=el('div','bgimg-w'); const bi=new Image(); bi.src=state.bgImg; bw.appendChild(bi); page.appendChild(bw); }
   if(state.pattern) page.appendChild(el('div','pattern-w p-'+state.pattern));
   if(state.deco) page.appendChild(el('div','deco-w x-'+state.deco));
+  return page;
+}
+function buildPage(p){
+  const page=makeSheet('d-'+state.design);
   let cur=state.cur; if(state.design==='kinari') cur='none';
   page.style.setProperty('--cur-pre',CUR[cur][0]);
   page.style.setProperty('--cur-suf',CUR[cur][1]);
@@ -1579,7 +1661,7 @@ function buildPage(p){
   if(state.logo){
     const lw=el('div','logo-w'); const im=document.createElement('img'); im.src=state.logo; lw.appendChild(im); inn.appendChild(lw);
   }
-  if(state.hero && p===1){
+  if(state.hero && p===1 && !state.cover.front){
     const hw=el('div','hero-w'); const im=document.createElement('img'); im.src=state.hero; hw.appendChild(im); inn.appendChild(hw);
   }
   const hd=el('header','mhead');
@@ -1606,11 +1688,46 @@ function buildPage(p){
   page.appendChild(inn);
   return page;
 }
+function buildCoverFront(){
+  const page=makeSheet('cover cover-front style-'+(state.coverStyle||'center'));
+  const inn=el('div','page-in');
+  if(state.logo){
+    const lw=el('div','cov-logo'); const im=document.createElement('img'); im.src=state.logo; lw.appendChild(im); inn.appendChild(lw);
+  }
+  if(state.hero){
+    const hw=el('div','cov-img'); const im=document.createElement('img'); im.src=state.hero; hw.appendChild(im); inn.appendChild(hw);
+  }
+  inn.appendChild(ed('shop.nameEn','cov-en','ENGLISH NAME','div'));
+  inn.appendChild(ed('shop.name','cov-title','店名を入力','h1'));
+  inn.appendChild(ed('shop.tagline','cov-tag','ひとことキャッチコピー','div'));
+  page.appendChild(inn);
+  return page;
+}
+function buildCoverBack(){
+  const page=makeSheet('cover cover-back style-'+(state.coverStyle||'center'));
+  const inn=el('div','page-in');
+  if(state.logo){
+    const lw=el('div','cov-logo'); const im=document.createElement('img'); im.src=state.logo; lw.appendChild(im); inn.appendChild(lw);
+  }
+  inn.appendChild(ed('shop.name','cov-title','店名を入力','div'));
+  inn.appendChild(ed('backMsg','cov-msg','ご来店ありがとうございました。またのお越しをお待ちしております。','div'));
+  const ft=el('div','cov-foot');
+  ft.appendChild(ed('foot.l1','f1','住所・電話番号など','div'));
+  ft.appendChild(ed('foot.l2','f2','営業時間・SNSなど','div'));
+  inn.appendChild(ft);
+  page.appendChild(inn);
+  return page;
+}
 function render(){
   const total=Math.max(1,...state.categories.map(c=>c.page||1));
   const st=$('#stage'); st.innerHTML='';
+  if(state.cover.front) st.appendChild(buildCoverFront());
   for(let p=1;p<=total;p++) st.appendChild(buildPage(p));
+  if(state.cover.back) st.appendChild(buildCoverBack());
   fit(); checkOverflow();
+  // a design/font switch can need a web font that wasn't loaded yet; re-check once it lands
+  // instead of leaving a stale/false overflow warning from fallback-font metrics.
+  if(document.fonts && document.fonts.ready) document.fonts.ready.then(()=>{ fit(); checkOverflow(); });
 }
 
 /* ---------------- fit / overflow ---------------- */
@@ -1744,6 +1861,31 @@ PATTERNS.forEach(([id,nm])=>{
   b.innerHTML=(id?`<span class="pv pattern-w p-${id}" style="--ink:#3f382a;--pat-op:.5"></span>`:'')+`<b>${nm}</b>`;
   b.onclick=()=>{ state.pattern=id; save(); syncUI(); render(); };
   patWrap.appendChild(b);
+});
+const COVER_STYLES=[
+  ['center','中央',
+    'linear-gradient(90deg,transparent 30%,#221c14 30% 70%,transparent 70%) 0 58%/100% 3px no-repeat,'+
+    'linear-gradient(90deg,transparent 38%,#c9a227 38% 62%,transparent 62%) 0 70%/100% 2px no-repeat,'+
+    'linear-gradient(160deg,#faf8f3,#eee6d3)'],
+  ['frame','フレーム',
+    'linear-gradient(0deg,transparent 0 5px,#c9a227 5px 5.6px,transparent 5.6px calc(100% - 5.6px),#c9a227 calc(100% - 5.6px) calc(100% - 5px),transparent calc(100% - 5px) 100%),'+
+    'linear-gradient(90deg,transparent 0 5px,#c9a227 5px 5.6px,transparent 5.6px calc(100% - 5.6px),#c9a227 calc(100% - 5.6px) calc(100% - 5px),transparent calc(100% - 5px) 100%),'+
+    'linear-gradient(90deg,transparent 36%,#221c14 36% 64%,transparent 64%) 0 60%/100% 3px no-repeat,'+
+    'linear-gradient(160deg,#faf8f3,#eee6d3)'],
+  ['photo','写真ベタ',
+    'linear-gradient(0deg,transparent 62%,#fff 62% 68%,transparent 68%) 0 0/46% 100% no-repeat,'+
+    'linear-gradient(to top,rgba(0,0,0,.6),transparent 60%),linear-gradient(160deg,#4a4038,#211c17)'],
+  ['editorial','エディトリアル',
+    'linear-gradient(90deg,#221c14 0 46%,transparent 46%) 0 60%/100% 5px no-repeat,'+
+    'linear-gradient(90deg,#c9a227 0 22%,transparent 22%) 0 74%/100% 2px no-repeat,'+
+    'linear-gradient(160deg,#faf8f3,#eee6d3)'],
+];
+const coverStyleWrap=$('#coverStyleChips');
+COVER_STYLES.forEach(([id,nm,sw])=>{
+  const b=el('button','chip'); b.dataset.v=id; b.title='表紙スタイル：'+nm;
+  b.innerHTML=`<span class="pv" style="background:${sw}"></span><b>${nm}</b>`;
+  b.onclick=()=>{ state.coverStyle=id; save(); syncUI(); render(); };
+  coverStyleWrap.appendChild(b);
 });
 const decoWrap=$('#decoChips');
 DECOS.forEach(([id,nm])=>{
@@ -1915,6 +2057,8 @@ $('#heroInput').onchange=e=>{
   shrink(f,1600,.84,d=>{ state.hero=d; save(); render(); });
 };
 $('#heroDel').onclick=()=>{ state.hero=null; save(); render(); };
+$('#coverFrontBtn').onclick=()=>{ state.cover.front=!state.cover.front; save(); syncUI(); render(); };
+$('#coverBackBtn').onclick=()=>{ state.cover.back=!state.cover.back; save(); syncUI(); render(); };
 $('#bgBtn').onclick=()=>{ const b=$('#bgInput'); b.value=''; b.click(); };
 $('#bgInput').onchange=e=>{
   const f=e.target.files[0]; if(!f) return;
@@ -1991,7 +2135,7 @@ function syncUI(){
   $('#patop').value=state.patOp; $('#bgop').value=state.bgOp;
   $('#patscale').value=state.patScale; $('#patx').value=state.patX; $('#paty').value=state.patY;
   $('#decoin').value=state.decoIn;
-  const pg0=document.querySelector('.page');
+  const pg0=document.querySelector('.page:not(.cover)');
   const defv=(v,fb)=>{ if(v) return v;
     if(pg0){ const x=getComputedStyle(pg0).getPropertyValue(fb).trim(); if(/^#([0-9a-f]{6})$/i.test(x)) return x; }
     return '#888888'; };
@@ -2002,6 +2146,11 @@ function syncUI(){
   $('#colsel').value=state.cols;
   $('#cursel').value=state.cur;   $('#fsr').value=state.fs;
   $('#fsv').textContent=Math.round(state.fs*100)+'%';
+  $('#coverFrontBtn').textContent = state.cover.front ? '表紙を外す' : '表紙を追加';
+  $('#coverFrontBtn').classList.toggle('primary',state.cover.front);
+  $('#coverBackBtn').textContent = state.cover.back ? '裏表紙を外す' : '裏表紙を追加';
+  $('#coverBackBtn').classList.toggle('primary',state.cover.back);
+  $$('#coverStyleChips .chip').forEach(b=>b.classList.toggle('on',b.dataset.v===state.coverStyle));
 }
 
 /* ---------------- modal ---------------- */
@@ -2047,16 +2196,18 @@ $('#helpBtn').onclick=()=>{
       左パネルの<b>「マイデータ」</b>では、店名・住所・ロゴをまとめて<b>店舗プロフィール</b>として登録・切替できます。系列店や屋号違いの使い分けに。</p>
     <h3>6. 用紙からはみ出したら</h3>
     <p>上に注意が出ます。<b>文字サイズ</b>を下げる、<b>2段組み</b>にする、<b>頁+</b> で次のページへ送る、のどれかで収まります。</p>
-    <h3>7. PDF にする・印刷する</h3>
+    <h3>7. 表紙・裏表紙を追加する</h3>
+    <p>左パネルの<b>「表紙・裏表紙」</b>から、通常ページとは別レイアウトの表紙・裏表紙を追加できます。<b>表紙</b>にはロゴ・ヘッダー写真・店名が大きく配置され、<b>裏表紙</b>には結びの一言メッセージと住所・営業時間が入ります。店名やロゴ、住所は通常ページと自動で同じ内容になり、二重に入力する必要はありません。もう一度ボタンを押すと外れます。</p>
+    <h3>8. PDF にする・印刷する</h3>
     <p>左下の <b>「PDF ／ 印刷する」</b> から。A4 ぴったりで出力されます。印刷所に入稿する場合も、この PDF をそのまま渡せます。</p>
-    <h3>8. 保存について</h3>
+    <h3>9. 保存について</h3>
     <p>入力した内容は<b>この端末のブラウザに自動保存</b>されます。さらに——</p>
     <p><b>スロットへ保存</b>：名前を付けてこのブラウザ内に何枚でも保存できます。グランド／ランチ／ドリンクの作り分けや、季節の切り替えに。<br>
     <b>ファイルに保存（.json）</b>：パソコン上のファイルとして書き出します。別のPCへ渡す・バックアップとして残す・印刷所への支給データと一緒に保管する、といった用途はこちら。<b>「ファイルを開く」</b>でいつでも復元できます。</p>
-    <h3>9. 書体と素材</h3>
+    <h3>10. 書体と素材</h3>
     <p><b>和文15種 × 欧文8種</b> を自由に組み合わせられます（手書き風・筆文字・レトロゲーム風なども）。<b>「背景・装飾」</b>では和紙・青海波・方眼などの背景パターンと飾り枠を重ねられ、濃さも調整できます。パターンの色は各デザインの文字色に自動でなじみます。<br>
       書体はインターネット経由で読み込むため、<b>オンラインで開く</b>のがおすすめです。オフラインでも編集・印刷はできますが、書体は端末標準のものに置き換わります。推奨ブラウザは <b>Chrome / Edge</b> です。</p>
-    <h3>10. 縦書き（KINARI）のコツ</h3>
+    <h3>11. 縦書き（KINARI）のコツ</h3>
     <p>価格は <b>カンマなしの数字</b>（例：1200）にすると、縦書きの中で数字が横に組まれ、きれいに収まります。</p>
     <div class="foot"><button class="btn primary" id="mClose">とじる</button></div>`);
 };
@@ -2071,12 +2222,16 @@ const lpD=$('#lpDesigns');
 if(lpD) DESIGNS.forEach(d=>{
   const b=el('button','dbtn');
   b.innerHTML=`<span class="sw" style="background:${d.sw}"></span><span class="nm">${d.nm}<small>${d.jp}</small></span>`;
-  b.onclick=()=>{ state=fresh(DSAMPLE[d.id]||'cafe'); state.design=d.id; save(); syncUI(); render(); showApp(); };
+  b.onclick=()=>{
+    if(localStorage.getItem(KEY) && !confirm('前回の編集内容ではなく、「'+d.nm+'」のサンプルを開きますか？（キャンセル＝編集中の内容のまま）')) return;
+    state=fresh(DSAMPLE[d.id]||'cafe'); state.design=d.id; save(); syncUI(); render(); showApp();
+  };
   lpD.appendChild(b);
 });
 $$('.lpstart').forEach(b=>b.onclick=()=>{
   const k=b.dataset.sample;
-  if(k && (k==='blank' || !localStorage.getItem(KEY) || confirm('前回の編集内容ではなく、サンプルから始めますか？（キャンセル＝前回の続き）')))
+  const msg=k==='blank' ? '編集中の内容を消して、白紙から始めますか？' : '前回の編集内容ではなく、サンプルから始めますか？（キャンセル＝前回の続き）';
+  if(k && (!localStorage.getItem(KEY) || confirm(msg)))
     { state=fresh(k); save(); syncUI(); render(); }
   showApp();
 });
@@ -2110,7 +2265,6 @@ else if(localStorage.getItem(KEY)) showApp();
 /* ---------------- go ---------------- */
 syncUI(); render();
 setTimeout(fit,600);
-if(document.fonts && document.fonts.ready) document.fonts.ready.then(()=>{ fit(); checkOverflow(); });
 </script>
 </body>
 </html>
