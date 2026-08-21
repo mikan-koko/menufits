@@ -238,6 +238,52 @@ input[type=range]{width:100%;accent-color:#1b1b1b}
 .page:hover .addcat{opacity:.8}
 .addcat:hover{opacity:1 !important;background:#fff}
 
+/* ---------- free blocks（自由配置ブロック） ---------- */
+.blk-layer{position:absolute;inset:0;z-index:7;pointer-events:none}
+.blk{position:absolute;pointer-events:auto;box-sizing:border-box}
+.blk .blk-body{width:100%;outline:none}
+.blk-text .blk-body{line-height:1.6;white-space:pre-wrap;word-break:break-word}
+.blk-image .blk-body img{width:100%;height:auto;display:block}
+@media screen{
+  .blk-image .blk-body:empty{min-height:24mm;border:1px dashed rgba(90,85,72,.45);border-radius:2px;
+    background:rgba(120,110,90,.06)}
+  .blk-image .blk-body:empty::before{content:"画像を選ぶ → 📷";display:flex;height:100%;min-height:24mm;
+    align-items:center;justify-content:center;font-size:9px;letter-spacing:.08em;opacity:.5}
+}
+@media print{ .blk-image .blk-body:empty{display:none} }
+@media screen{
+  .blk::after{content:"";position:absolute;inset:-3px;border:1px dashed rgba(60,120,255,.35);
+    border-radius:3px;pointer-events:none;opacity:0;transition:opacity .2s var(--ease)}
+  .blk:hover::after,.blk.sel::after{opacity:1}
+  .blk.sel::after{border-style:solid;border-color:rgba(60,120,255,.8)}
+  .blk-tools{position:absolute;left:0;bottom:100%;margin-bottom:5px;display:none;gap:2px;
+    background:rgba(253,252,249,.96);backdrop-filter:blur(6px);border:1px solid rgba(28,25,18,.1);
+    border-radius:6px;padding:2px;box-shadow:0 1px 2px rgba(28,25,18,.06),0 10px 28px rgba(28,25,18,.14);
+    white-space:nowrap;z-index:2}
+  .blk:hover>.blk-tools,.blk.sel>.blk-tools{display:flex}
+  .blk-tools button{border:0;background:transparent;cursor:pointer;font:inherit;font-size:11px;
+    line-height:1;padding:4px 5px;border-radius:3px;color:#333;transition:background .25s var(--ease)}
+  .blk-tools button:hover{background:rgba(28,25,18,.07)}
+  .blk-tools button.dg:hover{background:#fbe3e3;color:#a11}
+  .blk-grip{cursor:move}
+  .blk-rz{position:absolute;right:-6px;bottom:-6px;width:13px;height:13px;z-index:2;
+    border:1.5px solid rgba(60,120,255,.9);background:#fff;border-radius:50%;cursor:nwse-resize;
+    display:none}
+  .blk:hover>.blk-rz,.blk.sel>.blk-rz{display:block}
+  .blk-add{position:absolute;right:2.4mm;top:2.4mm;z-index:8;display:flex;gap:2px;opacity:0;
+    background:rgba(253,252,249,.92);border:1px dashed rgba(90,85,72,.5);border-radius:7px;padding:2px;
+    transition:opacity .35s var(--ease)}
+  .page:hover .blk-add{opacity:.85}
+  .blk-add:hover{opacity:1 !important;background:#fff}
+  .blk-add button{border:0;background:transparent;cursor:pointer;font:inherit;font-size:11px;
+    line-height:1;padding:4px 7px;border-radius:4px;color:#3a372f}
+  .blk-add button:hover{background:rgba(28,25,18,.07)}
+}
+@media print{
+  .blk-tools,.blk-rz,.blk-add{display:none !important}
+  .blk::after{display:none !important}
+}
+
 /* ---------- narrow screens ---------- */
 @media screen and (max-width:900px){
   .app{flex-direction:column}
@@ -1207,6 +1253,7 @@ input[type=range]{width:100%;accent-color:#1b1b1b}
       <input type="file" id="logoInput" accept="image/*" hidden>
       <input type="file" id="heroInput" accept="image/*" hidden>
       <input type="file" id="photoInput" accept="image/*" hidden>
+      <input type="file" id="blkImgInput" accept="image/*" hidden>
     </div>
 
     <div class="grp">
@@ -1504,26 +1551,31 @@ function fresh(key){
     pattern:'', patOp:.08, patScale:1, patX:0, patY:0, deco:'', decoIn:6.5,
     colors:{paper:'',ink:'',pat:'',deco:''}, bgImg:null, bgOp:1,
     logo:null, hero:null, shop:s.shop, foot:s.foot, categories:s.categories,
-    cover:{front:false,back:false}, coverStyle:'center', backMsg:''
+    cover:{front:false,back:false}, coverStyle:'center', backMsg:'', blocks:[]
   };
+}
+// fill in fields added after a save was written, so old slots/.json files still open
+function migrate(s){
+  if(s.font && FP_LEGACY[s.font] && !s.fontJp){ [s.fontJp,s.fontEn]=FP_LEGACY[s.font]; }
+  s.fontJp=s.fontJp||''; s.fontEn=s.fontEn||'';
+  s.pattern=s.pattern||''; s.deco=s.deco||'';
+  if(typeof s.patOp!=='number') s.patOp=.08;
+  if(typeof s.bgOp!=='number') s.bgOp=1;
+  if(typeof s.patScale!=='number') s.patScale=1;
+  if(typeof s.patX!=='number') s.patX=0;
+  if(typeof s.patY!=='number') s.patY=0;
+  if(typeof s.decoIn!=='number') s.decoIn=6.5;
+  s.colors=s.colors||{paper:'',ink:'',pat:'',deco:''};
+  s.cover=s.cover||{front:false,back:false};
+  s.coverStyle=s.coverStyle||'center';
+  s.backMsg=s.backMsg||'';
+  s.blocks=Array.isArray(s.blocks)?s.blocks:[];
+  return s;
 }
 let state, zoom='fit';
 try{ state = JSON.parse(localStorage.getItem(KEY)) }catch(e){}
 if(!state || !state.categories) state = fresh('cafe');
-// migrate older saves
-if(state.font && FP_LEGACY[state.font] && !state.fontJp){ [state.fontJp,state.fontEn]=FP_LEGACY[state.font]; }
-state.fontJp=state.fontJp||''; state.fontEn=state.fontEn||'';
-state.pattern=state.pattern||''; state.deco=state.deco||'';
-if(typeof state.patOp!=='number') state.patOp=.08;
-if(typeof state.bgOp!=='number') state.bgOp=1;
-if(typeof state.patScale!=='number') state.patScale=1;
-if(typeof state.patX!=='number') state.patX=0;
-if(typeof state.patY!=='number') state.patY=0;
-if(typeof state.decoIn!=='number') state.decoIn=6.5;
-state.colors=state.colors||{paper:'',ink:'',pat:'',deco:''};
-state.cover=state.cover||{front:false,back:false};
-state.coverStyle=state.coverStyle||'center';
-state.backMsg=state.backMsg||'';
+migrate(state);
 
 let saveFailed=false;
 const save = ()=>{
@@ -1651,6 +1703,45 @@ function makeSheet(cls){
   if(state.deco) page.appendChild(el('div','deco-w x-'+state.deco));
   return page;
 }
+/* --- free blocks: 自由配置のテキスト／画像ブロック --- */
+const PAGE_W=210, PAGE_H=296.6;
+function blocksOf(pg){ return state.blocks.filter(b=>String(b.pg)===String(pg)); }
+function buildBlock(b){
+  const n=el('div','blk blk-'+b.type);
+  n.dataset.blk=b.id;
+  n.style.left=b.x+'mm'; n.style.top=b.y+'mm'; n.style.width=b.w+'mm';
+  const tools=el('div','blk-tools');
+  tools.innerHTML=
+    `<button class="blk-grip" data-bact="move" title="ドラッグで移動">⠿</button>`+
+    (b.type==='text'
+      ? `<button data-bact="fs-" title="文字を小さく">A−</button><button data-bact="fs+" title="文字を大きく">A＋</button>`
+      : `<button data-bact="img" title="画像を差し替える">📷</button>`)+
+    `<button data-bact="front" title="前面へ">⬆</button><button data-bact="back" title="背面へ">⬇</button>`+
+    `<button class="dg" data-bact="del" title="削除">✕</button>`;
+  n.appendChild(tools);
+  const body=el('div','blk-body');
+  if(b.type==='text'){
+    body.contentEditable='true'; body.spellcheck=false;
+    body.dataset.ph='テキストを入力';
+    body.style.fontSize=b.fs+'pt';
+    body.innerHTML=sanitizeHTML(b.html||'');
+  } else if(b.src){
+    const im=new Image(); im.src=b.src; body.appendChild(im);
+  }
+  n.appendChild(body);
+  n.appendChild(el('div','blk-rz'));
+  if(b.z) n.style.zIndex=b.z;
+  return n;
+}
+function attachBlocks(page,pg){
+  const layer=el('div','blk-layer');
+  blocksOf(pg).forEach(b=>layer.appendChild(buildBlock(b)));
+  page.appendChild(layer);
+  const add=el('div','blk-add');
+  add.innerHTML=`<button data-bact="add-text" data-pg="${pg}" title="テキストブロックを追加">＋ テキスト</button>`+
+                `<button data-bact="add-image" data-pg="${pg}" title="画像ブロックを追加">＋ 画像</button>`;
+  page.appendChild(add);
+}
 function buildPage(p){
   const page=makeSheet('d-'+state.design);
   let cur=state.cur; if(state.design==='kinari') cur='none';
@@ -1686,6 +1777,7 @@ function buildPage(p){
   inn.appendChild(ft);
 
   page.appendChild(inn);
+  attachBlocks(page,p);
   return page;
 }
 function buildCoverFront(){
@@ -1701,6 +1793,7 @@ function buildCoverFront(){
   inn.appendChild(ed('shop.name','cov-title','店名を入力','h1'));
   inn.appendChild(ed('shop.tagline','cov-tag','ひとことキャッチコピー','div'));
   page.appendChild(inn);
+  attachBlocks(page,'front');
   return page;
 }
 function buildCoverBack(){
@@ -1716,6 +1809,7 @@ function buildCoverBack(){
   ft.appendChild(ed('foot.l2','f2','営業時間・SNSなど','div'));
   inn.appendChild(ft);
   page.appendChild(inn);
+  attachBlocks(page,'back');
   return page;
 }
 function render(){
@@ -1829,6 +1923,89 @@ document.addEventListener('click',e=>{
   for(let p=1;p<=mx;p++){ if(!K.some(c=>(c.page||1)===p)) K.forEach(c=>{ if((c.page||1)>p) c.page--; }); }
   save(); render();
 });
+
+/* ---------------- free blocks: interaction ---------------- */
+const findBlk = id=>state.blocks.find(b=>b.id===id);
+const clamp=(v,lo,hi)=>Math.min(hi,Math.max(lo,v));
+let blkImgTarget=null;
+function selectBlk(id){
+  $$('.blk').forEach(n=>n.classList.toggle('sel',n.dataset.blk===id));
+}
+document.addEventListener('click',e=>{
+  const t=e.target.closest('[data-bact]'); if(!t) return;
+  const act=t.dataset.bact;
+  if(act==='add-text'||act==='add-image'){
+    const pg=t.dataset.pg;
+    const n=blocksOf(pg).length;
+    const b={id:uid(),pg,type:act==='add-text'?'text':'image',
+      x:clamp(24+n*6,0,PAGE_W-60), y:clamp(40+n*6,0,PAGE_H-30), w:60, fs:11, z:0};
+    if(b.type==='text') b.html='テキスト'; else b.src='';
+    state.blocks.push(b); save(); render();
+    if(b.type==='image'){ blkImgTarget=b.id; const bi=$('#blkImgInput'); bi.value=''; bi.click(); }
+    else { const node=$(`.blk[data-blk="${b.id}"] .blk-body`); if(node){ selectBlk(b.id); node.focus(); } }
+    return;
+  }
+  const host=t.closest('.blk'); if(!host) return;
+  const b=findBlk(host.dataset.blk); if(!b) return;
+  switch(act){
+    case 'del': state.blocks=state.blocks.filter(x=>x.id!==b.id); break;
+    case 'fs+': b.fs=clamp(+(b.fs+1).toFixed(1),5,72); break;
+    case 'fs-': b.fs=clamp(+(b.fs-1).toFixed(1),5,72); break;
+    case 'front': b.z=(b.z||0)+1; break;
+    case 'back': b.z=(b.z||0)-1; break;
+    case 'img': blkImgTarget=b.id; const bi=$('#blkImgInput'); bi.value=''; bi.click(); return;
+    default: return;
+  }
+  save(); render();
+});
+$('#blkImgInput').onchange=e=>{
+  const f=e.target.files[0]; if(!f) return;
+  shrink(f,1400,.84,d=>{
+    const b=findBlk(blkImgTarget); blkImgTarget=null;
+    if(b){ b.src=d; save(); render(); }
+  });
+};
+// pointer drag: move via the grip, resize via the corner handle
+$('#stage').addEventListener('pointerdown',e=>{
+  const grip=e.target.closest('[data-bact="move"]');
+  const rz=e.target.closest('.blk-rz');
+  if(!grip && !rz) return;
+  const host=e.target.closest('.blk'); if(!host) return;
+  const b=findBlk(host.dataset.blk); if(!b) return;
+  const rect=host.closest('.page').getBoundingClientRect();
+  const mmPerPx=PAGE_W/rect.width;           // works at any zoom: rect is already scaled
+  const sx=e.clientX, sy=e.clientY, ox=b.x, oy=b.y, ow=b.w;
+  const mode=rz?'rz':'mv';
+  e.preventDefault();
+  selectBlk(b.id);
+  const move=ev=>{
+    const dx=(ev.clientX-sx)*mmPerPx, dy=(ev.clientY-sy)*mmPerPx;
+    if(mode==='mv'){
+      b.x=+clamp(ox+dx,0,PAGE_W-8).toFixed(1);
+      b.y=+clamp(oy+dy,0,PAGE_H-8).toFixed(1);
+      host.style.left=b.x+'mm'; host.style.top=b.y+'mm';
+    } else {
+      b.w=+clamp(ow+dx,12,PAGE_W).toFixed(1);
+      host.style.width=b.w+'mm';
+    }
+  };
+  const up=()=>{
+    document.removeEventListener('pointermove',move);
+    document.removeEventListener('pointerup',up);
+    save();
+  };
+  document.addEventListener('pointermove',move);
+  document.addEventListener('pointerup',up);
+});
+$('#stage').addEventListener('input',e=>{
+  const body=e.target.closest('.blk-text .blk-body'); if(!body) return;
+  const b=findBlk(body.closest('.blk').dataset.blk); if(!b) return;
+  b.html=sanitizeHTML(body.innerHTML); save();
+});
+$('#stage').addEventListener('pointerdown',e=>{
+  const host=e.target.closest('.blk');
+  selectBlk(host?host.dataset.blk:null);
+},true);
 
 /* ---------------- sidebar ---------------- */
 const dwrap=$('#designs');
@@ -2092,9 +2269,7 @@ $('#slotSaveBtn').onclick=()=>{
 $('#slotLoadBtn').onclick=()=>{
   const k=$('#slotSel').value; if(!k) return;
   if(!confirm('「'+k+'」を開きます。いま編集中の内容は置き換わります。よろしいですか？')) return;
-  state=JSON.parse(JSON.stringify(getSlots()[k].state));
-  if(typeof state.patOp!=='number') state.patOp=.08;
-  if(typeof state.bgOp!=='number') state.bgOp=1;
+  state=migrate(JSON.parse(JSON.stringify(getSlots()[k].state)));
   save(); syncUI(); render();
 };
 $('#slotDelBtn').onclick=()=>{
@@ -2115,7 +2290,7 @@ $('#impBtn').onclick=()=>$('#impInput').click();
 $('#impInput').onchange=e=>{
   const f=e.target.files[0]; if(!f) return;
   const r=new FileReader();
-  r.onload=()=>{ try{ const o=JSON.parse(r.result); if(!o.categories) throw 0; state=o; save(); syncUI(); render(); }
+  r.onload=()=>{ try{ const o=JSON.parse(r.result); if(!o.categories) throw 0; state=migrate(o); save(); syncUI(); render(); }
     catch(err){ alert('このファイルは読み込めませんでした。'); } };
   r.readAsText(f);
 };
@@ -2197,7 +2372,13 @@ $('#helpBtn').onclick=()=>{
     <h3>6. 用紙からはみ出したら</h3>
     <p>上に注意が出ます。<b>文字サイズ</b>を下げる、<b>2段組み</b>にする、<b>頁+</b> で次のページへ送る、のどれかで収まります。</p>
     <h3>7. 表紙・裏表紙を追加する</h3>
-    <p>左パネルの<b>「表紙・裏表紙」</b>から、通常ページとは別レイアウトの表紙・裏表紙を追加できます。<b>表紙</b>にはロゴ・ヘッダー写真・店名が大きく配置され、<b>裏表紙</b>には結びの一言メッセージと住所・営業時間が入ります。店名やロゴ、住所は通常ページと自動で同じ内容になり、二重に入力する必要はありません。もう一度ボタンを押すと外れます。</p>
+    <p>左パネルの<b>「表紙・裏表紙」</b>から、通常ページとは別レイアウトの表紙・裏表紙を追加できます。<b>表紙</b>にはロゴ・ヘッダー写真・店名が大きく配置され、<b>裏表紙</b>には結びの一言メッセージと住所・営業時間が入ります。店名やロゴ、住所は通常ページと自動で同じ内容になり、二重に入力する必要はありません。もう一度ボタンを押すと外れます。<br>
+      <b>スタイル</b>は4種類——<b>中央</b>（正統派）／<b>フレーム</b>（額縁枠）／<b>写真ベタ</b>（写真を全面に敷いて白文字）／<b>エディトリアル</b>（左寄せの大見出し）から選べます。</p>
+    <h3>8. 自由な位置にテキスト・画像を置く</h3>
+    <p>紙面にマウスを乗せると右上に <b>「＋ テキスト」「＋ 画像」</b> が出ます。押すとブロックが追加され、<b>好きな位置へ自由に動かせます</b>。表紙・裏表紙はもちろん、通常のメニューページでも使えます。</p>
+    <p>ブロックにマウスを乗せると出るツールバーで操作します。<br>
+      <b>⠿</b> ドラッグして移動 ／ <b>A− A＋</b> 文字の大きさ ／ <b>📷</b> 画像の差し替え ／ <b>⬆ ⬇</b> 前面・背面 ／ <b>✕</b> 削除<br>
+      右下の丸いハンドルを<b>ドラッグすると幅が変わります</b>（画像は縦横比を保ったまま拡大縮小します）。テキストは通常の文字と同じようにクリックして打ち替えられ、ドラッグ選択すれば太字やマーカーも使えます。</p>
     <h3>8. PDF にする・印刷する</h3>
     <p>左下の <b>「PDF ／ 印刷する」</b> から。A4 ぴったりで出力されます。印刷所に入稿する場合も、この PDF をそのまま渡せます。</p>
     <h3>9. 保存について</h3>
