@@ -349,7 +349,7 @@ input[type=range]{width:100%;accent-color:#1b1b1b}
   --paper:#14161a;--ink:#f0ebe1;--muted:#9a9182;--f-jp:var(--f-mincho);--f-en:var(--f-en-serif);--cols:2;
   background:radial-gradient(115% 78% at 50% -8%,#232730 0%,#14161a 62%);
 }
-.d-noir::after{content:"";position:absolute;inset:11mm;border:.6pt solid var(--accent-a55);pointer-events:none}
+.d-noir::after{content:"";position:absolute;inset:11mm;border:.6pt solid color-mix(in srgb,var(--accent) 55%,transparent);pointer-events:none}
 .d-noir::before{content:"";position:absolute;inset:0;pointer-events:none;
   box-shadow:inset 0 0 46mm rgba(0,0,0,.4)}
 .d-noir .page-in{padding:22mm 20mm 16mm}
@@ -363,7 +363,7 @@ input[type=range]{width:100%;accent-color:#1b1b1b}
 .d-noir .cat-head{display:flex;align-items:baseline;gap:2.5mm;margin-bottom:4mm}
 .d-noir .cat-ttl{font-size:calc(11.5pt*var(--fs));font-weight:600;letter-spacing:.2em;margin:0;white-space:nowrap}
 .d-noir .cat-en{font-family:var(--f-en);font-size:calc(7.5pt*var(--fs));letter-spacing:.28em;color:var(--accent);text-transform:uppercase;white-space:nowrap}
-.d-noir .cat-head::after{content:"";flex:1;height:.4pt;background:var(--accent-a42)}
+.d-noir .cat-head::after{content:"";flex:1;height:.4pt;background:color-mix(in srgb,var(--accent) 42%,transparent)}
 .d-noir .item{margin-bottom:4.2mm}
 .d-noir .it-top{display:flex;align-items:baseline;gap:2mm}
 .d-noir .it-name{font-size:calc(10pt*var(--fs));letter-spacing:.05em;line-height:1.5}
@@ -446,7 +446,7 @@ input[type=range]{width:100%;accent-color:#1b1b1b}
    ============================================================ */
 .d-terra{--paper:#f8f3ea;--ink:#332c24;--muted:#8b7f6e;--f-jp:var(--f-gothic);--f-en:var(--f-en-sans);--cols:1}
 .d-terra::before{content:"";position:absolute;left:0;right:0;top:0;height:52mm;
-  background:var(--accent-a15);
+  background:color-mix(in srgb,var(--accent) 15%,transparent);
   border-radius:0 0 50% 50%/0 0 22mm 22mm}
 .d-terra .page-in{padding:18mm 20mm 16mm}
 .d-terra .mhead{text-align:center;margin-bottom:10mm;position:relative}
@@ -501,7 +501,7 @@ input[type=range]{width:100%;accent-color:#1b1b1b}
    ============================================================ */
 .d-lum{--paper:#fbf9f4;--ink:#242019;--muted:#8a8274;--f-jp:var(--f-mincho);--f-en:var(--f-en-serif);--cols:1}
 .d-lum::after{content:"";position:absolute;inset:13mm;border:.5pt solid rgba(36,32,25,.22);pointer-events:none}
-.d-lum::before{content:"";position:absolute;inset:14.6mm;border:1.6pt solid var(--accent-a42);pointer-events:none}
+.d-lum::before{content:"";position:absolute;inset:14.6mm;border:1.6pt solid color-mix(in srgb,var(--accent) 42%,transparent);pointer-events:none}
 .d-lum .page-in{padding:23mm 24mm 18mm;text-align:center}
 .d-lum .mhead{margin-bottom:7.5mm}
 .d-lum .h-en{font-family:var(--f-en);font-size:calc(9pt*var(--fs));letter-spacing:.5em;text-transform:uppercase;color:var(--accent);margin-bottom:5mm}
@@ -536,7 +536,7 @@ input[type=range]{width:100%;accent-color:#1b1b1b}
 .d-shu .mhead::after{content:"菜\A譜";white-space:pre;position:absolute;right:0;top:1mm;
   background:var(--accent);color:#fdf8ec;font-size:calc(7.5pt*var(--fs));line-height:1.25;font-weight:600;
   padding:1.8mm 1.5mm;border-radius:.8mm;letter-spacing:.1em;font-family:var(--f-serif-jp);
-  box-shadow:0 0 0 .4mm var(--accent-a35)}
+  box-shadow:0 0 0 .4mm color-mix(in srgb,var(--accent) 35%,transparent)}
 .d-shu .h-en{font-family:var(--f-en);font-size:calc(8.5pt*var(--fs));letter-spacing:.5em;color:var(--accent);text-transform:uppercase;margin-bottom:3.6mm}
 .d-shu .h-ttl{font-size:calc(26pt*var(--fs));font-weight:900;letter-spacing:.24em;margin:0;line-height:1.25}
 .d-shu .h-tag{font-size:calc(8.4pt*var(--fs));letter-spacing:.26em;color:var(--muted);margin-top:3.2mm}
@@ -549,12 +549,12 @@ input[type=range]{width:100%;accent-color:#1b1b1b}
 .d-shu .item{margin-bottom:3.8mm}
 .d-shu .it-top{display:flex;align-items:baseline;gap:2mm}
 .d-shu .it-name{font-size:calc(10pt*var(--fs));font-weight:600;letter-spacing:.06em;line-height:1.5}
-.d-shu .it-top::after{content:"";flex:1;border-bottom:.5pt dotted var(--accent-a55);margin-bottom:1mm;order:8}
+.d-shu .it-top::after{content:"";flex:1;border-bottom:.5pt dotted color-mix(in srgb,var(--accent) 55%,transparent);margin-bottom:1mm;order:8}
 .d-shu .it-price{font-family:var(--f-en);font-size:calc(9.6pt*var(--fs));color:var(--accent);white-space:nowrap;order:9}
 .d-shu .it-desc{font-size:calc(7.6pt*var(--fs));line-height:1.75;color:var(--muted);margin-top:.8mm}
 .d-shu .it-badge{font-size:calc(6.4pt*var(--fs));font-weight:600;letter-spacing:.12em;background:var(--accent);color:#fdf8ec;
   padding:.6mm 1.6mm;border-radius:.8mm;}
-.d-shu .mfoot{text-align:center;padding-top:5mm;border-top:.5pt solid var(--accent-a45);
+.d-shu .mfoot{text-align:center;padding-top:5mm;border-top:.5pt solid color-mix(in srgb,var(--accent) 45%,transparent);
   font-size:calc(7.6pt*var(--fs));color:var(--muted);letter-spacing:.2em;line-height:1.9}
 
 /* ============================================================
@@ -562,17 +562,17 @@ input[type=range]{width:100%;accent-color:#1b1b1b}
    ============================================================ */
 .d-pop{--paper:#fffcf3;--ink:#201b23;--muted:#77707d;--f-jp:var(--f-maru);--f-en:var(--f-en-sans);--cols:2;
   background:
-    radial-gradient(closest-side at 86% 7%,var(--accent-a20) 0 15mm,transparent 15mm),
-    radial-gradient(closest-side at 8% 93%,var(--accent-a13) 0 18mm,transparent 18mm),
+    radial-gradient(closest-side at 86% 7%,color-mix(in srgb,var(--accent) 20%,transparent) 0 15mm,transparent 15mm),
+    radial-gradient(closest-side at 8% 93%,color-mix(in srgb,var(--accent) 13%,transparent) 0 18mm,transparent 18mm),
     #fffcf3}
 .d-pop::after{content:"";position:absolute;inset:7.5mm;border:2.6pt solid var(--ink);border-radius:5mm;pointer-events:none}
 .d-pop .page-in{padding:17mm 17mm 15mm}
 .d-pop .mhead{text-align:center;margin-bottom:8mm}
 .d-pop .h-en{display:table;margin:0 auto 4.5mm;font-family:var(--f-en);font-size:calc(7.5pt*var(--fs));font-weight:600;letter-spacing:.32em;
   text-transform:uppercase;border:1.8pt solid var(--ink);border-radius:99mm;padding:1.2mm 4.5mm 1mm;
-  background:#fff;box-shadow:1.4mm 1.4mm 0 var(--accent-a65)}
+  background:#fff;box-shadow:1.4mm 1.4mm 0 color-mix(in srgb,var(--accent) 65%,transparent)}
 .d-pop .h-ttl{font-family:var(--f-pop);font-size:calc(24pt*var(--fs));font-weight:400;letter-spacing:.1em;margin:0;line-height:1.4;
-  background:linear-gradient(transparent 60%,var(--accent-a42) 60% 92%,transparent 92%);
+  background:linear-gradient(transparent 60%,color-mix(in srgb,var(--accent) 42%,transparent) 60% 92%,transparent 92%);
   display:inline;padding:0 .18em;box-decoration-break:clone;-webkit-box-decoration-break:clone}
 .d-pop .h-tag{font-size:calc(8.6pt*var(--fs));font-weight:500;letter-spacing:.2em;color:var(--muted);margin-top:3.6mm}
 .d-pop .mbody{column-count:var(--cols);column-gap:10mm}
@@ -580,9 +580,9 @@ input[type=range]{width:100%;accent-color:#1b1b1b}
 .d-pop .cat-head{display:flex;align-items:center;gap:2.6mm;margin-bottom:4mm}
 .d-pop .cat-ttl{font-family:var(--f-pop);font-size:calc(11pt*var(--fs));font-weight:400;letter-spacing:.14em;margin:0;
   border:1.8pt solid var(--ink);border-radius:99mm;padding:1.2mm 4.2mm 1mm;background:#fff;
-  box-shadow:1.4mm 1.4mm 0 var(--accent-a65)}
+  box-shadow:1.4mm 1.4mm 0 color-mix(in srgb,var(--accent) 65%,transparent)}
 .d-pop .cat-en{font-family:var(--f-en);font-size:calc(7pt*var(--fs));font-weight:500;letter-spacing:.26em;color:var(--muted);text-transform:uppercase}
-.d-pop .item{margin-bottom:1mm;padding:2.2mm 0;border-bottom:1.4pt dotted var(--ink-a30)}
+.d-pop .item{margin-bottom:1mm;padding:2.2mm 0;border-bottom:1.4pt dotted color-mix(in srgb,var(--ink) 30%,transparent)}
 .d-pop .it-top{display:flex;align-items:baseline;gap:2mm}
 .d-pop .it-name{font-size:calc(10pt*var(--fs));font-weight:700;letter-spacing:.05em;line-height:1.5}
 .d-pop .it-price{margin-left:auto;font-family:var(--f-en);font-size:calc(9pt*var(--fs));font-weight:600;white-space:nowrap;
@@ -630,7 +630,7 @@ input[type=range]{width:100%;accent-color:#1b1b1b}
    （Figma リファレンス Trm7uFAuI9CjMcMwEKKLtZ からの移植）
    ============================================================ */
 .d-split{--paper:#f7f3ea;--ink:#26251f;--muted:#8b8579;--f-jp:var(--f-mincho2);--f-en:var(--f-en-serif);--cols:1;
-  --panel:var(--panel-mix);
+  --panel:color-mix(in srgb,var(--accent) 24%,#181f1a);
   --panel-txt:#f3efe4;--panel-mut:rgba(243,239,228,.6)}
 .d-split::before{content:"";position:absolute;left:0;top:0;bottom:0;width:62mm;background:var(--panel)}
 .d-split .page-in{display:block;padding:0}
@@ -684,7 +684,7 @@ input[type=range]{width:100%;accent-color:#1b1b1b}
   float:left;width:15mm;height:15mm;margin:.5mm 3mm .5mm 0;border-radius:1.5mm;overflow:hidden}
 .d-noir .item::after,.d-edit .item::after,.d-terra .item::after,.d-shu .item::after,.d-pop .item::after{
   content:"";display:block;clear:both}
-.d-noir .it-photo{border:.5pt solid var(--accent-a60);border-radius:.8mm}
+.d-noir .it-photo{border:.5pt solid color-mix(in srgb,var(--accent) 60%,transparent);border-radius:.8mm}
 .d-terra .it-photo{border-radius:50%}
 .d-shu .it-photo{border:.5pt solid var(--accent);border-radius:.8mm}
 .d-pop .it-photo{border:1.6pt solid var(--ink);border-radius:2.5mm}
@@ -710,10 +710,10 @@ input[type=range]{width:100%;accent-color:#1b1b1b}
 .d-edit .hero-w{display:block;height:34mm;margin-bottom:6mm}
 .d-grid .hero-w{display:block;height:42mm;margin-bottom:5.5mm;border-radius:2.5mm}
 .d-terra .hero-w{display:block;height:36mm;margin-bottom:6mm;border-radius:22mm 22mm 3mm 3mm}
-.d-noir .hero-w{display:block;height:32mm;margin-bottom:7mm;border:.5pt solid var(--accent-a55)}
+.d-noir .hero-w{display:block;height:32mm;margin-bottom:7mm;border:.5pt solid color-mix(in srgb,var(--accent) 55%,transparent)}
 .d-shu .hero-w{display:block;height:30mm;margin-bottom:6mm;border:.6pt solid var(--accent)}
 .d-pop .hero-w{display:block;height:32mm;margin-bottom:6mm;border:2pt solid var(--ink);border-radius:4mm;
-  box-shadow:2mm 2mm 0 var(--accent-a60)}
+  box-shadow:2mm 2mm 0 color-mix(in srgb,var(--accent) 60%,transparent)}
 .d-bold .hero-w{display:block;height:30mm;margin-bottom:7mm}
 
 /* ============================================================
@@ -744,7 +744,7 @@ input[type=range]{width:100%;accent-color:#1b1b1b}
 .d-asia .item{margin-bottom:3.8mm}
 .d-asia .it-top{display:flex;align-items:baseline;gap:2.2mm}
 .d-asia .it-name{font-size:calc(10pt*var(--fs));font-weight:500;letter-spacing:.05em;line-height:1.5}
-.d-asia .it-top::after{content:"";flex:1;border-bottom:.5pt dotted var(--ink-a40);margin-bottom:1mm;order:8}
+.d-asia .it-top::after{content:"";flex:1;border-bottom:.5pt dotted color-mix(in srgb,var(--ink) 40%,transparent);margin-bottom:1mm;order:8}
 .d-asia .it-price{font-family:var(--f-en);font-size:calc(9.8pt*var(--fs));font-weight:600;white-space:nowrap;order:9;color:var(--ink)}
 .d-asia .it-desc{font-size:calc(7.6pt*var(--fs));line-height:1.75;color:var(--muted);margin-top:.9mm}
 .d-asia .it-badge{font-size:calc(6.2pt*var(--fs));font-weight:700;letter-spacing:.1em;
@@ -761,7 +761,7 @@ input[type=range]{width:100%;accent-color:#1b1b1b}
    （インク色に追従・印刷対応、全てCSSグラデーション製）
    ============================================================ */
 .pattern-w{position:absolute;inset:-50%;pointer-events:none;opacity:var(--pat-op,.08);
-  --pc:var(--pat-col,var(--ink-a80));
+  --pc:var(--pat-col,color-mix(in srgb,var(--ink) 80%,transparent));
   transform:translate(var(--pat-x,0mm),var(--pat-y,0mm)) scale(var(--pat-scale,1))}
 .p-dots{background-image:radial-gradient(var(--pc) .32mm,transparent .38mm);background-size:3.8mm 3.8mm}
 .p-grid{background-image:
@@ -818,10 +818,10 @@ input[type=range]{width:100%;accent-color:#1b1b1b}
 .p-hex{background-image:url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='48'%3E%3Cpath d='M14 1l12 7v16l-12 7L2 24V8zM14 31l12 7v16M14 31L2 38v16' fill='none' stroke='%23707070' stroke-width='1.1'/%3E%3C/svg%3E");background-size:9mm 15.4mm}
 
 .deco-w{position:absolute;inset:0;pointer-events:none;
-  --dc:var(--deco-col,var(--deco-default))}
+  --dc:var(--deco-col,color-mix(in srgb,var(--accent) 82%,var(--ink)))}
 .x-frame::before{content:"";position:absolute;inset:var(--deco-in,6.5mm);border:.6pt solid var(--dc)}
 .x-double::before{content:"";position:absolute;inset:var(--deco-in,6.5mm);border:.5pt solid var(--dc)}
-.x-double::after{content:"";position:absolute;inset:calc(var(--deco-in,6.5mm) + 1.7mm);border:1.5pt solid var(--dc-a50)}
+.x-double::after{content:"";position:absolute;inset:calc(var(--deco-in,6.5mm) + 1.7mm);border:1.5pt solid color-mix(in srgb,var(--dc) 50%,transparent)}
 .x-corner{background:
   linear-gradient(var(--dc),var(--dc)) left var(--deco-in,6.5mm) top var(--deco-in,6.5mm) / 9mm .5mm no-repeat,
   linear-gradient(var(--dc),var(--dc)) left var(--deco-in,6.5mm) top var(--deco-in,6.5mm) / .5mm 9mm no-repeat,
@@ -851,7 +851,7 @@ input[type=range]{width:100%;accent-color:#1b1b1b}
 /* ============================================================
    MICRO-POLISH & MOTION
    ============================================================ */
-.d-noir .h-ttl{text-shadow:0 0 6mm var(--accent-a16)}
+.d-noir .h-ttl{text-shadow:0 0 6mm color-mix(in srgb,var(--accent) 16%,transparent)}
 .d-lum .cat-head::after{content:"◆";display:block;color:var(--accent);font-size:calc(4.6pt*var(--fs));margin-top:1.8mm}
 @media screen{
   .page{animation:pgin .3s ease}
@@ -895,10 +895,7 @@ input[type=range]{width:100%;accent-color:#1b1b1b}
   [contenteditable]:not(.it-badge){box-shadow:none !important;background:transparent !important}
   *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
 }
-.exporting .ctl,.exporting .addcat{display:none !important}
-.exporting [contenteditable]:empty::before{content:"" !important}
-.exporting [contenteditable]:not(.it-badge){box-shadow:none !important;background:transparent !important}
-.exporting .ph-empty{display:none !important}
+
 </style>
 <script type="application/ld+json">
 {"@context":"https://schema.org","@graph":[
@@ -1173,10 +1170,6 @@ input[type=range]{width:100%;accent-color:#1b1b1b}
       <div class="row" style="margin-top:8px">
         <button class="btn primary" id="printBtn">PDF ／ 印刷する</button>
       </div>
-      <div class="row" style="margin-top:8px">
-        <button class="btn" id="pngBtn">画像で保存（PNG・Office/Slides用）</button>
-      </div>
-      <div style="font-size:11px;color:var(--ui-mut);margin-top:8px;line-height:1.75">PowerPoint・Word・Googleスライドには、この画像を「図として挿入」すると型崩れなく貼れます。編集可能なテキストとしての貼り付けではありません。</div>
     </div>
 
     <div class="grp">
@@ -1617,7 +1610,6 @@ function render(){
   const total=Math.max(1,...state.categories.map(c=>c.page||1));
   const st=$('#stage'); st.innerHTML='';
   for(let p=1;p<=total;p++) st.appendChild(buildPage(p));
-  applyColorMixFallbacks();
   fit(); checkOverflow();
 }
 
@@ -1788,38 +1780,6 @@ $('#logoInput').onchange=e=>{
   const r=new FileReader(); r.onload=()=>{ state.logo=r.result; save(); render(); }; r.readAsDataURL(f);
 };
 $('#logoDel').onclick=()=>{ state.logo=null; save(); render(); };
-function anyColorToRgb(c){
-  c=(c||'').trim();
-  let m=/^#?([\da-f]{2})([\da-f]{2})([\da-f]{2})/i.exec(c);
-  if(m) return [parseInt(m[1],16),parseInt(m[2],16),parseInt(m[3],16)];
-  m=/^rgba?\(\s*(\d+)[,\s]+(\d+)[,\s]+(\d+)/i.exec(c);
-  if(m) return [+m[1],+m[2],+m[3]];
-  return [0,0,0];
-}
-function rgbaFromColor(c,a){ const v=anyColorToRgb(c); return 'rgba('+v[0]+','+v[1]+','+v[2]+','+a+')'; }
-function mixColors(cA,cB,pctA){
-  const a=anyColorToRgb(cA), b=anyColorToRgb(cB), p=pctA;
-  const r=Math.round(a[0]*p+b[0]*(1-p)), g=Math.round(a[1]*p+b[1]*(1-p)), bl=Math.round(a[2]*p+b[2]*(1-p));
-  return 'rgb('+r+','+g+','+bl+')';
-}
-// html2canvas can't parse CSS color-mix() — precompute plain rgba()/rgb() equivalents
-// as custom properties so every design still renders in the PNG/print export path.
-function applyColorMixFallbacks(){
-  $$('.page').forEach(pg=>{
-    const cs=getComputedStyle(pg);
-    const accentHex=cs.getPropertyValue('--accent')||'#000';
-    const inkHex=cs.getPropertyValue('--ink')||'#111';
-    [55,42,15,35,45,20,13,65,60,16].forEach(p=>pg.style.setProperty('--accent-a'+p, rgbaFromColor(accentHex,p/100)));
-    [30,40,80].forEach(p=>pg.style.setProperty('--ink-a'+p, rgbaFromColor(inkHex,p/100)));
-    pg.style.setProperty('--deco-default', mixColors(accentHex,inkHex,0.82));
-    pg.style.setProperty('--panel-mix', mixColors(accentHex,'#181f1a',0.24));
-    const decoEl=pg.querySelector('.deco-w');
-    if(decoEl){
-      const dcVal=getComputedStyle(decoEl).getPropertyValue('--dc')||accentHex;
-      decoEl.style.setProperty('--dc-a50', rgbaFromColor(dcVal,.5));
-    }
-  });
-}
 function toast(m){
   let t=$('#toast'); if(!t){ t=el('div'); t.id='toast'; document.body.appendChild(t); }
   t.textContent=m; t.classList.add('on');
@@ -2050,60 +2010,6 @@ mask.onclick=e=>{ if(e.target===mask) mask.classList.remove('on'); };
 function openModal(html){ modal.onclick=null; modal.innerHTML=html; mask.classList.add('on'); }
 document.addEventListener('click',e=>{ if(e.target.id==='mClose') mask.classList.remove('on'); });
 
-let _h2cLoading=null;
-function loadHtml2Canvas(){
-  if(window.html2canvas) return Promise.resolve();
-  if(_h2cLoading) return _h2cLoading;
-  _h2cLoading=new Promise((resolve,reject)=>{
-    const sc=document.createElement('script');
-    sc.src='https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js';
-    sc.onload=resolve; sc.onerror=()=>reject(new Error('load-fail'));
-    document.head.appendChild(sc);
-  });
-  return _h2cLoading;
-}
-async function exportPNG(){
-  const btn=$('#pngBtn'); const orig=btn.textContent;
-  btn.disabled=true; btn.textContent='読み込み中…';
-  try{
-    await loadHtml2Canvas();
-  }catch(e){
-    btn.disabled=false; btn.textContent=orig;
-    toast('画像化ライブラリを読み込めませんでした。インターネット接続をご確認ください');
-    return;
-  }
-  document.activeElement && document.activeElement.blur();
-  document.body.classList.add('exporting');
-  const stEl=$('#stage'); const prevTf=stEl.style.transform;
-  stEl.style.transform='none';
-  await new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r)));
-  const pages=$$('.page');
-  const base=(plain(state.shop.name)||'menu').replace(/[\/:*?"<>|]/g,'_');
-  try{
-    for(let i=0;i<pages.length;i++){
-      btn.textContent='書き出し中… ('+(i+1)+'/'+pages.length+')';
-      const canvas=await Promise.race([
-        window.html2canvas(pages[i],{scale:3,backgroundColor:'#ffffff',useCORS:true,allowTaint:true}),
-        new Promise((_,rej)=>setTimeout(()=>rej(new Error('timeout')),25000))
-      ]);
-      const blob=await new Promise(res=>canvas.toBlob(res,'image/png'));
-      const a=document.createElement('a');
-      a.href=URL.createObjectURL(blob);
-      a.download=base+(pages.length>1?'_p'+(i+1):'')+'.png';
-      document.body.appendChild(a); a.click(); a.remove();
-      URL.revokeObjectURL(a.href);
-      if(i<pages.length-1) await new Promise(r=>setTimeout(r,400));
-    }
-    toast(pages.length>1?'画像を'+pages.length+'枚保存しました':'画像を保存しました');
-  }catch(e){
-    toast('画像の書き出しに失敗しました。PDF書き出しをお試しください');
-  }finally{
-    stEl.style.transform=prevTf; document.body.classList.remove('exporting');
-    btn.disabled=false; btn.textContent=orig;
-  }
-}
-$('#pngBtn').onclick=exportPNG;
-
 $('#printBtn').onclick=()=>{
   openModal(`
     <h2>PDF にする前に、ひとつだけ</h2>
@@ -2141,9 +2047,6 @@ $('#helpBtn').onclick=()=>{
       左パネルの<b>「マイデータ」</b>では、店名・住所・ロゴをまとめて<b>店舗プロフィール</b>として登録・切替できます。系列店や屋号違いの使い分けに。</p>
     <h3>6. 用紙からはみ出したら</h3>
     <p>上に注意が出ます。<b>文字サイズ</b>を下げる、<b>2段組み</b>にする、<b>頁+</b> で次のページへ送る、のどれかで収まります。</p>
-    <h3>6.5. Office・Googleスライドに貼りたいとき</h3>
-    <p>PowerPoint・Word・Googleスライドは独自のレイアウト方式（フォント・縦書き・背景パターンの扱いが異なる）のため、そのまま貼るとレイアウトが崩れます。確実に崩さず貼るには、<b>「画像で保存（PNG）」</b>で書き出し、Office/スライド側で<b>「図として挿入」</b>してください。見た目はそのまま、文字は編集できない画像として配置されます。<br>
-      文字も編集したい場合は、PDFやこの画像を下敷きにして、Office側でテキストボックスを重ねて作業する方法をおすすめします。</p>
     <h3>7. PDF にする・印刷する</h3>
     <p>左下の <b>「PDF ／ 印刷する」</b> から。A4 ぴったりで出力されます。印刷所に入稿する場合も、この PDF をそのまま渡せます。</p>
     <h3>8. 保存について</h3>
