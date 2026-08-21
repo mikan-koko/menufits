@@ -2100,7 +2100,11 @@ $$('[data-share]').forEach(b=>b.onclick=()=>{
   else if(t==='line') window.open('https://social-plugins.line.me/lineit/share?url='+encodeURIComponent(SHARE_URL),'_blank','noopener');
   else if(t==='copy'){ try{ navigator.clipboard.writeText(SHARE_URL); toast('リンクをコピーしました'); }catch(e){ toast(SHARE_URL); } }
 });
-if(localStorage.getItem(KEY)) showApp();
+// deep links: #cafe / #washoku / #bistro / #chuka / #blank open that sample, #app opens the editor
+const H=(location.hash||'').replace('#','');
+if(SAMPLES[H]){ state=fresh(H); save(); syncUI(); render(); showApp(); }
+else if(H==='app'){ showApp(); }
+else if(localStorage.getItem(KEY)) showApp();
 
 /* ---------------- go ---------------- */
 syncUI(); render();
