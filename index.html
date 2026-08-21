@@ -1,0 +1,2061 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>MenuFits（メニューフィッツ）｜飲食店メニューを、ひらいて、打ちかえて、PDF。</title>
+<meta name="description" content="登録不要・無料。ブラウザだけで飲食店のメニューが作れるツール。デザイン11種×書体378通り、縦書き・写真メニュー・文字装飾・A4のPDF出力に対応。データは端末内にのみ保存されます。">
+<meta property="og:title" content="MenuFits（メニューフィッツ）">
+<meta property="og:description" content="飲食店メニューを、ひらいて、打ちかえて、PDF。登録不要のメニュー作成ツール。">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://menufits.kokokikaku.com/">
+<meta property="og:site_name" content="MenuFits">
+<meta name="twitter:card" content="summary">
+<meta name="theme-color" content="#26231c">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%2326231c'/%3E%3Ctext x='32' y='44' font-size='36' font-family='Georgia,serif' fill='%23f2ead8' text-anchor='middle'%3EM%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;500;600;700&family=Zen+Old+Mincho:wght@400;500;700&family=Zen+Kaku+Gothic+New:wght@300;400;500;700&family=Noto+Sans+JP:wght@200;300;400;500;700&family=Noto+Serif+JP:wght@500;600;900&family=Zen+Maru+Gothic:wght@500;700;900&family=Mochiy+Pop+One&family=Marcellus&family=Kaisei+Tokumin:wght@400;700&family=Hina+Mincho&family=Klee+One:wght@400;600&family=Yuji+Syuku&family=DotGothic16&family=Reggae+One&family=RocknRoll+One&family=Kiwi+Maru:wght@400;500&family=Yusei+Magic&family=Zen+Antique&family=IBM+Plex+Sans+JP:wght@300;400;500;700&family=M+PLUS+2:wght@300;400;500;700&family=Zen+Kurenaido&family=Shippori+Mincho+B1:wght@400;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Jost:wght@200;300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,600&family=Italiana&family=Space+Grotesk:wght@300;400;500;600&family=Bebas+Neue&family=Cinzel:wght@400;600&family=DM+Serif+Display&family=Oswald:wght@300;500;600&family=Poiret+One&family=Instrument+Serif:ital@0;1&family=Syne:wght@400;600;700&family=Young+Serif&family=Bricolage+Grotesque:wght@300;400;600&family=Gloock&family=Great+Vibes&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   MENU TEMPLATE  ―  base
+   ============================================================ */
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  background:linear-gradient(180deg,#eae8e2,#e5e2db);
+  color:#232019;
+  font-family:"Zen Kaku Gothic New","Noto Sans JP","Yu Gothic","Hiragino Kaku Gothic ProN",sans-serif;
+  -webkit-font-smoothing:antialiased;
+}
+:root{
+  --f-mincho:"Shippori Mincho","Zen Old Mincho","Yu Mincho",YuMincho,"Hiragino Mincho ProN",serif;
+  --f-mincho2:"Zen Old Mincho","Shippori Mincho","Yu Mincho",YuMincho,"Hiragino Mincho ProN",serif;
+  --f-gothic:"Zen Kaku Gothic New","Noto Sans JP","Yu Gothic","Hiragino Kaku Gothic ProN",sans-serif;
+  --f-en-serif:"Cormorant Garamond","Times New Roman",Georgia,serif;
+  --f-en-sans:"Jost","Helvetica Neue",Arial,sans-serif;
+  --f-serif-jp:"Noto Serif JP","Shippori Mincho","Yu Mincho",YuMincho,serif;
+  --f-maru:"Zen Maru Gothic","Zen Kaku Gothic New","Hiragino Maru Gothic ProN",sans-serif;
+  --f-pop:"Mochiy Pop One","Zen Maru Gothic",sans-serif;
+  --f-en-disp:"Marcellus","Cormorant Garamond","Times New Roman",serif;
+  --ui:#fbfaf7; --ui-line:rgba(28,25,18,.09); --ui-ink:#232019; --ui-mut:#807b70; --ui-acc:#1e1c17;
+  --ease:cubic-bezier(.16,1,.3,1);
+}
+
+/* ---------- landing / app mode ---------- */
+body.lp-mode .app{display:none}
+body.app-mode #lp{display:none}
+#lp{max-width:880px;margin:0 auto;padding:0 24px 60px;color:#2b2820}
+.lph{display:flex;align-items:center;padding:26px 0 0}
+.lpbrand{display:flex;align-items:center;gap:10px;font-family:var(--f-en-sans);font-size:20px;font-weight:600;letter-spacing:.06em}
+.lplogo{display:inline-flex;align-items:center;justify-content:center;width:34px;height:34px;border-radius:9px;
+  background:#26231c;color:#f2ead8;font-family:Georgia,serif;font-size:19px}
+.lpkana{font-family:var(--f-gothic);font-size:11.5px;font-weight:500;color:#8b8578;letter-spacing:.14em;margin-top:4px}
+.lphero{padding:64px 0 54px;text-align:center}
+.lpeyebrow{font-family:var(--f-en-sans);font-size:clamp(10px,1.2vw,12px);font-weight:600;letter-spacing:.42em;color:#a3785a;margin-bottom:22px}
+.lphero h1{font-family:var(--f-mincho);font-size:clamp(30px,5vw,46px);font-weight:500;letter-spacing:.06em;line-height:1.5;margin:0 0 20px}
+.lphero h1 em{font-style:normal;background:linear-gradient(transparent 62%,rgba(201,162,39,.4) 62% 90%,transparent 90%)}
+.lplead{font-size:clamp(13.5px,1.6vw,15.5px);line-height:2.1;color:#6c675b;letter-spacing:.06em;margin:0 0 30px}
+.lpcta{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.lpcta.bottom{margin-top:34px}
+.lpbtn{border:1.5px solid #26231c;background:#fffdf8;color:#26231c;border-radius:99px;padding:14px 30px;
+  font:600 15px/1 var(--f-gothic);letter-spacing:.08em;cursor:pointer;
+  transition:transform .35s var(--ease),box-shadow .35s var(--ease),background .35s var(--ease)}
+.lpbtn:hover{transform:translateY(-2px);box-shadow:0 2px 4px rgba(28,25,18,.1),0 12px 28px rgba(28,25,18,.14)}
+.lpbtn.primary{background:#26231c;color:#f7f4ec}
+.lpbtn.primary:hover{background:#312d24}
+.lpbtn.mini{padding:9px 16px;font-size:12.5px;border-width:1px}
+.lpnote{margin-top:20px;font-size:12px;color:#9a948a;letter-spacing:.06em}
+.lpsec{padding:44px 0;border-top:1px solid rgba(28,25,18,.08)}
+.lpsec h2{font-family:var(--f-mincho);font-size:clamp(19px,2.6vw,24px);font-weight:600;letter-spacing:.18em;text-align:center;margin:0 0 8px}
+.lpsub{text-align:center;font-size:12.5px;color:#8b8578;margin:0 0 24px}
+.lpfeat{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:26px}
+.lpfeat>div{background:#fffdf8;border:1px solid rgba(28,25,18,.08);border-radius:14px;padding:22px 20px}
+.lpfeat b{display:block;font-size:15px;letter-spacing:.1em;margin-bottom:9px}
+.lpfeat p{margin:0;font-size:13px;line-height:1.95;color:#6c675b}
+.lpdesigns{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px;margin-top:8px}
+.lpdesigns .dbtn .sw{height:56px}
+.lpsteps{list-style:none;counter-reset:st;margin:26px 0 0;padding:0;display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.lpsteps li{counter-increment:st;background:#fffdf8;border:1px solid rgba(28,25,18,.08);border-radius:14px;padding:20px;text-align:center}
+.lpsteps li::before{content:counter(st,decimal-leading-zero);display:block;font-family:var(--f-en-sans);
+  font-size:12px;font-weight:600;letter-spacing:.2em;color:#a3785a;margin-bottom:8px}
+.lpsteps b{display:block;font-size:15px;letter-spacing:.14em;margin-bottom:7px}
+.lpsteps span{font-size:12.5px;line-height:1.9;color:#6c675b}
+.lpfoot{padding:40px 0 0;border-top:1px solid rgba(28,25,18,.08);text-align:center}
+.lprow{display:flex;gap:10px;justify-content:center;align-items:center;flex-wrap:wrap;margin-bottom:16px}
+.lprow a{color:#5f594c;font-size:13px;text-decoration:none;border-bottom:1px solid rgba(28,25,18,.25)}
+.lprow a:hover{color:#26231c}
+.lprow span{color:#c3beb2}
+.lpc{font-size:11.5px;color:#a39d90;letter-spacing:.08em;padding-bottom:10px}
+@media screen and (max-width:720px){
+  .lpfeat,.lpsteps{grid-template-columns:1fr}
+  .pcbr{display:none}
+}
+
+/* ---------- app shell ---------- */
+.app{display:flex;min-height:100vh}
+.side{
+  width:344px;flex:0 0 344px;background:var(--ui);border-right:1px solid var(--ui-line);
+  height:100vh;position:sticky;top:0;overflow-y:auto;padding:22px 20px 60px;
+  scrollbar-width:thin;scrollbar-color:rgba(28,25,18,.16) transparent;
+}
+.side::-webkit-scrollbar{width:8px}
+.side::-webkit-scrollbar-thumb{background:rgba(28,25,18,.14);border-radius:4px}
+.side h1{font-family:var(--f-en-sans);font-size:clamp(15px,1.2vw,17px);letter-spacing:.26em;font-weight:500;margin:0 0 3px}
+.side .sub{font-size:12px;color:var(--ui-mut);letter-spacing:.05em;margin-bottom:8px}
+.side .sub::after{content:"";display:block;height:1px;margin-top:16px;
+  background:linear-gradient(90deg,rgba(28,25,18,.14),rgba(28,25,18,.03))}
+.grp{margin-bottom:26px}
+.grp>label,.grp .lb{display:block;font-size:11.5px;letter-spacing:.16em;color:#5f594c;margin-bottom:10px;font-weight:700}
+.designs{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.dbtn{
+  border:1px solid var(--ui-line);background:#fffefb;border-radius:8px;padding:0;cursor:pointer;
+  overflow:hidden;text-align:left;font-family:inherit;
+  transition:transform .35s var(--ease),border-color .35s var(--ease),box-shadow .35s var(--ease);
+}
+.dbtn:hover{border-color:rgba(28,25,18,.28);transform:translateY(-1px) scale(1.01);
+  box-shadow:0 1px 2px rgba(28,25,18,.05),0 8px 20px rgba(28,25,18,.08)}
+.dbtn.on{border-color:var(--ui-acc);box-shadow:0 0 0 1px var(--ui-acc),0 6px 16px rgba(28,25,18,.1)}
+.dbtn .sw{height:50px;display:block}
+.dbtn .nm{display:block;padding:7px 9px;font-size:11.5px;letter-spacing:.07em;color:#35322b;font-weight:700}
+.dbtn .nm small{display:block;font-weight:500;color:#948f83;font-size:10.5px;letter-spacing:.03em;margin-top:2px}
+.row{display:flex;gap:8px;align-items:center}
+.row+.row{margin-top:8px}
+select,input[type=text],input[type=number]{
+  width:100%;border:1px solid var(--ui-line);border-radius:8px;padding:9px 10px;font:inherit;font-size:13.5px;
+  background:#fffefb;color:var(--ui-ink);transition:border-color .3s var(--ease),box-shadow .3s var(--ease);
+}
+select:hover{border-color:rgba(28,25,18,.24)}
+select:focus,input:focus{outline:none;border-color:rgba(28,25,18,.4);box-shadow:0 0 0 3px rgba(28,25,18,.06)}
+input[type=range]{width:100%;accent-color:#1b1b1b}
+.swatches{display:flex;flex-wrap:wrap;gap:6px}
+.sw-c{width:30px;height:30px;border-radius:50%;border:1px solid rgba(0,0,0,.12);cursor:pointer;padding:0;
+  box-shadow:inset 0 1px 2px rgba(255,255,255,.25),inset 0 -1px 2px rgba(0,0,0,.12);
+  transition:transform .35s var(--ease),box-shadow .35s var(--ease)}
+.sw-c:hover{transform:scale(1.12)}
+.sw-c.on{box-shadow:0 0 0 2px var(--ui),0 0 0 3.5px var(--ui-acc),inset 0 1px 2px rgba(255,255,255,.25)}
+.btn{
+  border:1px solid var(--ui-line);background:#fffefb;border-radius:8px;padding:10px 12px;cursor:pointer;
+  font:inherit;font-size:13px;color:var(--ui-ink);flex:1;white-space:nowrap;
+  transition:transform .35s var(--ease),background .35s var(--ease),border-color .35s var(--ease),box-shadow .35s var(--ease);
+}
+.btn:hover{background:#f5f4ef;border-color:rgba(28,25,18,.22);transform:translateY(-1px);
+  box-shadow:0 1px 2px rgba(28,25,18,.05),0 6px 14px rgba(28,25,18,.07)}
+.btn:active{transform:translateY(0)}
+.btn.primary{background:var(--ui-acc);color:#f7f5f0;border-color:var(--ui-acc);font-weight:600;letter-spacing:.08em}
+.btn.primary:hover{background:#2b2822;box-shadow:0 2px 4px rgba(28,25,18,.15),0 10px 24px rgba(28,25,18,.18)}
+.hintbox{font-size:12px;line-height:1.85;color:var(--ui-mut);background:rgba(28,25,18,.035);border:1px solid rgba(28,25,18,.05);border-radius:8px;padding:12px 13px}
+.hintbox b{color:#3a3a37}
+.warn{display:none;font-size:11.5px;line-height:1.7;color:#8a3b17;background:#fdf1e7;border:1px solid #f0d7c3;border-radius:7px;padding:10px 12px;margin-bottom:16px}
+.warn.on{display:block}
+.fitnote{color:#3f5a2e;background:#eef4e4;border-color:#d5e2c2}
+
+/* ---------- stage ---------- */
+.stagewrap{flex:1;padding:28px 24px 80px;overflow-x:auto}
+.stagebox{margin:0 auto}
+#stage{transform-origin:top left}
+.pagegap{height:22px}
+#stage{transition:opacity .3s var(--ease)}
+
+/* ---------- page ---------- */
+.page{
+  width:210mm;height:296.6mm;position:relative;overflow:hidden;
+  background:var(--paper,#fff);color:var(--ink,#111);
+  box-shadow:0 1px 2px rgba(28,25,18,.1),0 18px 48px rgba(28,25,18,.16);
+  --fs:1;--cols:1;--cur-pre:"";--cur-suf:"";
+  font-family:var(--f-jp,var(--f-gothic));
+  font-feature-settings:"palt" 1;
+}
+.page+.page{margin-top:22px}
+.page-in{position:absolute;inset:0;display:flex;flex-direction:column}
+.mbody{flex:1;min-height:0}
+.cat{position:relative;break-inside:avoid;page-break-inside:avoid}
+.items{list-style:none;margin:0;padding:0}
+.item{position:relative}
+.logo-w{display:flex;justify-content:center;margin-bottom:6mm}
+.logo-w img{max-height:16mm;max-width:60mm;object-fit:contain}
+.d-noir .logo-w img{filter:brightness(0) invert(1)}
+
+/* price currency */
+.it-price::before{content:var(--cur-pre)}
+.it-price::after{content:var(--cur-suf)}
+.it-price{font-feature-settings:"tnum" 1;font-variant-numeric:tabular-nums}
+
+/* ---------- editable ---------- */
+[contenteditable]{outline:none;cursor:text}
+@media screen{
+  [contenteditable]:hover{box-shadow:inset 0 0 0 1px rgba(120,160,255,.45);border-radius:2px}
+  [contenteditable]:focus{box-shadow:inset 0 0 0 1.5px rgba(60,120,255,.8);border-radius:2px;background:rgba(90,140,255,.06)}
+  [contenteditable]:empty::before{content:attr(data-ph);opacity:.3;font-style:normal}
+  .it-desc:empty::before,.cat-en:empty::before,.h-en:empty::before,
+  .h-tag:empty::before,.mfoot [contenteditable]:empty::before{content:""}
+  .item:hover .it-desc:empty::before,.cat-head:hover .cat-en:empty::before,
+  .mhead:hover .h-en:empty::before,.mhead:hover .h-tag:empty::before,
+  .mfoot:hover [contenteditable]:empty::before,
+  [contenteditable]:empty:focus::before{content:attr(data-ph)}
+}
+.it-badge{display:none}
+.item.has-badge .it-badge{display:inline-block}
+@media screen{ .item.editing-badge .it-badge{display:inline-block;opacity:.45} }
+
+/* ---------- hover controls ---------- */
+.ctl{
+  position:absolute;display:none;gap:2px;
+  z-index:5;background:rgba(253,252,249,.96);backdrop-filter:blur(6px);
+  border:1px solid rgba(28,25,18,.1);border-radius:6px;padding:2px;
+  box-shadow:0 1px 2px rgba(28,25,18,.06),0 10px 28px rgba(28,25,18,.14);
+  animation:ctlin .25s var(--ease);
+}
+@keyframes ctlin{from{opacity:0;transform:translateY(2px)}to{opacity:1;transform:none}}
+.ctl button{
+  border:0;background:transparent;cursor:pointer;font:inherit;font-size:11px;line-height:1;
+  padding:4px 5px;border-radius:3px;color:#333;white-space:nowrap;
+}
+.ctl button{transition:background .25s var(--ease)}
+.ctl button:hover{background:rgba(28,25,18,.07)}
+.ctl button.dg:hover{background:#fbe3e3;color:#a11}
+.item:hover>.ctl,.item:focus-within>.ctl,.cat:hover>.ctl,.cat:focus-within>.ctl{display:flex}
+.ctl-item{right:100%;top:0;margin-right:4px}
+.ctl-cat{left:100%;top:0;margin-left:4px}
+.addcat{
+  position:absolute;left:50%;bottom:2.4mm;transform:translateX(-50%);width:auto;z-index:6;
+  border:1px dashed rgba(90,85,72,.5);background:rgba(253,252,249,.92);color:#3a372f;
+  opacity:0;border-radius:7px;padding:5px 14px;cursor:pointer;font:inherit;font-size:11px;
+  transition:opacity .35s var(--ease),transform .35s var(--ease);
+}
+.addcat:hover{transform:translateX(-50%) scale(1.03)}
+.page:hover .addcat{opacity:.8}
+.addcat:hover{opacity:1 !important;background:#fff}
+
+/* ---------- narrow screens ---------- */
+@media screen and (max-width:900px){
+  .app{flex-direction:column}
+  .side{width:auto;flex:none;height:auto;position:static;overflow:visible;
+    border-right:0;border-bottom:1px solid var(--ui-line);padding:16px 16px 22px}
+  .designs{grid-template-columns:repeat(3,1fr)}
+  .stagewrap{padding:14px 10px 60px}
+}
+
+/* ---------- inline text toolbar ---------- */
+.ttool{position:fixed;z-index:90;display:flex;gap:2px;background:#26231c;border-radius:9px;padding:4px;
+  box-shadow:0 2px 6px rgba(0,0,0,.2),0 12px 32px rgba(0,0,0,.28);animation:ctlin .2s var(--ease)}
+.ttool button{border:0;background:transparent;color:#f5f3ea;cursor:pointer;border-radius:6px;
+  font:600 13.5px/1 var(--f-gothic);padding:7px 10px;transition:background .25s var(--ease)}
+.ttool button:hover{background:rgba(255,255,255,.14)}
+.ttool .mkic{background:linear-gradient(transparent 45%,rgba(255,214,90,.85) 45%);padding:0 1px}
+.ttool [data-tcmd="fore"]{font-weight:700}
+
+/* ---------- toast ---------- */
+#toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%) translateY(8px);z-index:95;
+  background:#26231c;color:#f5f3ea;font-size:13px;letter-spacing:.04em;padding:10px 18px;border-radius:99px;
+  opacity:0;pointer-events:none;transition:opacity .3s var(--ease),transform .3s var(--ease);
+  box-shadow:0 10px 30px rgba(0,0,0,.25)}
+#toast.on{opacity:1;transform:translateX(-50%)}
+
+/* ---------- collapsible sidebar groups ---------- */
+.grp{border-bottom:1px solid rgba(28,25,18,.07);padding-bottom:20px}
+.grp>.lb:first-child{display:flex;align-items:center;cursor:pointer;user-select:none}
+.grp>.lb:first-child::after{content:"▾";margin-left:auto;font-size:10px;color:#b8b3a6;
+  transition:transform .3s var(--ease)}
+.grp.closed>.lb:first-child{margin-bottom:0}
+.grp.closed>.lb:first-child::after{transform:rotate(-90deg)}
+.grp.closed>*:not(:first-child){display:none}
+
+/* ---------- item library modal ---------- */
+.liblist{max-height:320px;overflow:auto;margin-top:4px}
+.librow{display:flex;gap:6px;margin:6px 0}
+.librow .btn{text-align:left;justify-content:flex-start}
+.librow .btn small{color:#8a857a;font-size:11px}
+.librow .dgx{flex:0 0 auto}
+
+/* ---------- colour palette grid ---------- */
+.cgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.cgrid label{display:flex;align-items:center;gap:7px;font-size:12.5px;color:#5f594c;
+  border:1px solid var(--ui-line);border-radius:8px;padding:6px 8px;background:#fffefb}
+.cgrid input[type=color]{width:30px;height:26px;padding:0;border:1px solid var(--ui-line);border-radius:5px;background:#fff;cursor:pointer;margin-left:auto}
+.cgrid .crst{border:0;background:transparent;color:#a39d90;cursor:pointer;font-size:12px;padding:2px}
+.cgrid .crst:hover{color:#4c473c}
+
+/* ---------- material chips ---------- */
+.chips{display:grid;grid-template-columns:repeat(4,1fr);gap:7px}
+.chips-5{grid-template-columns:repeat(5,1fr)}
+.chip{position:relative;height:44px;border:1px solid var(--ui-line);border-radius:8px;
+  background:#fdfcf8;cursor:pointer;overflow:hidden;padding:0;
+  transition:transform .35s var(--ease),border-color .35s var(--ease),box-shadow .35s var(--ease)}
+.chip:hover{border-color:rgba(28,25,18,.3);transform:scale(1.05)}
+.chip.on{border-color:var(--ui-acc);box-shadow:0 0 0 1.5px var(--ui-acc)}
+.chip .pv{position:absolute;inset:0}
+.chip b{position:absolute;left:0;right:0;bottom:0;font-size:8.5px;font-weight:600;
+  letter-spacing:.03em;color:#4c473c;background:rgba(255,255,254,.85);padding:2px 0 3px;text-align:center;line-height:1}
+.chip .dv{position:absolute;inset:5px 5px 14px}
+.dv-frame{border:1.2px solid #8a6d3a}
+.dv-double{border:1px solid #8a6d3a;box-shadow:inset 0 0 0 3px transparent,inset 0 0 0 4.5px rgba(138,109,58,.55)}
+.dv-corner{background:
+  linear-gradient(#8a6d3a,#8a6d3a) left top/8px 1.2px no-repeat,
+  linear-gradient(#8a6d3a,#8a6d3a) left top/1.2px 8px no-repeat,
+  linear-gradient(#8a6d3a,#8a6d3a) right top/8px 1.2px no-repeat,
+  linear-gradient(#8a6d3a,#8a6d3a) right top/1.2px 8px no-repeat,
+  linear-gradient(#8a6d3a,#8a6d3a) left bottom/8px 1.2px no-repeat,
+  linear-gradient(#8a6d3a,#8a6d3a) left bottom/1.2px 8px no-repeat,
+  linear-gradient(#8a6d3a,#8a6d3a) right bottom/8px 1.2px no-repeat,
+  linear-gradient(#8a6d3a,#8a6d3a) right bottom/1.2px 8px no-repeat}
+.dv-ornfr{border:1px solid #8a6d3a}
+.dv-stitch{border:1.2px dashed #8a6d3a}
+.dv-deco2{border:2.5px solid #8a6d3a;box-shadow:inset 0 0 0 3px #fdfcf8,inset 0 0 0 3.8px rgba(138,109,58,.7)}
+.dv-ticket{border:1px solid #8a6d3a;background:
+  radial-gradient(circle 4px at 0 50%,#fdfcf8 97%,transparent) no-repeat,
+  radial-gradient(circle 4px at 100% 50%,#fdfcf8 97%,transparent) no-repeat}
+.dv-flor::before{content:"❦";position:absolute;top:-4px;left:1px;font-size:9px;color:#8a6d3a}
+.dv-flor::after{content:"❦";position:absolute;bottom:6px;right:1px;font-size:9px;color:#8a6d3a;transform:scaleY(-1)}
+.dv-ornfr::after{content:"❖";position:absolute;top:-6px;left:50%;transform:translateX(-50%);
+  font-size:8px;color:#8a6d3a;background:#fdfcf8;padding:0 3px}
+.rlb{font-size:12px;color:var(--ui-mut);white-space:nowrap}
+
+/* ---------- modal ---------- */
+.mask{position:fixed;inset:0;background:rgba(20,20,20,.5);display:none;align-items:center;justify-content:center;z-index:99;padding:20px}
+.mask.on{display:flex}
+.modal{background:#fcfbf8;border-radius:14px;max-width:560px;width:100%;padding:28px 30px;max-height:86vh;overflow:auto;
+  border:1px solid rgba(28,25,18,.06);box-shadow:0 2px 6px rgba(20,18,12,.12),0 32px 80px rgba(20,18,12,.32);
+  animation:mdin .35s var(--ease)}
+@keyframes mdin{from{opacity:0;transform:translateY(8px) scale(.99)}to{opacity:1;transform:none}}
+.modal h2{font-size:16px;margin:0 0 14px;letter-spacing:.06em}
+.modal h3{font-size:13px;margin:20px 0 6px;letter-spacing:.06em}
+.modal p,.modal li{font-size:13px;line-height:1.9;color:#3a3a37;margin:6px 0}
+.modal ol,.modal ul{padding-left:1.3em;margin:6px 0}
+.modal .foot{display:flex;gap:8px;margin-top:22px}
+
+/* name + badge wrapper (one cell / one flex item in every design) */
+.it-nw{display:inline-flex;align-items:baseline;gap:1.5mm;min-width:0;flex-wrap:wrap}
+/* hover control placement (kept inside the page) */
+.ctl-item{right:0;left:auto;top:100%;bottom:auto;margin:-5px 0 0 0}
+.ctl-cat{right:0;left:auto;bottom:100%;top:auto;margin:0 0 3px 0}
+
+/* ============================================================
+   DESIGN 01 - NOIR   ビストロ / ワインバー / 夜の店
+   ============================================================ */
+.d-noir{
+  --paper:#14161a;--ink:#f0ebe1;--muted:#9a9182;--f-jp:var(--f-mincho);--f-en:var(--f-en-serif);--cols:2;
+  background:radial-gradient(115% 78% at 50% -8%,#232730 0%,#14161a 62%);
+}
+.d-noir::after{content:"";position:absolute;inset:11mm;border:.6pt solid color-mix(in srgb,var(--accent) 55%,transparent);pointer-events:none}
+.d-noir::before{content:"";position:absolute;inset:0;pointer-events:none;
+  box-shadow:inset 0 0 46mm rgba(0,0,0,.4)}
+.d-noir .page-in{padding:22mm 20mm 16mm}
+.d-noir .mhead{text-align:center;padding-bottom:9mm;margin-bottom:9mm;position:relative}
+.d-noir .mhead::after{content:"";position:absolute;left:50%;bottom:0;transform:translateX(-50%);width:14mm;height:.6pt;background:var(--accent)}
+.d-noir .h-en{font-family:var(--f-en);font-size:calc(9pt*var(--fs));letter-spacing:.42em;color:var(--accent);text-transform:uppercase;margin-bottom:4mm}
+.d-noir .h-ttl{font-size:calc(25pt*var(--fs));font-weight:500;letter-spacing:.14em;line-height:1.25;margin:0}
+.d-noir .h-tag{font-size:calc(8.5pt*var(--fs));letter-spacing:.24em;color:var(--muted);margin-top:3.5mm}
+.d-noir .mbody{column-count:var(--cols);column-gap:11mm}
+.d-noir .cat{margin-bottom:8mm}
+.d-noir .cat-head{display:flex;align-items:baseline;gap:2.5mm;margin-bottom:4mm}
+.d-noir .cat-ttl{font-size:calc(11.5pt*var(--fs));font-weight:600;letter-spacing:.2em;margin:0;white-space:nowrap}
+.d-noir .cat-en{font-family:var(--f-en);font-size:calc(7.5pt*var(--fs));letter-spacing:.28em;color:var(--accent);text-transform:uppercase;white-space:nowrap}
+.d-noir .cat-head::after{content:"";flex:1;height:.4pt;background:color-mix(in srgb,var(--accent) 42%,transparent)}
+.d-noir .item{margin-bottom:4.2mm}
+.d-noir .it-top{display:flex;align-items:baseline;gap:2mm}
+.d-noir .it-name{font-size:calc(10pt*var(--fs));letter-spacing:.05em;line-height:1.5}
+.d-noir .it-price{margin-left:auto;font-family:var(--f-en);font-size:calc(9.5pt*var(--fs));letter-spacing:.06em;color:var(--accent);white-space:nowrap}
+.d-noir .it-desc{font-size:calc(7.8pt*var(--fs));line-height:1.75;color:var(--muted);margin-top:1mm;letter-spacing:.03em}
+.d-noir .it-badge{font-family:var(--f-en);font-size:calc(6.2pt*var(--fs));letter-spacing:.18em;border:.5pt solid var(--accent);color:var(--accent);padding:.6mm 1.4mm;border-radius:1mm;vertical-align:.6mm}
+.d-noir .mfoot{text-align:center;padding-top:7mm;color:var(--muted);font-size:calc(7.6pt*var(--fs));letter-spacing:.18em;line-height:1.9}
+
+/* ============================================================
+   DESIGN 02 - KINARI  和モダン・縦書き
+   ============================================================ */
+.d-kinari{
+  --paper:#f4f1e9;--ink:#181614;--muted:#7d766c;--f-jp:var(--f-mincho2);--f-en:var(--f-en-serif);
+  background:
+    radial-gradient(100% 60% at 100% 0%,rgba(255,255,255,.75),transparent 60%),
+    linear-gradient(#f5f2ea,#eeeade);
+}
+.d-kinari::after{content:"";position:absolute;left:14mm;top:16mm;bottom:16mm;width:.5pt;background:rgba(24,22,20,.16)}
+.d-kinari .page-in{writing-mode:vertical-rl;padding:15mm 10mm;gap:3.5mm}
+.d-kinari .h-l{display:contents}
+.d-kinari .mhead{flex:0 0 auto;display:flex;flex-direction:column;align-items:flex-start;gap:2.5mm;
+  padding-left:5mm;border-left:.5pt solid rgba(24,22,20,.18)}
+.d-kinari .h-ttl{order:1;font-size:calc(21pt*var(--fs));font-weight:500;letter-spacing:.26em;margin:0;line-height:1.2}
+.d-kinari .h-en{order:2;font-family:var(--f-en);font-size:calc(7.5pt*var(--fs));letter-spacing:.34em;color:var(--accent);text-transform:uppercase;line-height:1.3}
+.d-kinari .h-tag{order:3;font-size:calc(8pt*var(--fs));letter-spacing:.3em;color:var(--muted);line-height:1.3}
+.d-kinari .logo-w{writing-mode:horizontal-tb;margin:0 0 2mm}
+.d-kinari .mbody{flex:1;display:flex;flex-direction:column;flex-wrap:nowrap;gap:2.5mm;overflow:hidden;min-width:0}
+.d-kinari .cat{flex:0 0 auto;display:flex;flex-direction:column;gap:2.5mm;height:100%}
+.d-kinari .cat-head{flex:0 0 auto;display:flex;flex-direction:column;align-items:flex-start;gap:2mm}
+.d-kinari .cat-ttl{font-size:calc(11pt*var(--fs));font-weight:600;letter-spacing:.26em;margin:0;line-height:1.2;
+  border-right:.5pt solid var(--accent);padding-right:2.2mm}
+.d-kinari .cat-en{font-family:var(--f-en);font-size:calc(6.2pt*var(--fs));letter-spacing:.2em;color:var(--accent);text-transform:uppercase;line-height:1.3}
+.d-kinari .items{flex:0 0 auto;display:flex;flex-direction:column;gap:2mm;height:100%}
+.d-kinari .item{flex:0 0 auto;height:100%}
+.d-kinari .it-top{display:block;height:100%}
+.d-kinari .it-nw{display:inline}
+.d-kinari .it-name{font-size:calc(9.6pt*var(--fs));letter-spacing:.1em;line-height:1.3}
+.d-kinari .it-price{text-combine-upright:all;font-size:calc(8.6pt*var(--fs));color:var(--muted);letter-spacing:0;margin-inline-start:2.2mm}
+.d-kinari .it-desc{display:block;height:100%;margin-block-start:1.1mm;font-size:calc(7pt*var(--fs));
+  line-height:1.5;color:var(--muted);letter-spacing:.04em}
+.d-kinari .it-badge{font-size:calc(6.6pt*var(--fs));letter-spacing:.06em;background:var(--accent);color:#faf8f1;
+  padding:1mm .6mm;border-radius:1mm;margin-inline-start:1.5mm}
+.d-kinari .mfoot{flex:0 0 auto;display:flex;flex-direction:column;gap:1.6mm;color:var(--muted);
+  font-size:calc(7.2pt*var(--fs));letter-spacing:.18em;line-height:1.4;padding-right:3mm;
+  border-right:.5pt solid rgba(24,22,20,.16)}
+.d-kinari .addcat{writing-mode:horizontal-tb}
+.d-kinari .ctl,.d-kinari .ctl button{writing-mode:horizontal-tb}
+.d-kinari .ctl-item{right:auto;left:0;top:100%;margin:2px 0 0 0}
+.d-kinari .ctl-cat{left:0;right:auto;bottom:auto;top:100%;margin:2px 0 0 0}
+
+/* ============================================================
+   DESIGN 03 - EDITORIAL  ミニマル / カフェ / 雑誌的
+   ============================================================ */
+.d-edit{--paper:#fdfdfa;--ink:#1d1c19;--muted:#8e8c86;--f-jp:var(--f-gothic);--f-en:var(--f-en-sans);--cols:2}
+.d-edit .page-in{padding:24mm 22mm 18mm}
+.d-edit .mhead{display:flex;justify-content:space-between;align-items:flex-end;
+  padding-bottom:5mm;border-bottom:1.6pt solid var(--ink);margin-bottom:11mm}
+.d-edit .h-l{display:flex;flex-direction:column;gap:2.5mm;min-width:0}
+.d-edit .h-ttl{font-size:calc(25pt*var(--fs));font-weight:300;letter-spacing:.03em;margin:0;line-height:1.08}
+.d-edit .h-en{font-family:var(--f-en);font-size:calc(7.5pt*var(--fs));letter-spacing:.4em;text-transform:uppercase;color:var(--accent)}
+.d-edit .h-tag{font-size:calc(8pt*var(--fs));color:var(--muted);letter-spacing:.14em;text-align:right;line-height:1.8;max-width:62mm}
+.d-edit .logo-w{justify-content:flex-start;margin-bottom:3mm}
+.d-edit .mbody{column-count:var(--cols);column-gap:12mm}
+.d-edit .cat{margin-bottom:9mm}
+.d-edit .cat-head{margin-bottom:4.5mm}
+.d-edit .cat-ttl{font-size:calc(9pt*var(--fs));font-weight:700;letter-spacing:.26em;margin:0}
+.d-edit .cat-en{display:block;font-family:var(--f-en);font-size:calc(6.8pt*var(--fs));letter-spacing:.3em;color:var(--muted);text-transform:uppercase;margin-top:1mm}
+.d-edit .item{padding:3mm 0;border-top:.4pt solid rgba(29,28,25,.1)}
+.d-edit .cat .item:first-of-type{border-top:.8pt solid var(--ink)}
+.d-edit .it-top{display:flex;align-items:baseline;gap:2mm}
+.d-edit .it-name{font-size:calc(9.6pt*var(--fs));font-weight:500;letter-spacing:.04em;line-height:1.5}
+.d-edit .it-price{margin-left:auto;font-family:var(--f-en);font-size:calc(9pt*var(--fs));font-weight:400;white-space:nowrap}
+.d-edit .it-desc{font-size:calc(7.6pt*var(--fs));line-height:1.8;color:var(--muted);margin-top:1.2mm;letter-spacing:.02em}
+.d-edit .it-badge{font-family:var(--f-en);font-size:calc(6pt*var(--fs));letter-spacing:.16em;background:var(--accent);color:#fbfaf6;padding:.7mm 1.6mm;vertical-align:.5mm;text-transform:uppercase}
+.d-edit .mfoot{display:flex;justify-content:space-between;gap:8mm;padding-top:6mm;border-top:.8pt solid var(--ink);
+  font-size:calc(7.4pt*var(--fs));letter-spacing:.14em;color:var(--muted);line-height:1.8}
+
+/* ============================================================
+   DESIGN 04 - TERRA  ナチュラル / ベーカリー / 定食
+   ============================================================ */
+.d-terra{--paper:#f8f3ea;--ink:#332c24;--muted:#8b7f6e;--f-jp:var(--f-gothic);--f-en:var(--f-en-sans);--cols:1}
+.d-terra::before{content:"";position:absolute;left:0;right:0;top:0;height:52mm;
+  background:color-mix(in srgb,var(--accent) 15%,transparent);
+  border-radius:0 0 50% 50%/0 0 22mm 22mm}
+.d-terra .page-in{padding:18mm 20mm 16mm}
+.d-terra .mhead{text-align:center;margin-bottom:10mm;position:relative}
+.d-terra .h-en{font-family:var(--f-en);font-size:calc(8pt*var(--fs));letter-spacing:.38em;color:var(--accent);text-transform:uppercase;margin-bottom:3.5mm}
+.d-terra .h-ttl{font-size:calc(23pt*var(--fs));font-weight:500;letter-spacing:.1em;margin:0;line-height:1.25}
+.d-terra .h-tag{font-size:calc(8.4pt*var(--fs));color:var(--muted);letter-spacing:.16em;margin-top:3mm;line-height:1.8}
+.d-terra .mbody{column-count:var(--cols);column-gap:11mm}
+.d-terra .cat{margin-bottom:6mm;background:rgba(255,255,255,.62);border-radius:4mm;padding:5mm 6mm}
+.d-terra .cat-head{display:flex;align-items:center;gap:2.5mm;margin-bottom:4mm}
+.d-terra .cat-head::before{content:"";width:2.4mm;height:2.4mm;border-radius:50%;background:var(--accent);flex:0 0 auto}
+.d-terra .cat-ttl{font-size:calc(11pt*var(--fs));font-weight:700;letter-spacing:.18em;margin:0}
+.d-terra .cat-en{font-family:var(--f-en);font-size:calc(7pt*var(--fs));letter-spacing:.24em;color:var(--muted);text-transform:uppercase}
+.d-terra .item{margin-bottom:3.6mm}
+.d-terra .it-top{display:flex;align-items:baseline;gap:2mm}
+.d-terra .it-name{font-size:calc(10pt*var(--fs));font-weight:500;letter-spacing:.04em}
+.d-terra .it-top::after{content:"";flex:1;border-bottom:.4pt dotted #c8bda9;margin-bottom:1mm;order:8}
+.d-terra .it-price{font-family:var(--f-en);font-size:calc(9.4pt*var(--fs));white-space:nowrap;color:var(--ink);order:9}
+.d-terra .it-desc{font-size:calc(7.6pt*var(--fs));line-height:1.75;color:var(--muted);margin-top:.8mm}
+.d-terra .it-badge{font-size:calc(6.4pt*var(--fs));letter-spacing:.08em;background:var(--accent);color:#fbf9f3;padding:.6mm 1.6mm;border-radius:3mm;vertical-align:.5mm}
+.d-terra .mfoot{text-align:center;padding-top:6mm;font-size:calc(7.6pt*var(--fs));color:var(--muted);letter-spacing:.16em;line-height:1.9}
+
+/* ============================================================
+   DESIGN 05 - BOLD  居酒屋 / ラーメン / モダングリッド
+   ============================================================ */
+.d-bold{--paper:#f2f0ea;--ink:#181510;--muted:#6f6c64;--f-jp:var(--f-gothic);--f-en:var(--f-en-sans);--cols:1}
+.d-bold .page-in{padding:16mm 16mm 14mm}
+.d-bold .mhead{background:var(--ink);color:var(--paper);padding:9mm 9mm 8mm;margin-bottom:8mm;position:relative;overflow:hidden}
+.d-bold .mhead::after{content:"";position:absolute;right:0;bottom:0;width:12mm;height:12mm;background:var(--accent)}
+.d-bold .h-en{font-family:var(--f-en);font-size:calc(8pt*var(--fs));letter-spacing:.42em;text-transform:uppercase;color:var(--accent);margin-bottom:3mm}
+.d-bold .h-ttl{font-size:calc(33pt*var(--fs));font-weight:700;letter-spacing:0;line-height:1.05;margin:0}
+.d-bold .h-tag{font-size:calc(8.4pt*var(--fs));letter-spacing:.2em;opacity:.72;margin-top:3.5mm}
+.d-bold .logo-w{justify-content:flex-start}
+.d-bold .mbody{counter-reset:cat;column-count:var(--cols);column-gap:10mm}
+.d-bold .cat{margin-bottom:7mm}
+.d-bold .cat-head{display:flex;align-items:baseline;gap:3mm;border-bottom:1.4pt solid var(--ink);padding-bottom:2.5mm;margin-bottom:3.5mm}
+.d-bold .cat-head::before{counter-increment:cat;content:counter(cat,decimal-leading-zero);
+  font-family:var(--f-en);font-size:calc(8.5pt*var(--fs));font-weight:600;color:var(--accent);letter-spacing:.08em}
+.d-bold .cat-ttl{font-size:calc(13pt*var(--fs));font-weight:700;letter-spacing:.12em;margin:0}
+.d-bold .cat-en{font-family:var(--f-en);font-size:calc(7pt*var(--fs));letter-spacing:.26em;color:var(--muted);text-transform:uppercase;margin-left:auto}
+.d-bold .item{display:grid;grid-template-columns:1fr auto;gap:0 4mm;padding:2.4mm 0;border-bottom:.4pt solid rgba(24,21,16,.14)}
+.d-bold .it-top{display:contents}
+.d-bold .it-nw{grid-column:1;grid-row:1}
+.d-bold .it-name{font-size:calc(10.4pt*var(--fs));font-weight:500;letter-spacing:.03em}
+.d-bold .it-price{grid-column:2;grid-row:1;font-family:var(--f-en);font-weight:600;font-size:calc(10.4pt*var(--fs));white-space:nowrap;align-self:baseline;text-align:right}
+.d-bold .it-desc{grid-column:1/-1;font-size:calc(7.6pt*var(--fs));line-height:1.7;color:var(--muted);margin-top:.6mm}
+.d-bold .it-badge{font-size:calc(6.2pt*var(--fs));font-weight:700;letter-spacing:.1em;background:var(--accent);color:#faf8f2;padding:.6mm 1.6mm;margin-left:2mm;vertical-align:.6mm}
+.d-bold .mfoot{display:flex;justify-content:space-between;gap:6mm;padding-top:5mm;margin-top:auto;
+  border-top:1.4pt solid var(--ink);font-size:calc(7.6pt*var(--fs));letter-spacing:.12em;color:var(--muted);line-height:1.8}
+
+/* ============================================================
+   DESIGN 06 - LUMIERE  コース / ホテル / フレンチ
+   ============================================================ */
+.d-lum{--paper:#fbf9f4;--ink:#242019;--muted:#8a8274;--f-jp:var(--f-mincho);--f-en:var(--f-en-serif);--cols:1}
+.d-lum::after{content:"";position:absolute;inset:13mm;border:.5pt solid rgba(36,32,25,.22);pointer-events:none}
+.d-lum::before{content:"";position:absolute;inset:14.6mm;border:1.6pt solid color-mix(in srgb,var(--accent) 42%,transparent);pointer-events:none}
+.d-lum .page-in{padding:23mm 24mm 18mm;text-align:center}
+.d-lum .mhead{margin-bottom:7.5mm}
+.d-lum .h-en{font-family:var(--f-en);font-size:calc(9pt*var(--fs));letter-spacing:.5em;text-transform:uppercase;color:var(--accent);margin-bottom:5mm}
+.d-lum .h-ttl{font-size:calc(24pt*var(--fs));font-weight:400;letter-spacing:.2em;margin:0;line-height:1.35}
+.d-lum .h-tag{font-size:calc(8.4pt*var(--fs));letter-spacing:.3em;color:var(--muted);margin-top:5mm}
+.d-lum .mbody{column-count:var(--cols);column-gap:10mm}
+.d-lum .cat{margin-bottom:4.6mm}
+.d-lum .cat-head{margin-bottom:3.6mm}
+.d-lum .cat-ttl{font-size:calc(10pt*var(--fs));font-weight:500;letter-spacing:.34em;margin:0}
+.d-lum .cat-en{display:block;font-family:var(--f-en);font-size:calc(6.8pt*var(--fs));letter-spacing:.32em;color:var(--accent);text-transform:uppercase;margin-top:1.6mm}
+.d-lum .item{margin-bottom:2.8mm}
+.d-lum .it-top{display:block}
+.d-lum .it-name{font-size:calc(10.2pt*var(--fs));letter-spacing:.12em;line-height:1.5}
+.d-lum .it-price{display:block;font-family:var(--f-en);font-size:calc(9pt*var(--fs));color:var(--accent);letter-spacing:.1em;margin-top:1mm}
+.d-lum .it-desc{font-size:calc(7.8pt*var(--fs));line-height:1.85;color:var(--muted);letter-spacing:.08em;margin-top:1.2mm;
+  max-width:120mm;margin-left:auto;margin-right:auto}
+.d-lum .it-badge{display:none !important}
+.d-lum .mfoot{padding-top:7mm;font-size:calc(7.6pt*var(--fs));letter-spacing:.24em;color:var(--muted);line-height:2}
+
+/* ============================================================
+   DESIGN 07 - SHU 朱  中華 / 点心 / 火鍋
+   ============================================================ */
+.d-shu{--paper:#f8f2e3;--ink:#271710;--muted:#8d7561;--f-jp:var(--f-serif-jp);--f-en:var(--f-en-disp);--cols:2;
+  background:
+    radial-gradient(120% 70% at 50% -12%,rgba(255,255,255,.7),transparent 55%),
+    linear-gradient(#f9f4e7,#f2e9d3)}
+.d-shu::after{content:"";position:absolute;inset:7mm;border:2.6pt double var(--accent);pointer-events:none}
+.d-shu::before{content:"";position:absolute;left:13mm;right:13mm;top:10.6mm;height:1.7mm;pointer-events:none;
+  background:repeating-linear-gradient(90deg,var(--accent) 0 1.7mm,transparent 1.7mm 3.6mm);opacity:.75}
+.d-shu .page-in{padding:19mm 18mm 15mm}
+.d-shu .mhead{text-align:center;margin-bottom:8mm;position:relative}
+.d-shu .mhead::after{content:"菜\A譜";white-space:pre;position:absolute;right:0;top:1mm;
+  background:var(--accent);color:#fdf8ec;font-size:calc(7.5pt*var(--fs));line-height:1.25;font-weight:600;
+  padding:1.8mm 1.5mm;border-radius:.8mm;letter-spacing:.1em;font-family:var(--f-serif-jp);
+  box-shadow:0 0 0 .4mm color-mix(in srgb,var(--accent) 35%,transparent)}
+.d-shu .h-en{font-family:var(--f-en);font-size:calc(8.5pt*var(--fs));letter-spacing:.5em;color:var(--accent);text-transform:uppercase;margin-bottom:3.6mm}
+.d-shu .h-ttl{font-size:calc(26pt*var(--fs));font-weight:900;letter-spacing:.24em;margin:0;line-height:1.25}
+.d-shu .h-tag{font-size:calc(8.4pt*var(--fs));letter-spacing:.26em;color:var(--muted);margin-top:3.2mm}
+.d-shu .mbody{column-count:var(--cols);column-gap:11mm}
+.d-shu .cat{margin-bottom:7mm}
+.d-shu .cat-head{display:flex;flex-direction:column;align-items:center;gap:1.4mm;margin-bottom:4mm;text-align:center}
+.d-shu .cat-ttl{font-size:calc(12pt*var(--fs));font-weight:900;letter-spacing:.4em;margin:0;text-indent:.4em;
+  padding-bottom:1.8mm;border-bottom:1.6pt solid var(--accent)}
+.d-shu .cat-en{font-family:var(--f-en);font-size:calc(6.8pt*var(--fs));letter-spacing:.34em;color:var(--muted);text-transform:uppercase}
+.d-shu .item{margin-bottom:3.8mm}
+.d-shu .it-top{display:flex;align-items:baseline;gap:2mm}
+.d-shu .it-name{font-size:calc(10pt*var(--fs));font-weight:600;letter-spacing:.06em;line-height:1.5}
+.d-shu .it-top::after{content:"";flex:1;border-bottom:.5pt dotted color-mix(in srgb,var(--accent) 55%,transparent);margin-bottom:1mm;order:8}
+.d-shu .it-price{font-family:var(--f-en);font-size:calc(9.6pt*var(--fs));color:var(--accent);white-space:nowrap;order:9}
+.d-shu .it-desc{font-size:calc(7.6pt*var(--fs));line-height:1.75;color:var(--muted);margin-top:.8mm}
+.d-shu .it-badge{font-size:calc(6.4pt*var(--fs));font-weight:600;letter-spacing:.12em;background:var(--accent);color:#fdf8ec;
+  padding:.6mm 1.6mm;border-radius:.8mm;vertical-align:.5mm}
+.d-shu .mfoot{text-align:center;padding-top:5mm;border-top:.5pt solid color-mix(in srgb,var(--accent) 45%,transparent);
+  font-size:calc(7.6pt*var(--fs));color:var(--muted);letter-spacing:.2em;line-height:1.9}
+
+/* ============================================================
+   DESIGN 08 - POP  喫茶 / スイーツ / テイクアウト
+   ============================================================ */
+.d-pop{--paper:#fffcf3;--ink:#201b23;--muted:#77707d;--f-jp:var(--f-maru);--f-en:var(--f-en-sans);--cols:2;
+  background:
+    radial-gradient(closest-side at 86% 7%,color-mix(in srgb,var(--accent) 20%,transparent) 0 15mm,transparent 15mm),
+    radial-gradient(closest-side at 8% 93%,color-mix(in srgb,var(--accent) 13%,transparent) 0 18mm,transparent 18mm),
+    #fffcf3}
+.d-pop::after{content:"";position:absolute;inset:7.5mm;border:2.6pt solid var(--ink);border-radius:5mm;pointer-events:none}
+.d-pop .page-in{padding:17mm 17mm 15mm}
+.d-pop .mhead{text-align:center;margin-bottom:8mm}
+.d-pop .h-en{display:table;margin:0 auto 4.5mm;font-family:var(--f-en);font-size:calc(7.5pt*var(--fs));font-weight:600;letter-spacing:.32em;
+  text-transform:uppercase;border:1.8pt solid var(--ink);border-radius:99mm;padding:1.2mm 4.5mm 1mm;
+  background:#fff;box-shadow:1.4mm 1.4mm 0 color-mix(in srgb,var(--accent) 65%,transparent)}
+.d-pop .h-ttl{font-family:var(--f-pop);font-size:calc(24pt*var(--fs));font-weight:400;letter-spacing:.1em;margin:0;line-height:1.4;
+  background:linear-gradient(transparent 60%,color-mix(in srgb,var(--accent) 42%,transparent) 60% 92%,transparent 92%);
+  display:inline;padding:0 .18em;box-decoration-break:clone;-webkit-box-decoration-break:clone}
+.d-pop .h-tag{font-size:calc(8.6pt*var(--fs));font-weight:500;letter-spacing:.2em;color:var(--muted);margin-top:3.6mm}
+.d-pop .mbody{column-count:var(--cols);column-gap:10mm}
+.d-pop .cat{margin-bottom:7mm}
+.d-pop .cat-head{display:flex;align-items:center;gap:2.6mm;margin-bottom:4mm}
+.d-pop .cat-ttl{font-family:var(--f-pop);font-size:calc(11pt*var(--fs));font-weight:400;letter-spacing:.14em;margin:0;
+  border:1.8pt solid var(--ink);border-radius:99mm;padding:1.2mm 4.2mm 1mm;background:#fff;
+  box-shadow:1.4mm 1.4mm 0 color-mix(in srgb,var(--accent) 65%,transparent)}
+.d-pop .cat-en{font-family:var(--f-en);font-size:calc(7pt*var(--fs));font-weight:500;letter-spacing:.26em;color:var(--muted);text-transform:uppercase}
+.d-pop .item{margin-bottom:1mm;padding:2.2mm 0;border-bottom:1.4pt dotted color-mix(in srgb,var(--ink) 30%,transparent)}
+.d-pop .it-top{display:flex;align-items:baseline;gap:2mm}
+.d-pop .it-name{font-size:calc(10pt*var(--fs));font-weight:700;letter-spacing:.05em;line-height:1.5}
+.d-pop .it-price{margin-left:auto;font-family:var(--f-en);font-size:calc(9pt*var(--fs));font-weight:600;white-space:nowrap;
+  border:1.4pt solid var(--ink);border-radius:99mm;padding:.4mm 2.4mm;background:#fffefa}
+.d-pop .it-desc{font-size:calc(7.6pt*var(--fs));font-weight:500;line-height:1.75;color:var(--muted);margin-top:1mm}
+.d-pop .it-badge{font-family:var(--f-pop);font-size:calc(6.2pt*var(--fs));letter-spacing:.06em;
+  background:var(--accent);color:#fffdf8;border:1.4pt solid var(--ink);padding:.6mm 1.8mm;border-radius:1mm;
+  transform:rotate(-4deg);box-shadow:.8mm .8mm 0 var(--ink);vertical-align:.4mm}
+.d-pop .item.has-badge .it-badge{display:inline-block}
+.d-pop .mfoot{display:flex;justify-content:space-between;gap:6mm;padding-top:4.5mm;margin-top:2mm;
+  border-top:2pt solid var(--ink);font-size:calc(7.6pt*var(--fs));font-weight:500;letter-spacing:.12em;color:var(--muted);line-height:1.8}
+
+/* ============================================================
+   DESIGN 09 - ALBUM  写真メニュー / カフェ / ベーカリー
+   ============================================================ */
+.d-grid{--paper:#fcfcf9;--ink:#1b1a16;--muted:#8c8a83;--f-jp:var(--f-gothic);--f-en:var(--f-en-sans);--cols:1}
+.d-grid .page-in{padding:14mm 14mm 12mm}
+.d-grid .mhead{display:flex;justify-content:space-between;align-items:flex-end;gap:6mm;
+  padding-bottom:3.5mm;border-bottom:2pt solid var(--ink);margin-bottom:5mm}
+.d-grid .h-l{display:flex;flex-direction:column;gap:2mm;min-width:0}
+.d-grid .h-en{font-family:var(--f-en);font-size:calc(7pt*var(--fs));font-weight:500;letter-spacing:.4em;text-transform:uppercase;color:var(--accent)}
+.d-grid .h-ttl{font-size:calc(22pt*var(--fs));font-weight:700;letter-spacing:.01em;margin:0;line-height:1.1}
+.d-grid .h-tag{font-size:calc(7.8pt*var(--fs));color:var(--muted);letter-spacing:.12em;text-align:right;line-height:1.8;max-width:62mm}
+.d-grid .logo-w{justify-content:flex-start;margin-bottom:2mm}
+.d-grid .cat{margin-bottom:5mm}
+.d-grid .cat-head{display:flex;align-items:baseline;gap:2.6mm;margin-bottom:2.8mm}
+.d-grid .cat-ttl{font-size:calc(10.5pt*var(--fs));font-weight:700;letter-spacing:.2em;margin:0;white-space:nowrap}
+.d-grid .cat-en{font-family:var(--f-en);font-size:calc(6.8pt*var(--fs));letter-spacing:.28em;color:var(--accent);text-transform:uppercase;white-space:nowrap}
+.d-grid .cat-head::after{content:"";flex:1;height:.5pt;background:rgba(27,26,22,.14)}
+.d-grid .items{display:grid;grid-template-columns:repeat(var(--gcols,3),1fr);gap:3mm 3mm}
+.d-grid .item{position:relative;border:.5pt solid rgba(27,26,22,.1);border-radius:2.5mm;overflow:hidden;background:#fffefc}
+.d-grid .it-photo{display:block;height:calc(21mm*var(--fs));background:#f3f2ef}
+.d-grid .it-top{display:flex;flex-wrap:wrap;align-items:baseline;gap:1mm 1.5mm;padding:2mm 2.6mm 0}
+.d-grid .it-name{font-size:calc(8.8pt*var(--fs));font-weight:600;letter-spacing:.03em;line-height:1.45}
+.d-grid .it-price{margin-left:auto;font-family:var(--f-en);font-size:calc(8.8pt*var(--fs));font-weight:600;white-space:nowrap}
+.d-grid .it-desc{padding:0 2.6mm 2.2mm;margin-top:.7mm;font-size:calc(6.6pt*var(--fs));line-height:1.6;color:var(--muted)}
+.d-grid .it-desc:empty{padding-bottom:1.9mm}
+.d-grid .it-badge{position:absolute;top:2mm;left:2mm;z-index:2;font-family:var(--f-en);font-size:calc(6pt*var(--fs));
+  font-weight:600;letter-spacing:.14em;background:var(--accent);color:#fcfbf6;padding:.7mm 1.8mm;border-radius:.8mm;text-transform:uppercase}
+.d-grid .mfoot{display:flex;justify-content:space-between;gap:6mm;padding-top:4mm;border-top:2pt solid var(--ink);
+  font-size:calc(7.4pt*var(--fs));letter-spacing:.12em;color:var(--muted);line-height:1.8}
+
+/* ============================================================
+   DESIGN 10 - SPLIT  ビストロノミー / 非対称パネル
+   （Figma リファレンス Trm7uFAuI9CjMcMwEKKLtZ からの移植）
+   ============================================================ */
+.d-split{--paper:#f7f3ea;--ink:#26251f;--muted:#8b8579;--f-jp:var(--f-mincho2);--f-en:var(--f-en-serif);--cols:1;
+  --panel:color-mix(in srgb,var(--accent) 24%,#181f1a);
+  --panel-txt:#f3efe4;--panel-mut:rgba(243,239,228,.6)}
+.d-split::before{content:"";position:absolute;left:0;top:0;bottom:0;width:62mm;background:var(--panel)}
+.d-split .page-in{display:block;padding:0}
+.d-split .logo-w{position:absolute;left:10mm;top:12mm;width:42mm;justify-content:flex-start;margin:0;z-index:2}
+.d-split .logo-w img{filter:brightness(0) invert(1) opacity(.92)}
+.d-split .mhead{position:absolute;left:0;top:0;width:62mm;z-index:1;
+  padding:21mm 8mm 0 10mm;display:flex;flex-direction:column;gap:5.5mm;color:var(--panel-txt)}
+.d-split .h-l{display:contents}
+.d-split .h-en{order:1;font-family:var(--f-en-sans);font-size:calc(7.5pt*var(--fs));font-weight:500;
+  letter-spacing:.32em;text-transform:uppercase;color:var(--accent);line-height:1.7}
+.d-split .h-ttl{order:2;font-size:calc(23pt*var(--fs));font-weight:500;letter-spacing:.28em;
+  line-height:1.45;margin:0;color:var(--panel-txt)}
+.d-split .h-tag{order:3;font-size:calc(8pt*var(--fs));letter-spacing:.15em;
+  line-height:2.15;color:var(--panel-mut)}
+.d-split .mbody{margin-left:62mm;padding:17mm 13mm 16mm 12mm;column-count:var(--cols);column-gap:9mm}
+.d-split .cat{margin-bottom:8mm}
+.d-split .cat-head{display:flex;align-items:baseline;gap:3mm;margin-bottom:4.5mm}
+.d-split .cat-ttl{font-size:calc(12pt*var(--fs));font-weight:600;letter-spacing:.34em;margin:0;white-space:nowrap}
+.d-split .cat-en{font-family:var(--f-en-sans);font-size:calc(6.8pt*var(--fs));font-weight:500;
+  letter-spacing:.3em;color:var(--accent);text-transform:uppercase;white-space:nowrap}
+.d-split .cat-head::after{content:"";flex:1;height:.4pt;background:rgba(38,37,31,.18)}
+.d-split .item{margin-bottom:4mm}
+.d-split .it-top{display:flex;align-items:baseline;gap:2.6mm}
+.d-split .it-name{font-family:var(--f-gothic);font-size:calc(9.8pt*var(--fs));font-weight:500;
+  letter-spacing:.06em;line-height:1.5}
+.d-split .it-price{margin-left:auto;font-family:var(--f-en);font-size:calc(11pt*var(--fs));
+  font-weight:500;letter-spacing:.04em;white-space:nowrap}
+.d-split .it-desc{font-family:var(--f-gothic);font-size:calc(7.4pt*var(--fs));line-height:1.8;
+  color:var(--muted);margin-top:1mm;letter-spacing:.04em}
+.d-split .it-badge{font-family:var(--f-en-sans);font-size:calc(6pt*var(--fs));letter-spacing:.16em;
+  border:.5pt solid var(--accent);color:var(--accent);padding:.5mm 1.6mm;border-radius:.8mm;
+  vertical-align:.5mm;text-transform:uppercase}
+.d-split .mfoot{position:absolute;left:0;bottom:0;width:62mm;z-index:1;
+  padding:0 8mm 14mm 10mm;display:flex;flex-direction:column;gap:1.8mm;
+  color:var(--panel-mut);font-family:var(--f-gothic);font-size:calc(7.4pt*var(--fs));
+  letter-spacing:.13em;line-height:2.05}
+.d-split .mfoot::before{content:"";width:9mm;height:.5pt;background:var(--accent);margin-bottom:2.2mm}
+.d-split .it-photo{float:left;width:15mm;height:15mm;margin:.5mm 3mm .5mm 0;border-radius:1mm;overflow:hidden}
+.d-split .item::after{content:"";display:block;clear:both}
+.d-split .hero-w{display:none}
+
+/* ============================================================
+   PHOTOS — per-item dish photos & header hero image
+   ============================================================ */
+.it-photo{display:none}
+.it-photo img{width:100%;height:100%;object-fit:cover;display:block}
+.item.has-photo .it-photo{display:block}
+.item:not(.has-photo) [data-act="it-photo-del"]{display:none}
+/* small thumbnails, flavoured per design */
+.d-noir .it-photo,.d-edit .it-photo,.d-terra .it-photo,.d-shu .it-photo,.d-pop .it-photo{
+  float:left;width:15mm;height:15mm;margin:.5mm 3mm .5mm 0;border-radius:1.5mm;overflow:hidden}
+.d-noir .item::after,.d-edit .item::after,.d-terra .item::after,.d-shu .item::after,.d-pop .item::after{
+  content:"";display:block;clear:both}
+.d-noir .it-photo{border:.5pt solid color-mix(in srgb,var(--accent) 60%,transparent);border-radius:.8mm}
+.d-terra .it-photo{border-radius:50%}
+.d-shu .it-photo{border:.5pt solid var(--accent);border-radius:.8mm}
+.d-pop .it-photo{border:1.6pt solid var(--ink);border-radius:2.5mm}
+.d-bold .item.has-photo{grid-template-columns:auto 1fr auto}
+.d-bold .item.has-photo .it-photo{grid-column:1;grid-row:1/3;width:14mm;height:14mm;margin-right:2mm;border-radius:1mm;overflow:hidden;align-self:start}
+.d-bold .item.has-photo .it-nw{grid-column:2}
+.d-bold .item.has-photo .it-price{grid-column:3}
+.d-bold .item.has-photo .it-desc{grid-column:2/-1}
+.d-kinari .it-photo,.d-lum .it-photo{display:none !important}
+/* ALBUM empty slots: visible hint on screen only */
+.it-photo.ph-empty{align-items:center;justify-content:center}
+.d-grid .it-photo.ph-empty{display:flex;background:
+  repeating-linear-gradient(-45deg,#f6f5f2 0 5px,#efeeea 5px 10px)}
+.d-grid .it-photo.ph-empty::after{content:"PHOTO";font-family:var(--f-en-sans);
+  font-size:6.5pt;font-weight:500;letter-spacing:.34em;text-indent:.34em;color:#c5c1b9}
+.d-grid .item:has(.ph-empty) .it-badge{background:#b9b6b0}
+
+/* hero banner (designs opt in) */
+.bgimg-w{position:absolute;inset:0;pointer-events:none}
+.bgimg-w img{width:100%;height:100%;object-fit:cover;display:block;opacity:var(--bg-op,1)}
+.hero-w{display:none;overflow:hidden}
+.hero-w img{width:100%;height:100%;object-fit:cover;display:block}
+.d-edit .hero-w{display:block;height:34mm;margin-bottom:6mm}
+.d-grid .hero-w{display:block;height:42mm;margin-bottom:5.5mm;border-radius:2.5mm}
+.d-terra .hero-w{display:block;height:36mm;margin-bottom:6mm;border-radius:22mm 22mm 3mm 3mm}
+.d-noir .hero-w{display:block;height:32mm;margin-bottom:7mm;border:.5pt solid color-mix(in srgb,var(--accent) 55%,transparent)}
+.d-shu .hero-w{display:block;height:30mm;margin-bottom:6mm;border:.6pt solid var(--accent)}
+.d-pop .hero-w{display:block;height:32mm;margin-bottom:6mm;border:2pt solid var(--ink);border-radius:4mm;
+  box-shadow:2mm 2mm 0 color-mix(in srgb,var(--accent) 60%,transparent)}
+.d-bold .hero-w{display:block;height:30mm;margin-bottom:7mm}
+
+/* ============================================================
+   DESIGN 11 - SPICE  アジアン・エスニック / タイ / ベトナム / バリ
+   ============================================================ */
+.d-asia{--paper:#f6ecd8;--ink:#33291b;--muted:#8f7e63;--f-jp:var(--f-gothic);--f-en:var(--f-en-sans);--cols:2;
+  background:radial-gradient(120% 80% at 50% -10%,#fbf4e4,#f1e4c9)}
+.d-asia::before{content:"";position:absolute;left:12mm;right:12mm;top:8mm;height:3.2mm;
+  background:conic-gradient(from -135deg at 50% 100%,var(--accent) 90deg,transparent 90deg) 0 0/6.4mm 3.2mm repeat-x}
+.d-asia::after{content:"";position:absolute;left:12mm;right:12mm;bottom:8mm;height:3.2mm;
+  background:conic-gradient(from 45deg at 50% 0,var(--accent) 90deg,transparent 90deg) 0 0/6.4mm 3.2mm repeat-x}
+.d-asia .page-in{padding:17mm 17mm 15mm}
+.d-asia .mhead{text-align:center;margin-bottom:8mm}
+.d-asia .h-en{font-family:var(--f-en);font-size:calc(8pt*var(--fs));font-weight:500;letter-spacing:.44em;
+  color:var(--accent);text-transform:uppercase;margin-bottom:3.6mm}
+.d-asia .h-ttl{font-size:calc(24pt*var(--fs));font-weight:700;letter-spacing:.16em;margin:0;line-height:1.3}
+.d-asia .mhead::after{content:"◆ ◆ ◆";display:block;color:var(--accent);
+  font-size:calc(5.5pt*var(--fs));letter-spacing:1.2em;text-indent:1.2em;margin-top:3.4mm}
+.d-asia .h-tag{font-size:calc(8.4pt*var(--fs));letter-spacing:.2em;color:var(--muted);margin-top:2.8mm}
+.d-asia .mbody{column-count:var(--cols);column-gap:10mm}
+.d-asia .cat{margin-bottom:7mm}
+.d-asia .cat-head{display:flex;align-items:baseline;gap:2.6mm;margin-bottom:4mm;
+  border-bottom:2pt solid var(--ink);position:relative;padding-bottom:2.2mm}
+.d-asia .cat-head::after{content:"";position:absolute;left:0;right:0;bottom:-1.6mm;height:.5pt;background:var(--accent)}
+.d-asia .cat-ttl{font-size:calc(12pt*var(--fs));font-weight:700;letter-spacing:.2em;margin:0;white-space:nowrap}
+.d-asia .cat-en{font-family:var(--f-en);font-size:calc(7pt*var(--fs));font-weight:500;letter-spacing:.3em;
+  color:var(--accent);text-transform:uppercase;margin-left:auto}
+.d-asia .item{margin-bottom:3.8mm}
+.d-asia .it-top{display:flex;align-items:baseline;gap:2.2mm}
+.d-asia .it-name{font-size:calc(10pt*var(--fs));font-weight:500;letter-spacing:.05em;line-height:1.5}
+.d-asia .it-top::after{content:"";flex:1;border-bottom:.5pt dotted color-mix(in srgb,var(--ink) 40%,transparent);margin-bottom:1mm;order:8}
+.d-asia .it-price{font-family:var(--f-en);font-size:calc(9.8pt*var(--fs));font-weight:600;white-space:nowrap;order:9;color:var(--ink)}
+.d-asia .it-desc{font-size:calc(7.6pt*var(--fs));line-height:1.75;color:var(--muted);margin-top:.9mm}
+.d-asia .it-badge{font-size:calc(6.2pt*var(--fs));font-weight:700;letter-spacing:.1em;
+  background:var(--accent);color:#fbf4e4;padding:.6mm 1.8mm;
+  clip-path:polygon(6% 0,94% 0,100% 50%,94% 100%,6% 100%,0 50%);vertical-align:.5mm}
+.d-asia .mfoot{text-align:center;padding-top:5mm;font-size:calc(7.6pt*var(--fs));
+  color:var(--muted);letter-spacing:.18em;line-height:1.9}
+.d-asia .it-photo{float:left;width:15mm;height:15mm;margin:.5mm 3mm .5mm 0;border-radius:50% 50% 1mm 1mm;overflow:hidden;border:.6pt solid var(--accent)}
+.d-asia .item::after{content:"";display:block;clear:both}
+.d-asia .hero-w{display:block;height:32mm;margin-bottom:6mm;border-radius:24mm 24mm 2mm 2mm;border:.6pt solid var(--accent)}
+
+/* ============================================================
+   MATERIALS — background patterns & decorative frames
+   （インク色に追従・印刷対応、全てCSSグラデーション製）
+   ============================================================ */
+.pattern-w{position:absolute;inset:-50%;pointer-events:none;opacity:var(--pat-op,.08);
+  --pc:var(--pat-col,color-mix(in srgb,var(--ink) 80%,transparent));
+  transform:translate(var(--pat-x,0mm),var(--pat-y,0mm)) scale(var(--pat-scale,1))}
+.p-dots{background-image:radial-gradient(var(--pc) .32mm,transparent .38mm);background-size:3.8mm 3.8mm}
+.p-grid{background-image:
+  linear-gradient(var(--pc) .18mm,transparent .18mm),
+  linear-gradient(90deg,var(--pc) .18mm,transparent .18mm);
+  background-size:6mm 6mm}
+.p-stripe{background-image:repeating-linear-gradient(-45deg,var(--pc) 0 .3mm,transparent .3mm 3.4mm)}
+.p-check{background-image:repeating-conic-gradient(var(--pc) 0 25%,transparent 0 50%);background-size:5.2mm 5.2mm}
+.p-linen{background-image:
+  repeating-linear-gradient(0deg,var(--pc) 0 .14mm,transparent .14mm 1.5mm),
+  repeating-linear-gradient(90deg,var(--pc) 0 .14mm,transparent .14mm 1.5mm);
+  opacity:calc(var(--pat-op,.08)*.75)}
+.p-seigaiha{background-image:
+  radial-gradient(circle at 50% 126%,transparent 40%,var(--pc) 41% 44%,transparent 45% 58%,var(--pc) 59% 62%,transparent 63% 76%,var(--pc) 77% 80%,transparent 81%),
+  radial-gradient(circle at 50% 126%,transparent 40%,var(--pc) 41% 44%,transparent 45% 58%,var(--pc) 59% 62%,transparent 63% 76%,var(--pc) 77% 80%,transparent 81%);
+  background-size:11mm 5.5mm;background-position:0 0,5.5mm 2.75mm}
+.p-washi{background-image:url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='w'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .5  0 0 0 0 .48  0 0 0 0 .44  0 0 0 .55 0'/%3E%3C/filter%3E%3Crect width='240' height='240' filter='url(%23w)'/%3E%3C/svg%3E");
+  background-size:63.5mm 63.5mm;mix-blend-mode:overlay;opacity:calc(var(--pat-op,.08)*3.2)}
+
+.p-herr{background-image:
+  repeating-linear-gradient(45deg,var(--pc) 0 .3mm,transparent .3mm 2.6mm),
+  repeating-linear-gradient(-45deg,var(--pc) 0 .3mm,transparent .3mm 2.6mm);
+  background-size:5.2mm 5.2mm,5.2mm 5.2mm;background-position:0 0,2.6mm 0}
+.p-wave{background-image:
+  radial-gradient(circle at 25% 100%,transparent 42%,var(--pc) 43% 47%,transparent 48%),
+  radial-gradient(circle at 75% 0%,transparent 42%,var(--pc) 43% 47%,transparent 48%);
+  background-size:6mm 3mm}
+.p-diam{background-image:
+  repeating-linear-gradient(45deg,var(--pc) 0 .22mm,transparent .22mm 4mm),
+  repeating-linear-gradient(-45deg,var(--pc) 0 .22mm,transparent .22mm 4mm)}
+.p-zig{background-image:conic-gradient(from -135deg at 50% 62%,var(--pc) 90deg,transparent 90deg);
+  background-size:5mm 2.5mm}
+.p-rings{background-image:radial-gradient(circle,transparent 34%,var(--pc) 35% 39%,transparent 40%);
+  background-size:7mm 7mm}
+.p-cross{background-image:
+  linear-gradient(var(--pc),var(--pc)),linear-gradient(var(--pc),var(--pc));
+  background-size:1.6mm .28mm,.28mm 1.6mm;
+  background-position:0 0,.66mm -.66mm;background-repeat:space}
+/* ---- Figma-designed textiles (Menu Design Lab / Textiles page) ---- */
+.p-terrazzo{background-image:url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60'%3E%3Cg fill-opacity='.85'%3E%3Cpath d='M8 6l7 3-2 7-8-2z' fill='%23c07a54'/%3E%3Cellipse cx='34' cy='10' rx='5' ry='3.4' fill='%237c8a67' transform='rotate(-18 34 10)'/%3E%3Cpath d='M50 4l6 5-4 6-7-3z' fill='%235d6b83'/%3E%3Cellipse cx='14' cy='30' rx='4' ry='3' fill='%23b9a988'/%3E%3Cpath d='M40 26l8 2-1 8-8-1z' fill='%23a05f4b'/%3E%3Cellipse cx='55' cy='38' rx='3.4' ry='2.6' fill='%237c8a67' transform='rotate(24 55 38)'/%3E%3Cpath d='M6 46l7 2-2 7-7-2z' fill='%235d6b83'/%3E%3Cellipse cx='28' cy='50' rx='5' ry='3.2' fill='%23c07a54' transform='rotate(-30 28 50)'/%3E%3Cpath d='M46 52l6 3-3 5-6-2z' fill='%23b9a988'/%3E%3Ccircle cx='24' cy='20' r='1.6' fill='%23845f4c'/%3E%3Ccircle cx='52' cy='22' r='1.4' fill='%23845f4c'/%3E%3Ccircle cx='12' cy='57' r='1.5' fill='%23845f4c'/%3E%3C/g%3E%3C/svg%3E");
+  background-size:16mm 16mm}
+.p-fans{background-image:url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='24'%3E%3Cg fill='none' stroke='%236b6458' stroke-width='1.1'%3E%3Cpath d='M2 24a22 22 0 0 1 44 0'/%3E%3Cpath d='M9 24a15 15 0 0 1 30 0'/%3E%3Cpath d='M16 24a8 8 0 0 1 16 0'/%3E%3Cpath d='M21 24a3 3 0 0 1 6 0'/%3E%3Cpath d='M24 24V2M24 24L8 8M24 24l16-16'/%3E%3C/g%3E%3C/svg%3E"),url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='24'%3E%3Cg fill='none' stroke='%236b6458' stroke-width='1.1'%3E%3Cpath d='M2 24a22 22 0 0 1 44 0'/%3E%3Cpath d='M9 24a15 15 0 0 1 30 0'/%3E%3Cpath d='M16 24a8 8 0 0 1 16 0'/%3E%3Cpath d='M21 24a3 3 0 0 1 6 0'/%3E%3Cpath d='M24 24V2M24 24L8 8M24 24l16-16'/%3E%3C/g%3E%3C/svg%3E");
+  background-size:13mm 6.5mm;background-position:0 0,6.5mm 3.25mm}
+.p-leafp{background-image:url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='52' height='52'%3E%3Cg fill='none' stroke='%23706b5f' stroke-width='1.1'%3E%3Cpath d='M10 30C10 18 20 10 30 8c-2 10-10 20-20 22z'/%3E%3Cpath d='M28 10C20 16 14 24 11 29'/%3E%3Cpath d='M30 44c10-2 16-12 14-22-8 4-14 14-14 22z'/%3E%3Cpath d='M43 24c-6 6-11 14-13 19'/%3E%3C/g%3E%3C/svg%3E");
+  background-size:14mm 14mm}
+.p-tilem{background-image:url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40'%3E%3Cpath d='M20 3l5.2 11.8L37 20l-11.8 5.2L20 37l-5.2-11.8L3 20l11.8-5.2z' fill='none' stroke='%23706b5f' stroke-width='1.2'/%3E%3Ccircle cx='20' cy='20' r='1.5' fill='%23706b5f'/%3E%3C/svg%3E");
+  background-size:12mm 12mm}
+
+.p-sashiko{background-image:url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='36' height='36'%3E%3Cg stroke='%23707070' stroke-width='1.3' stroke-dasharray='4 3' fill='none'%3E%3Cpath d='M18 4v28M4 18h28'/%3E%3C/g%3E%3C/svg%3E");background-size:11mm 11mm}
+.p-star{background-image:url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='56'%3E%3Cg fill='%23707070'%3E%3Cpath d='M14 6l1.6 4.4L20 12l-4.4 1.6L14 18l-1.6-4.4L8 12l4.4-1.6z'/%3E%3Cpath d='M40 30l1.2 3.3 3.3 1.2-3.3 1.2L40 39l-1.2-3.3-3.3-1.2 3.3-1.2z'/%3E%3Ccircle cx='44' cy='10' r='1.3'/%3E%3Ccircle cx='10' cy='44' r='1.3'/%3E%3C/g%3E%3C/svg%3E");background-size:15mm 15mm}
+.p-bubble{background-image:url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='48'%3E%3Cg fill='none' stroke='%23707070' stroke-width='1.1'%3E%3Ccircle cx='14' cy='14' r='8'/%3E%3Ccircle cx='36' cy='32' r='5'/%3E%3Ccircle cx='38' cy='8' r='2.6'/%3E%3Ccircle cx='8' cy='38' r='2.6'/%3E%3C/g%3E%3C/svg%3E");background-size:13mm 13mm}
+.p-tri{background-image:url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='52' height='52'%3E%3Cg fill='%23707070'%3E%3Cpath d='M12 8l5 8h-10z'/%3E%3Cpath d='M38 20l5 8h-10z' transform='rotate(24 38 24)'/%3E%3Cpath d='M18 38l5 8h-10z' transform='rotate(-18 18 42)'/%3E%3Cpath d='M42 42l3.4 5.4h-6.8z'/%3E%3C/g%3E%3C/svg%3E");background-size:14mm 14mm}
+.p-argyle{background-image:url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40'%3E%3Cpath d='M20 0L40 20 20 40 0 20Z' fill='none' stroke='%23707070' stroke-width='1.1'/%3E%3Cpath d='M20 8L32 20 20 32 8 20Z' fill='none' stroke='%23707070' stroke-width='.7' stroke-dasharray='3 2.4'/%3E%3C/svg%3E");background-size:12mm 12mm}
+.p-hex{background-image:url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='48'%3E%3Cpath d='M14 1l12 7v16l-12 7L2 24V8zM14 31l12 7v16M14 31L2 38v16' fill='none' stroke='%23707070' stroke-width='1.1'/%3E%3C/svg%3E");background-size:9mm 15.4mm}
+
+.deco-w{position:absolute;inset:0;pointer-events:none;
+  --dc:var(--deco-col,color-mix(in srgb,var(--accent) 82%,var(--ink)))}
+.x-frame::before{content:"";position:absolute;inset:var(--deco-in,6.5mm);border:.6pt solid var(--dc)}
+.x-double::before{content:"";position:absolute;inset:var(--deco-in,6.5mm);border:.5pt solid var(--dc)}
+.x-double::after{content:"";position:absolute;inset:calc(var(--deco-in,6.5mm) + 1.7mm);border:1.5pt solid color-mix(in srgb,var(--dc) 50%,transparent)}
+.x-corner{background:
+  linear-gradient(var(--dc),var(--dc)) left var(--deco-in,6.5mm) top var(--deco-in,6.5mm) / 9mm .5mm no-repeat,
+  linear-gradient(var(--dc),var(--dc)) left var(--deco-in,6.5mm) top var(--deco-in,6.5mm) / .5mm 9mm no-repeat,
+  linear-gradient(var(--dc),var(--dc)) right var(--deco-in,6.5mm) top var(--deco-in,6.5mm) / 9mm .5mm no-repeat,
+  linear-gradient(var(--dc),var(--dc)) right var(--deco-in,6.5mm) top var(--deco-in,6.5mm) / .5mm 9mm no-repeat,
+  linear-gradient(var(--dc),var(--dc)) left var(--deco-in,6.5mm) bottom var(--deco-in,6.5mm) / 9mm .5mm no-repeat,
+  linear-gradient(var(--dc),var(--dc)) left var(--deco-in,6.5mm) bottom var(--deco-in,6.5mm) / .5mm 9mm no-repeat,
+  linear-gradient(var(--dc),var(--dc)) right var(--deco-in,6.5mm) bottom var(--deco-in,6.5mm) / 9mm .5mm no-repeat,
+  linear-gradient(var(--dc),var(--dc)) right var(--deco-in,6.5mm) bottom var(--deco-in,6.5mm) / .5mm 9mm no-repeat}
+.x-ornfr::before{content:"";position:absolute;inset:var(--deco-in,6.5mm);border:.5pt solid var(--dc)}
+.x-ornfr::after{content:"❖";position:absolute;top:calc(var(--deco-in,6.5mm) - 2.3mm);left:50%;transform:translateX(-50%);
+  color:var(--dc);font-size:8pt;background:var(--paper);padding:0 2.4mm;line-height:1}
+.x-stitch::before{content:"";position:absolute;inset:var(--deco-in,6.5mm);border:1pt dashed var(--dc)}
+.x-deco2::before{content:"";position:absolute;inset:var(--deco-in,6.5mm);border:2.2pt solid var(--dc)}
+.x-deco2::after{content:"";position:absolute;inset:calc(var(--deco-in,6.5mm) + 2.6mm);border:.5pt solid var(--dc)}
+.x-ticket::before{content:"";position:absolute;inset:var(--deco-in,6.5mm);border:.7pt solid var(--dc)}
+.x-ticket::after{content:"";position:absolute;inset:0;background:
+  radial-gradient(circle 3mm at var(--deco-in,6.5mm) 50%,var(--paper) 98%,transparent) no-repeat,
+  radial-gradient(circle 3mm at calc(100% - var(--deco-in,6.5mm)) 50%,var(--paper) 98%,transparent) no-repeat}
+.x-flor::before{content:"❦　　❦";position:absolute;left:var(--deco-in,6.5mm);right:var(--deco-in,6.5mm);
+  top:calc(var(--deco-in,6.5mm) - 1.5mm);display:flex;justify-content:space-between;
+  color:var(--dc);font-size:11pt;line-height:1}
+.x-flor::after{content:"❦　　❦";position:absolute;left:var(--deco-in,6.5mm);right:var(--deco-in,6.5mm);
+  bottom:calc(var(--deco-in,6.5mm) - 1.5mm);display:flex;justify-content:space-between;
+  color:var(--dc);font-size:11pt;line-height:1;transform:scaleY(-1)}
+
+/* ============================================================
+   MICRO-POLISH & MOTION
+   ============================================================ */
+.d-noir .h-ttl{text-shadow:0 0 6mm color-mix(in srgb,var(--accent) 16%,transparent)}
+.d-lum .cat-head::after{content:"◆";display:block;color:var(--accent);font-size:calc(4.6pt*var(--fs));margin-top:1.8mm}
+@media screen{
+  .page{animation:pgin .3s ease}
+  @keyframes pgin{from{opacity:.35;transform:translateY(4px)}to{opacity:1;transform:none}}
+  .page{animation-timing-function:cubic-bezier(.16,1,.3,1)}
+  .btn:focus-visible,.dbtn:focus-visible,.sw-c:focus-visible,select:focus-visible{outline:2px solid #1b1b1b;outline-offset:1px}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none !important;transition:none !important}
+}
+
+/* ============================================================
+   EMPTY OPTIONAL FIELDS  ―  must not reserve a line box
+   (declared after every design block so it wins the cascade)
+   ============================================================ */
+.it-desc:empty,.cat-en:empty,.h-en:empty,.h-tag:empty,.mfoot [contenteditable]:empty{display:none}
+@media screen{
+  .item:hover .it-desc:empty,.item:focus-within .it-desc:empty,
+  .cat-head:hover .cat-en:empty,.cat-head:focus-within .cat-en:empty,
+  .mhead:hover .h-en:empty,.mhead:hover .h-tag:empty,.mhead:focus-within [contenteditable]:empty,
+  .mfoot:hover [contenteditable]:empty,.mfoot:focus-within [contenteditable]:empty{display:block}
+}
+
+/* ============================================================
+   PRINT
+   ============================================================ */
+@page{size:A4;margin:0}
+@media print{
+  html,body{background:#fff !important}
+  .side,.mask,.warn,.pagegap{display:none !important}
+  .app{display:block}
+  .stagewrap{padding:0 !important;overflow:visible !important}
+  .stagebox{height:auto !important;width:auto !important;margin:0 !important}
+  #stage{transform:none !important;width:auto !important}
+  .page{box-shadow:none !important;margin:0 !important;break-after:page;page-break-after:always}
+  .page:last-child{break-after:auto;page-break-after:auto}
+  .ctl,.addcat{display:none !important}
+  [contenteditable]:empty::before{content:"" !important}
+  .ph-empty{display:none !important}
+  .d-grid .item:has(.ph-empty) .it-top{padding-top:2.6mm}
+  [contenteditable]{box-shadow:none !important;background:transparent !important}
+  *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
+</style>
+</head>
+<body class="lp-mode">
+<div id="lp">
+  <header class="lph">
+    <div class="lpbrand"><span class="lplogo">M</span>MenuFits<span class="lpkana">メニューフィッツ</span></div>
+  </header>
+  <section class="lphero">
+    <div class="lpeyebrow">FREE ・ NO SIGN-UP ・ A4 PDF</div>
+    <h1>お店のメニューを、<br>ひらいて、打ちかえて、<em>PDF。</em></h1>
+    <p class="lplead">飲食店のためのメニュー作成ツール。登録もインストールも不要。<br class="pcbr">デザイン11種 × 書体378通り。縦書きの品書きも、写真メニューも。</p>
+    <div class="lpcta">
+      <button class="lpbtn primary lpstart" data-sample="cafe">サンプルから始める</button>
+      <button class="lpbtn lpstart" data-sample="blank">白紙から作る</button>
+    </div>
+    <div class="lpnote">作成データはあなたのブラウザ内にだけ保存されます。サーバーには送信されません。</div>
+  </section>
+  <section class="lpsec">
+    <h2>３つの特徴</h2>
+    <div class="lpfeat">
+      <div><b>ひらくだけ</b><p>アプリ登録も、月額も、透かしもなし。ブラウザで開けば、そのまま編集が始まります。</p></div>
+      <div><b>紙の上で直接編集</b><p>文字をクリックして打ちかえる。写真は 📷 から。収まらなければ自動で整えます。</p></div>
+      <div><b>A4ぴったりのPDF</b><p>コンビニ印刷にも、印刷所への入稿にも。飾り枠・背景柄・文字装飾まで、そのまま出ます。</p></div>
+    </div>
+  </section>
+  <section class="lpsec">
+    <h2>11のデザイン</h2>
+    <p class="lpsub">クリックすると、そのデザインのサンプルが開きます。</p>
+    <div class="lpdesigns" id="lpDesigns"></div>
+  </section>
+  <section class="lpsec">
+    <h2>使い方は３ステップ</h2>
+    <ol class="lpsteps">
+      <li><b>えらぶ</b><span>デザインとサンプルを選ぶ</span></li>
+      <li><b>打ちかえる</b><span>紙の上の文字をクリックして、そのまま編集</span></li>
+      <li><b>PDFにする</b><span>ボタンひとつで、A4ぴったりに出力</span></li>
+    </ol>
+    <div class="lpcta bottom">
+      <button class="lpbtn primary lpstart" data-sample="cafe">今すぐ作ってみる</button>
+    </div>
+  </section>
+  <footer class="lpfoot">
+    <div class="lprow">
+      <a href="#" id="lpHelp">使い方</a><span>・</span>
+      <a href="#" id="lpPriv">プライバシー・免責</a><span>・</span>
+      <a href="https://kokokikaku.com/" target="_blank" rel="noopener">運営：ここ企画</a>
+    </div>
+    <div class="lprow lpshare">
+      <button class="lpbtn mini" data-share="x">X でシェア</button>
+      <button class="lpbtn mini" data-share="line">LINE で送る</button>
+      <button class="lpbtn mini" data-share="copy">リンクをコピー</button>
+    </div>
+    <div class="lpc">© ここ企画 ／ MenuFits</div>
+  </footer>
+</div>
+<div class="app">
+
+  <aside class="side">
+    <h1 style="display:flex;align-items:center;gap:8px"><span class="lplogo" style="width:26px;height:26px;font-size:15px;border-radius:7px">M</span>MenuFits</h1>
+    <div class="sub">飲食店メニュー ／ A4・登録不要・ブラウザで完結</div>
+
+    <div class="grp">
+      <span class="lb">01 ＿ デザインを選ぶ</span>
+      <div class="designs" id="designs"></div>
+    </div>
+
+    <div class="grp">
+      <span class="lb">02 ＿ カラー</span>
+      <div class="swatches" id="swatches"></div>
+      <div class="row" style="margin-top:9px">
+        <input type="color" id="accentPick" style="width:38px;height:32px;padding:0;border:1px solid var(--ui-line);border-radius:6px;background:#fff;cursor:pointer">
+        <span style="font-size:12px;color:var(--ui-mut)">アクセントを自由に指定</span>
+      </div>
+      <span class="lb" style="margin:14px 0 8px">詳細パレット（個別に上書き）</span>
+      <div class="cgrid">
+        <label>紙<input type="color" id="cpPaper" data-ck="paper"><button class="crst" data-cr="paper" title="デザイン標準に戻す">✕</button></label>
+        <label>文字<input type="color" id="cpInk" data-ck="ink"><button class="crst" data-cr="ink" title="デザイン標準に戻す">✕</button></label>
+        <label>柄<input type="color" id="cpPat" data-ck="pat"><button class="crst" data-cr="pat" title="自動（文字色）に戻す">✕</button></label>
+        <label>枠<input type="color" id="cpDeco" data-ck="deco"><button class="crst" data-cr="deco" title="自動（アクセント）に戻す">✕</button></label>
+      </div>
+    </div>
+
+    <div class="grp">
+      <span class="lb">03 ＿ 書体（和文 × 欧文）</span>
+      <select id="fontJp">
+        <option value="">和文：デザイン標準</option>
+        <optgroup label="明朝">
+          <option value="shippori">しっぽり明朝（上品）</option>
+          <option value="zenold">Zen古典明朝（和・骨格）</option>
+          <option value="serifjp">Noto明朝（重厚）</option>
+          <option value="kaisei">解星 特ミン（レトロかわいい）</option>
+          <option value="hina">ひな明朝（繊細・華奢）</option>
+          <option value="zenat">Zenアンティーク（古書・喫茶）</option>
+          <option value="shipb1">しっぽり明朝B1（ふところ広め・リブランド系）</option>
+        </optgroup>
+        <optgroup label="ゴシック・丸ゴ">
+          <option value="gothic">Zen角ゴシック（標準）</option>
+          <option value="noto">Notoゴシック（実直）</option>
+          <option value="maru">Zen丸ゴシック（親しみ）</option>
+          <option value="ibm">IBM Plex JP（ニュートラル・現代）</option>
+          <option value="mplus">M PLUS 2（クリーン・テック）</option>
+        </optgroup>
+        <optgroup label="ディスプレイ">
+          <option value="kiwi">キウイ丸（やさしい・カフェ）</option>
+          <option value="yusei">ユセイマジック（マーカー手書き）</option>
+          <option value="klee">クレー（手書き・教科書体）</option>
+          <option value="yuji">佑字 肅（筆文字・和酒場）</option>
+          <option value="mochiy">モッチーポップ（ポップ）</option>
+          <option value="rock">ロックンロール（元気）</option>
+          <option value="reggae">レゲエ（勢い・ラーメン）</option>
+          <option value="dot">ドット（レトロゲーム）</option>
+          <option value="kure">クレナイド（サインペン・ナチュラル）</option>
+        </optgroup>
+      </select>
+      <div style="height:8px"></div>
+      <select id="fontEn">
+        <option value="">欧文：デザイン標準</option>
+        <optgroup label="セリフ">
+          <option value="cormorant">Cormorant（繊細）</option>
+          <option value="playfair">Playfair（クラシック）</option>
+          <option value="fraunces">Fraunces（今っぽい柔らかさ）</option>
+          <option value="marcellus">Marcellus（碑文・静謐）</option>
+          <option value="italiana">Italiana（高級ロゴ風）</option>
+          <option value="cinzel">Cinzel（碑文・ラグジュアリー）</option>
+          <option value="dmserif">DM Serif（クラシック見出し）</option>
+          <option value="instrument">Instrument Serif（今のトレンド）</option>
+          <option value="young">Young Serif（レトロ×今）</option>
+          <option value="gloock">Gloock（エディトリアル）</option>
+        </optgroup>
+        <optgroup label="サンセリフ">
+          <option value="jost">Jost（幾何学・標準）</option>
+          <option value="space">Space Grotesk（モダン）</option>
+          <option value="bebas">Bebas Neue（縦長・強い）</option>
+          <option value="oswald">Oswald（コンデンス）</option>
+          <option value="poiret">Poiret One（アールデコ・細線）</option>
+          <option value="syne">Syne（アート・前衛）</option>
+          <option value="brico">Bricolage（今のグロテスク）</option>
+        </optgroup>
+        <optgroup label="スクリプト">
+          <option value="vibes">Great Vibes（筆記体・フォーマル）</option>
+        </optgroup>
+      </select>
+    </div>
+
+    <div class="grp">
+      <span class="lb">04 ＿ 背景・装飾</span>
+      <div class="chips" id="patChips"></div>
+      <div class="row" style="margin-top:10px">
+        <span class="rlb">濃さ</span>
+        <input type="range" id="patop" min="0.03" max="0.45" step="0.01" value="0.08">
+      </div>
+      <div class="row" style="margin-top:8px">
+        <span class="rlb">大きさ</span>
+        <input type="range" id="patscale" min="0.4" max="2.4" step="0.05" value="1">
+      </div>
+      <div class="row" style="margin-top:8px">
+        <span class="rlb">ずらし</span>
+        <input type="range" id="patx" min="-15" max="15" step="0.5" value="0" title="左右">
+        <input type="range" id="paty" min="-15" max="15" step="0.5" value="0" title="上下">
+      </div>
+      <div style="height:12px"></div>
+      <span class="lb" style="margin-bottom:8px">飾り枠</span>
+      <div class="chips chips-5" id="decoChips"></div>
+      <div class="row" style="margin-top:9px">
+        <span class="rlb">枠の余白</span>
+        <input type="range" id="decoin" min="3" max="16" step="0.5" value="6.5">
+      </div>
+      <span class="lb" style="margin:14px 0 8px">背景画像（手持ちの素材）</span>
+      <div class="row">
+        <button class="btn" id="bgBtn">画像を選ぶ</button>
+        <button class="btn" id="bgDel">外す</button>
+      </div>
+      <div class="row" style="margin-top:9px">
+        <span class="rlb">濃さ</span>
+        <input type="range" id="bgop" min="0.05" max="1" step="0.05" value="1">
+      </div>
+      <input type="file" id="bgInput" accept="image/*" hidden>
+    </div>
+
+    <div class="grp">
+      <span class="lb">05 ＿ レイアウト</span>
+      <div class="row">
+        <select id="colsel" style="flex:1">
+          <option value="0">段組み：デザイン標準</option>
+          <option value="1">1段組み</option>
+          <option value="2">2段組み</option>
+        </select>
+      </div>
+      <div class="row" style="margin-top:10px">
+        <span class="rlb">文字</span>
+        <input type="range" id="fsr" min="0.72" max="1.35" step="0.01" value="1">
+        <span id="fsv" style="font-size:12px;color:var(--ui-mut);width:38px;text-align:right">100%</span>
+      </div>
+      <div class="row" style="margin-top:10px">
+        <select id="cursel" style="flex:1">
+          <option value="pre">価格表記：¥1,200</option>
+          <option value="suf">価格表記：1,200 円</option>
+          <option value="none">価格表記：1200</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="grp">
+      <span class="lb">06 ＿ 画像（任意）</span>
+      <div class="row">
+        <button class="btn" id="logoBtn">ロゴを選ぶ</button>
+        <button class="btn" id="logoDel">外す</button>
+      </div>
+      <div class="row">
+        <button class="btn" id="heroBtn">ヘッダー写真</button>
+        <button class="btn" id="heroDel">外す</button>
+      </div>
+      <div style="font-size:11.5px;color:var(--ui-mut);margin-top:8px;line-height:1.75">料理の写真は、紙の上の品目に出る <b>📷</b> から入れられます。</div>
+      <input type="file" id="logoInput" accept="image/*" hidden>
+      <input type="file" id="heroInput" accept="image/*" hidden>
+      <input type="file" id="photoInput" accept="image/*" hidden>
+    </div>
+
+    <div class="grp">
+      <span class="lb">07 ＿ 保存・読み込み</span>
+      <div class="row">
+        <button class="btn" id="slotSaveBtn">スロットへ保存</button>
+      </div>
+      <div class="row" style="margin-top:8px">
+        <select id="slotSel" style="flex:2"><option value="">保存スロット…</option></select>
+        <button class="btn" id="slotLoadBtn" style="flex:1">開く</button>
+        <button class="btn" id="slotDelBtn" style="flex:0 1 auto">✕</button>
+      </div>
+      <div style="font-size:11.5px;color:var(--ui-mut);margin:8px 0 10px;line-height:1.75">スロットはこのブラウザ内の保存です。別のPCへ渡す・確実に残すときは下のファイル保存を。</div>
+      <div class="row">
+        <button class="btn" id="expBtn">ファイルに保存（.json）</button>
+        <button class="btn" id="impBtn">ファイルを開く</button>
+      </div>
+      <input type="file" id="impInput" accept="application/json,.json" hidden>
+      <div class="row" style="margin-top:8px">
+        <button class="btn primary" id="printBtn">PDF ／ 印刷する</button>
+      </div>
+    </div>
+
+    <div class="grp">
+      <span class="lb">08 ＿ マイデータ（店舗・品目）</span>
+      <div class="row">
+        <select id="shopSel" style="flex:1"><option value="">店舗プロフィール…</option></select>
+      </div>
+      <div class="row" style="margin-top:8px">
+        <button class="btn" id="shopSaveBtn">今の店舗情報を登録</button>
+        <button class="btn" id="shopApplyBtn" style="flex:0 1 auto">適用</button>
+        <button class="btn" id="shopDelBtn" style="flex:0 1 auto">✕</button>
+      </div>
+      <div style="font-size:11.5px;color:var(--ui-mut);margin-top:9px;line-height:1.8">よく使う品目は、紙面の品目に出る <b>☆</b> で登録 → カテゴリーの <b>📋</b> からすぐ挿入できます。</div>
+    </div>
+
+    <div class="grp">
+      <span class="lb">09 ＿ 中身を差し替える</span>
+      <select id="samplesel">
+        <option value="">サンプルを読み込む…</option>
+        <option value="cafe">カフェ</option>
+        <option value="washoku">和食・居酒屋（縦書き向け）</option>
+        <option value="bistro">ビストロ・バー</option>
+        <option value="chuka">中華・点心</option>
+        <option value="blank">白紙から始める</option>
+      </select>
+      <div class="row" style="margin-top:8px">
+        <button class="btn" id="zoomBtn">表示：幅に合わせる</button>
+        <button class="btn" id="helpBtn">使い方</button>
+        <button class="btn" id="toTop">TOP</button>
+      </div>
+    </div>
+
+    <div class="hintbox">
+      紙の上の文字は <b>クリックしてそのまま書き換え</b> られます。<br>
+      項目やカテゴリーに <b>マウスを乗せる</b> と、追加・並べ替え・削除のボタンが出ます。<br>
+      内容は自動でこのブラウザに保存されます。
+    </div>
+  </aside>
+
+  <div class="stagewrap">
+    <div class="warn" id="warn">内容が多く、自動調整でも1ページに収まりません。カテゴリーの <b>頁+</b> で2ページ目に送るか、品目・説明文を減らしてください。</div>
+    <div class="warn fitnote" id="fitnote">1ページに収めるため、文字を自動で少し小さくしています。<b>頁+</b> で2ページ目に送ると、元の大きさに戻ります。</div>
+    <div class="stagebox" id="stagebox"><div id="stage"></div></div>
+  </div>
+</div>
+
+<div class="ttool" id="ttool" hidden>
+  <button data-tcmd="bold" title="太字"><b>B</b></button>
+  <button data-tcmd="underline" title="下線"><u>U</u></button>
+  <button data-tcmd="mark" title="マーカー"><span class="mkic">あ</span></button>
+  <button data-tcmd="fore" title="アクセント色">A</button>
+  <button data-tcmd="clear" title="装飾を解除">⌫</button>
+</div>
+
+<div class="mask" id="mask"><div class="modal" id="modal"></div></div>
+
+<script>
+/* ============================================================
+   MENU TEMPLATE
+   ============================================================ */
+const $  = (s,r=document)=>r.querySelector(s);
+const $$ = (s,r=document)=>[...r.querySelectorAll(s)];
+const uid = ()=>Math.random().toString(36).slice(2,9);
+const KEY = 'menu-template-v1';
+
+const DESIGNS = [
+  {id:'noir',  nm:'NOIR',      jp:'ビストロ・バー',   sw:'linear-gradient(160deg,#2a2f39,#14161a)'},
+  {id:'kinari',nm:'KINARI',    jp:'和モダン・縦書き', sw:'linear-gradient(160deg,#f7f4ec,#e7e2d4)'},
+  {id:'edit',  nm:'EDITORIAL', jp:'ミニマル・カフェ', sw:'linear-gradient(#fff,#fff) padding-box,#111'},
+  {id:'terra', nm:'TERRA',     jp:'ナチュラル・定食', sw:'linear-gradient(#f8f3ea 52%,#e6cdb8 52%)'},
+  {id:'bold',  nm:'BOLD',      jp:'居酒屋・ラーメン', sw:'linear-gradient(#111 46%,#f2f0eb 46%)'},
+  {id:'lum',   nm:'LUMIERE',   jp:'コース・フレンチ', sw:'linear-gradient(160deg,#fdfbf6,#efe7d6)'},
+  {id:'shu',   nm:'SHU ／ 朱', jp:'中華・点心',       sw:'linear-gradient(135deg,#c73e2e 0 42%,#f8f2e3 42%)'},
+  {id:'pop',   nm:'POP',       jp:'喫茶・ポップ',     sw:'repeating-linear-gradient(-45deg,#ffb45e 0 7px,#fffcf3 7px 14px)'},
+  {id:'grid',  nm:'ALBUM',     jp:'写真メニュー',     sw:'linear-gradient(90deg,#cfd8d0 0 32%,#fff 32% 34%,#e7ded2 34% 66%,#fff 66% 68%,#d9cfc4 68%)'},
+  {id:'split', nm:'SPLIT',     jp:'ビストロノミー',   sw:'linear-gradient(90deg,#203227 0 34%,#f7f3ea 34%)'},
+  {id:'asia',  nm:'SPICE',     jp:'アジアン・エスニック', sw:'conic-gradient(from -135deg at 50% 88%,#b3552e 90deg,#f6ecd8 90deg) 0 0/22% 32% repeat-x, linear-gradient(#f6ecd8,#f0e2c6)'},
+];
+const COLORS = ['#c9a227','#b5623c','#c73e2e','#6f7f5c','#8c3b4a','#3f4f75','#e8873c','#1b1b1b','#a3785a','#4a7a72'];
+const JPF = {
+  shippori:'"Shippori Mincho","Yu Mincho",YuMincho,serif',
+  zenold:'"Zen Old Mincho","Yu Mincho",serif',
+  serifjp:'"Noto Serif JP","Yu Mincho",serif',
+  kaisei:'"Kaisei Tokumin","Yu Mincho",serif',
+  hina:'"Hina Mincho","Yu Mincho",serif',
+  gothic:'"Zen Kaku Gothic New","Yu Gothic",sans-serif',
+  noto:'"Noto Sans JP","Yu Gothic",sans-serif',
+  maru:'"Zen Maru Gothic","Yu Gothic",sans-serif',
+  klee:'"Klee One","Zen Maru Gothic",sans-serif',
+  yuji:'"Yuji Syuku","Yu Mincho",serif',
+  mochiy:'"Mochiy Pop One","Zen Maru Gothic",sans-serif',
+  rock:'"RocknRoll One","Zen Maru Gothic",sans-serif',
+  reggae:'"Reggae One",sans-serif',
+  dot:'"DotGothic16",monospace',
+  kiwi:'"Kiwi Maru","Zen Maru Gothic",sans-serif',
+  yusei:'"Yusei Magic","Zen Maru Gothic",sans-serif',
+  zenat:'"Zen Antique","Yu Mincho",serif',
+  ibm:'"IBM Plex Sans JP","Noto Sans JP",sans-serif',
+  mplus:'"M PLUS 2","Noto Sans JP",sans-serif',
+  kure:'"Zen Kurenaido","Zen Maru Gothic",sans-serif',
+  shipb1:'"Shippori Mincho B1","Shippori Mincho",serif',
+};
+const ENF = {
+  cormorant:'"Cormorant Garamond",Georgia,serif',
+  playfair:'"Playfair Display",Georgia,serif',
+  fraunces:'"Fraunces",Georgia,serif',
+  marcellus:'"Marcellus",Georgia,serif',
+  italiana:'"Italiana",Georgia,serif',
+  jost:'"Jost","Helvetica Neue",sans-serif',
+  space:'"Space Grotesk","Helvetica Neue",sans-serif',
+  bebas:'"Bebas Neue",Impact,sans-serif',
+  cinzel:'"Cinzel",Georgia,serif',
+  dmserif:'"DM Serif Display",Georgia,serif',
+  oswald:'"Oswald","Arial Narrow",sans-serif',
+  poiret:'"Poiret One","Century Gothic",sans-serif',
+  instrument:'"Instrument Serif",Georgia,serif',
+  syne:'"Syne","Helvetica Neue",sans-serif',
+  young:'"Young Serif",Georgia,serif',
+  brico:'"Bricolage Grotesque","Helvetica Neue",sans-serif',
+  gloock:'"Gloock",Georgia,serif',
+  vibes:'"Great Vibes",cursive',
+};
+const FP_LEGACY = { ms:['shippori','cormorant'], gs:['gothic','jost'], mss:['shippori','jost'],
+  gsr:['gothic','cormorant'], sjp:['serifjp','marcellus'], maru:['maru','jost'] };
+const CUR = { pre:['"\\A5"','""'], suf:['""','" 円"'], none:['""','""'] };
+
+/* ---------------- sample data ---------------- */
+const I = (name,price,desc,badge)=>({id:uid(),name,price,desc:desc||'',badge:badge||''});
+const C = (title,titleEn,items)=>({id:uid(),title,titleEn,page:1,items});
+
+const SAMPLES = {
+  cafe:{
+    design:'edit', accent:'#b5623c', cur:'pre',
+    shop:{name:'カフェ ルミエール',nameEn:'Cafe Lumiere',tagline:'朝七時から、灯りをともして。　自家焙煎と、焼きたての一皿。'},
+    foot:{l1:'東京都渋谷区神宮前0-0-0　1F　TEL 03-0000-0000',l2:'OPEN 7:00 - 19:00　定休日 水曜　@cafe_lumiere'},
+    categories:[
+      C('コーヒー','Coffee',[
+        I('ブレンド','550','浅煎りと中深煎りを合わせた、毎日の一杯'),
+        I('本日のシングルオリジン','650','日替わりで一種類。産地はスタッフまで','NEW'),
+        I('カフェラテ','620',''),
+        I('アイスコーヒー','580',''),
+      ]),
+      C('お茶・その他','Tea & Others',[
+        I('有機アールグレイ','600',''),
+        I('ほうじ茶ラテ','620',''),
+        I('自家製レモネード','640','瀬戸内のレモンと蜂蜜で'),
+      ]),
+      C('フード','Food',[
+        I('厚切りトーストセット','780','自家製ジャム / バター / あんバターから選べます'),
+        I('キッシュプレート','1,180','季節の野菜とベーコン、サラダ添え','人気'),
+        I('スープとパン','980','日替わりのスープと自家製カンパーニュ'),
+      ]),
+      C('スイーツ','Sweets',[
+        I('ベイクドチーズケーキ','620',''),
+        I('季節のタルト','680','店頭のショーケースをご覧ください'),
+        I('バニラアイス','480',''),
+      ]),
+    ]
+  },
+  washoku:{
+    design:'kinari', accent:'#8c3b4a', cur:'suf',
+    shop:{name:'旬彩 なごみ',nameEn:'Shunsai Nagomi',tagline:'季節を、少しずつ'},
+    foot:{l1:'京都市中京区木屋町通0-0　075-000-0000',l2:'17:00 - 23:00　日曜定休'},
+    categories:[
+      C('お造り','',[
+        I('本日の三種盛り','1600','その日の一番を、三種'),
+        I('鮪の中落ち','1200',''),
+        I('炙り〆鯖','900',''),
+      ]),
+      C('焼きもの','',[
+        I('鰆の西京焼き','1400','','おすすめ'),
+        I('地鶏のたたき','980',''),
+        I('厚焼き玉子','600',''),
+      ]),
+      C('揚げもの','',[
+        I('季節野菜の天ぷら','1100',''),
+        I('海老しんじょ揚げ','980',''),
+      ]),
+      C('お酒','',[
+        I('日本酒 一合','700','三種よりお選びいただけます'),
+        I('生ビール','650',''),
+        I('梅酒 ソーダ割','600',''),
+      ]),
+    ]
+  },
+  bistro:{
+    design:'noir', accent:'#c9a227', cur:'pre',
+    shop:{name:'ビストロ ノワール',nameEn:'Bistro Noir',tagline:'A LA CARTE & VIN NATUREL'},
+    foot:{l1:'東京都港区西麻布0-0-0　B1　TEL 03-0000-0000',l2:'DINNER 18:00 - 24:00　表示価格は税込です'},
+    categories:[
+      C('前菜','Entree',[
+        I('本日のシャルキュトリー盛り合わせ','1,800','自家製のパテとハム、ピクルスを添えて'),
+        I('鴨のフォアグラのテリーヌ','2,200','','SIGNATURE'),
+        I('季節野菜のバーニャカウダ','1,400',''),
+        I('牡蠣のエスカベッシュ','1,600',''),
+      ]),
+      C('魚料理','Poisson',[
+        I('鮮魚のポワレ ブールブラン','2,800','その日の魚は黒板をご覧ください'),
+        I('帆立と海老のブイヤベース','3,200',''),
+      ]),
+      C('肉料理','Viande',[
+        I('仔羊の香草パン粉焼き','3,600','','人気'),
+        I('黒毛和牛のグリル 200g','4,800',''),
+        I('鴨のコンフィ','2,900','じっくり火を入れた、皮の香ばしさ'),
+      ]),
+      C('デザート','Dessert',[
+        I('クレームブリュレ','900',''),
+        I('タルトタタン バニラアイス添え','1,100',''),
+      ]),
+      C('ワイン','Vin',[
+        I('グラスワイン 赤 / 白','900','ナチュラルワインを常時8種'),
+        I('ボトル','5,500','〜 リストをご用意しています'),
+      ]),
+    ]
+  },
+  chuka:{
+    design:'shu', accent:'#c73e2e', cur:'pre',
+    shop:{name:'華灯樓',nameEn:'KATOHRO',tagline:'点心と小皿、それから紹興酒。'},
+    foot:{l1:'東京都豊島区西池袋0-0-0　TEL 03-0000-0000',l2:'11:30 - 15:00 ／ 17:00 - 23:00　無休'},
+    categories:[
+      C('前菜','Appetizer',[
+        I('よだれ鶏','780','自家製ラー油と花椒の香り','人気'),
+        I('蒸し鶏の葱ソース','720',''),
+        I('ピータン豆腐','580',''),
+        I('搾菜と胡瓜の和えもの','480',''),
+      ]),
+      C('点心','Dim Sum',[
+        I('小籠包（四個）','680','熱い肉汁にご注意ください','名物'),
+        I('海老蒸し餃子（三個）','620',''),
+        I('焼き餃子（五個）','550',''),
+        I('大根餅','520',''),
+      ]),
+      C('主菜','Main',[
+        I('麻婆豆腐','980','四川山椒の痺れる辛さ'),
+        I('大海老のチリソース','1,480',''),
+        I('黒酢の酢豚','1,180',''),
+        I('青菜の強火炒め','780',''),
+      ]),
+      C('飯・麺','Rice & Noodle',[
+        I('五目炒飯','880',''),
+        I('担々麺','950','胡麻濃厚。辛さ控えめもできます'),
+        I('海鮮おこげ','1,280',''),
+      ]),
+      C('甜品','Dessert',[
+        I('杏仁豆腐','450',''),
+        I('マンゴープリン','480',''),
+        I('胡麻団子（三個）','420',''),
+      ]),
+    ]
+  },
+};
+SAMPLES.blank = {
+  design:'edit', accent:'#1b1b1b', cur:'pre',
+  shop:{name:'',nameEn:'',tagline:''},
+  foot:{l1:'',l2:''},
+  categories:[ C('','',[I('','',''),I('','',''),I('','','')]) ]
+};
+
+/* ---------------- state ---------------- */
+function fresh(key){
+  const s = JSON.parse(JSON.stringify(SAMPLES[key]));
+  return {
+    design:s.design, accent:s.accent, fontJp:'', fontEn:'', cols:0, fs:1, cur:s.cur,
+    pattern:'', patOp:.08, patScale:1, patX:0, patY:0, deco:'', decoIn:6.5,
+    colors:{paper:'',ink:'',pat:'',deco:''}, bgImg:null, bgOp:1,
+    logo:null, hero:null, shop:s.shop, foot:s.foot, categories:s.categories
+  };
+}
+let state, zoom='fit';
+try{ state = JSON.parse(localStorage.getItem(KEY)) }catch(e){}
+if(!state || !state.categories) state = fresh('cafe');
+// migrate older saves
+if(state.font && FP_LEGACY[state.font] && !state.fontJp){ [state.fontJp,state.fontEn]=FP_LEGACY[state.font]; }
+state.fontJp=state.fontJp||''; state.fontEn=state.fontEn||'';
+state.pattern=state.pattern||''; state.deco=state.deco||'';
+if(typeof state.patOp!=='number') state.patOp=.08;
+if(typeof state.bgOp!=='number') state.bgOp=1;
+if(typeof state.patScale!=='number') state.patScale=1;
+if(typeof state.patX!=='number') state.patX=0;
+if(typeof state.patY!=='number') state.patY=0;
+if(typeof state.decoIn!=='number') state.decoIn=6.5;
+state.colors=state.colors||{paper:'',ink:'',pat:'',deco:''};
+
+const save = ()=>{ try{ localStorage.setItem(KEY,JSON.stringify(state)) }catch(e){} };
+const get = p=>p.split('.').reduce((o,k)=>(o==null?o:o[k]),state);
+function set(p,v){ const ks=p.split('.'), last=ks.pop(); ks.reduce((o,k)=>o[k],state)[last]=v; }
+
+/* ---------------- dom helpers ---------------- */
+function el(tag,cls,txt){ const n=document.createElement(tag); if(cls)n.className=cls; if(txt!=null)n.textContent=txt; return n; }
+function plain(html){ const d=document.createElement('div'); d.innerHTML=html||''; return d.textContent; }
+function sanitizeHTML(html){
+  const d=document.createElement('div'); d.innerHTML=html||'';
+  (function walk(node){
+    [...node.childNodes].forEach(ch=>{
+      if(ch.nodeType===3) return;
+      if(ch.nodeType!==1){ ch.remove(); return; }
+      walk(ch);
+      const tag=ch.tagName;
+      if(tag==='BR'){ ch.replaceWith(document.createTextNode(' ')); return; }
+      if(tag==='B'||tag==='STRONG'){
+        const b=document.createElement('b'); while(ch.firstChild) b.appendChild(ch.firstChild); ch.replaceWith(b); return;
+      }
+      if(tag==='U'){
+        const u=document.createElement('u'); while(ch.firstChild) u.appendChild(ch.firstChild); ch.replaceWith(u); return;
+      }
+      if(tag==='SPAN'||tag==='FONT'){
+        const st=ch.getAttribute('style')||'';
+        let col=(st.match(/(?:^|;)\s*color:\s*([^;]+)/i)||[])[1];
+        if(!col && tag==='FONT') col=ch.getAttribute('color');
+        let bg=(st.match(/background(?:-color)?:\s*([^;]+)/i)||[])[1];
+        if(bg && /^transparent$/i.test(bg.trim())) bg='';
+        let css='';
+        if(col) css+='color:'+col.trim()+';';
+        if(bg) css+='background-color:'+bg.trim()+';';
+        if(css){ const sp=document.createElement('span'); sp.setAttribute('style',css);
+          while(ch.firstChild) sp.appendChild(ch.firstChild); ch.replaceWith(sp); }
+        else { ch.replaceWith(...ch.childNodes); }
+        return;
+      }
+      ch.replaceWith(...ch.childNodes);
+    });
+  })(d);
+  d.querySelectorAll('b,u,span').forEach(e2=>{ if(!e2.textContent.trim()) e2.remove(); });
+  return d.innerHTML.replace(/\u00a0/g,' ').replace(/^\s+|\s+$/g,'');
+}
+function ed(path,cls,ph,tag){
+  const n=el(tag||'div',cls);
+  n.contentEditable='true'; n.spellcheck=false;
+  n.dataset.path=path; n.dataset.ph=ph;
+  n.innerHTML=sanitizeHTML(get(path)||'');
+  return n;
+}
+function ctl(kind,attrs,btns){
+  const d=el('div','ctl ctl-'+kind);
+  d.innerHTML=btns.map(b=>
+    `<button ${b[2]?'class="dg" ':''}data-act="${b[0]}" ${attrs} title="${b[3]||''}">${b[1]}</button>`
+  ).join('');
+  return d;
+}
+
+/* ---------------- build ---------------- */
+function buildItem(ci,ii,it){
+  const li=el('li','item'+(it.badge?' has-badge':'')+(it.photo?' has-photo':''));
+  const b=`data-ci="${ci}" data-ii="${ii}"`;
+  li.appendChild(ctl('item',b,[
+    ['it-up','↑',0,'上へ'],['it-dn','↓',0,'下へ'],['it-dup','⧉',0,'複製'],
+    ['it-badge','★',0,'タグを付ける／外す'],['it-lib','☆',0,'品目ライブラリへ登録'],
+    ['it-photo','📷',0,'写真を入れる／差し替える'],
+    ['it-photo-del','📷✕',1,'写真を外す'],
+    ['it-add','＋',0,'下に追加'],['it-del','✕',1,'削除']
+  ]));
+  const ph=el('div','it-photo'+(it.photo?'':' ph-empty'));
+  if(it.photo){const im=new Image();im.src=it.photo;ph.appendChild(im);}
+  li.appendChild(ph);
+  const top=el('div','it-top');
+  const nw=el('span','it-nw');
+  nw.appendChild(ed(`categories.${ci}.items.${ii}.name`,'it-name','品名','span'));
+  nw.appendChild(ed(`categories.${ci}.items.${ii}.badge`,'it-badge','タグ','span'));
+  top.appendChild(nw);
+  top.appendChild(ed(`categories.${ci}.items.${ii}.price`,'it-price','0','span'));
+  li.appendChild(top);
+  li.appendChild(ed(`categories.${ci}.items.${ii}.desc`,'it-desc','説明（空欄でも可）','div'));
+  return li;
+}
+function buildCat(c,ci){
+  const s=el('section','cat');
+  s.appendChild(ctl('cat',`data-ci="${ci}"`,[
+    ['ct-up','↑',0,'上へ'],['ct-dn','↓',0,'下へ'],['ct-dup','⧉',0,'複製'],['ct-lib','📋',0,'ライブラリから品目を挿入'],
+    ['ct-pg+','頁+',0,'次のページへ送る'],['ct-pg-','頁−',0,'前のページへ戻す'],
+    ['ct-add','＋',0,'下にカテゴリーを追加'],['ct-del','✕',1,'削除']
+  ]));
+  const h=el('div','cat-head');
+  h.appendChild(ed(`categories.${ci}.title`,'cat-ttl','カテゴリー名','h2'));
+  h.appendChild(ed(`categories.${ci}.titleEn`,'cat-en','English','span'));
+  s.appendChild(h);
+  const ul=el('ul','items');
+  c.items.forEach((it,ii)=>ul.appendChild(buildItem(ci,ii,it)));
+  s.appendChild(ul);
+  return s;
+}
+function buildPage(p){
+  const page=el('div','page d-'+state.design);
+  page.style.setProperty('--accent',state.accent);
+  page.style.setProperty('--fs',state.fs);
+  if(+state.cols) page.style.setProperty('--cols',state.cols);
+  if(state.fontJp&&JPF[state.fontJp]) page.style.setProperty('--f-jp',JPF[state.fontJp]);
+  if(state.fontEn&&ENF[state.fontEn]) page.style.setProperty('--f-en',ENF[state.fontEn]);
+  page.style.setProperty('--pat-op',state.patOp);
+  page.style.setProperty('--pat-scale',state.patScale);
+  page.style.setProperty('--pat-x',state.patX+'mm');
+  page.style.setProperty('--pat-y',state.patY+'mm');
+  page.style.setProperty('--deco-in',state.decoIn+'mm');
+  page.style.setProperty('--bg-op',state.bgOp);
+  const C=state.colors||{};
+  if(C.paper){ page.style.setProperty('--paper',C.paper); page.style.background=C.paper; }
+  if(C.ink) page.style.setProperty('--ink',C.ink);
+  if(C.pat) page.style.setProperty('--pat-col',C.pat);
+  if(C.deco) page.style.setProperty('--deco-col',C.deco);
+  if(state.bgImg){ const bw=el('div','bgimg-w'); const bi=new Image(); bi.src=state.bgImg; bw.appendChild(bi); page.appendChild(bw); }
+  if(state.pattern) page.appendChild(el('div','pattern-w p-'+state.pattern));
+  if(state.deco) page.appendChild(el('div','deco-w x-'+state.deco));
+  let cur=state.cur; if(state.design==='kinari') cur='none';
+  page.style.setProperty('--cur-pre',CUR[cur][0]);
+  page.style.setProperty('--cur-suf',CUR[cur][1]);
+
+  const inn=el('div','page-in');
+  if(state.logo){
+    const lw=el('div','logo-w'); const im=document.createElement('img'); im.src=state.logo; lw.appendChild(im); inn.appendChild(lw);
+  }
+  if(state.hero && p===1){
+    const hw=el('div','hero-w'); const im=document.createElement('img'); im.src=state.hero; hw.appendChild(im); inn.appendChild(hw);
+  }
+  const hd=el('header','mhead');
+  const hl=el('div','h-l');
+  hl.appendChild(ed('shop.nameEn','h-en','ENGLISH NAME','div'));
+  hl.appendChild(ed('shop.name','h-ttl','店名を入力','h1'));
+  hd.appendChild(hl);
+  hd.appendChild(ed('shop.tagline','h-tag','ひとことキャッチコピー','div'));
+  inn.appendChild(hd);
+
+  const body=el('div','mbody');
+  state.categories.forEach((c,ci)=>{ if((c.page||1)===p) body.appendChild(buildCat(c,ci)); });
+  inn.appendChild(body);
+
+  const add=el('button','addcat','＋ カテゴリーを追加');
+  add.dataset.act='ct-add-end'; add.dataset.page=p;
+  inn.appendChild(add);
+
+  const ft=el('footer','mfoot');
+  ft.appendChild(ed('foot.l1','f1','住所・電話番号など','div'));
+  ft.appendChild(ed('foot.l2','f2','営業時間・SNSなど','div'));
+  inn.appendChild(ft);
+
+  page.appendChild(inn);
+  return page;
+}
+function render(){
+  const total=Math.max(1,...state.categories.map(c=>c.page||1));
+  const st=$('#stage'); st.innerHTML='';
+  for(let p=1;p<=total;p++) st.appendChild(buildPage(p));
+  fit(); checkOverflow();
+}
+
+/* ---------------- fit / overflow ---------------- */
+function fit(){
+  const wrap=$('.stagewrap'), box=$('#stagebox'), st=$('#stage');
+  st.style.transform='none'; st.style.width='210mm'; st.style.transformOrigin='top left';
+  const w=st.offsetWidth||794, h=st.offsetHeight||1123;
+  const s = zoom==='100' ? 1 : Math.min(1,(wrap.clientWidth-56)/w);
+  st.style.transform='scale('+s+')';
+  box.style.width=(w*s)+'px'; box.style.height=(h*s)+'px';
+}
+function isOver(p){
+  const inn=p.querySelector('.page-in'), mb=p.querySelector('.mbody');
+  if(inn.scrollHeight>inn.clientHeight+2) return true;
+  if(mb && (mb.scrollHeight>mb.clientHeight+2 || mb.scrollWidth>mb.clientWidth+2)) return true;
+  return false;
+}
+function checkOverflow(){
+  let over=false, shrunk=false;
+  $$('.page').forEach(p=>{
+    // reset page-local fallbacks to the user's base settings
+    p.style.setProperty('--fs',state.fs);
+    p.style.removeProperty('--gcols');
+    if(!+state.cols) p.style.removeProperty('--cols');
+    if(!isOver(p)) return;
+    // fallback 1: an extra column
+    if(state.design==='grid') p.style.setProperty('--gcols','4');
+    else if(!+state.cols && state.design!=='kinari') p.style.setProperty('--cols','2');
+    if(!isOver(p)){ return; }
+    // fallback 2: auto-fit — gently shrink this page until it fits
+    for(const k of [.96,.92,.88,.84,.8]){
+      p.style.setProperty('--fs',state.fs*k);
+      if(!isOver(p)){ shrunk=true; break; }
+    }
+    if(isOver(p)) over=true; else shrunk=true;
+  });
+  $('#warn').classList.toggle('on',over);
+  $('#fitnote').classList.toggle('on',shrunk&&!over);
+}
+addEventListener('resize',fit);
+
+/* ---------------- inline editing ---------------- */
+const stage=$('#stage');
+stage.addEventListener('input',e=>{
+  const t=e.target.closest('[data-path]'); if(!t) return;
+  const v=sanitizeHTML(t.innerHTML);
+  set(t.dataset.path,v);
+  $$('[data-path="'+t.dataset.path+'"]').forEach(n=>{ if(n!==t) n.innerHTML=v; });
+  const li=t.closest('.item');
+  if(li && t.classList.contains('it-badge')) li.classList.toggle('has-badge',!!plain(v).trim());
+  save(); clearTimeout(window._ov); window._ov=setTimeout(checkOverflow,180);
+});
+stage.addEventListener('keydown',e=>{ if(e.key==='Enter'&&e.target.isContentEditable) e.preventDefault(); });
+stage.addEventListener('paste',e=>{
+  if(!e.target.isContentEditable) return;
+  e.preventDefault();
+  const t=(e.clipboardData||window.clipboardData).getData('text').replace(/\s*\n\s*/g,' ');
+  document.execCommand('insertText',false,t);
+});
+stage.addEventListener('focusin',e=>{
+  const li=e.target.closest('.item');
+  if(li) li.classList.toggle('editing-badge',e.target.classList.contains('it-badge'));
+});
+stage.addEventListener('focusout',e=>{
+  const li=e.target.closest('.item'); if(li) li.classList.remove('editing-badge');
+});
+
+/* ---------------- structural actions ---------------- */
+const newItem=()=>({id:uid(),name:'',price:'',desc:'',badge:'',photo:''});
+const mv=(a,i,d)=>{ const j=i+d; if(j<0||j>=a.length) return; [a[i],a[j]]=[a[j],a[i]]; };
+
+document.addEventListener('click',e=>{
+  const b=e.target.closest('[data-act]'); if(!b) return;
+  const a=b.dataset.act, ci=+b.dataset.ci, ii=+b.dataset.ii, K=state.categories;
+  const items = K[ci] ? K[ci].items : null;
+  switch(a){
+    case 'ct-add-end': K.push({id:uid(),title:'新しいカテゴリー',titleEn:'',page:+b.dataset.page||1,items:[newItem(),newItem()]}); break;
+    case 'ct-add': K.splice(ci+1,0,{id:uid(),title:'新しいカテゴリー',titleEn:'',page:K[ci].page||1,items:[newItem(),newItem()]}); break;
+    case 'ct-del': if(K.length<=1) return; K.splice(ci,1); break;
+    case 'ct-dup': K.splice(ci+1,0,JSON.parse(JSON.stringify({...K[ci],id:uid()}))); break;
+    case 'ct-up' : mv(K,ci,-1); break;
+    case 'ct-dn' : mv(K,ci, 1); break;
+    case 'ct-pg+': K[ci].page=(K[ci].page||1)+1; break;
+    case 'ct-pg-': K[ci].page=Math.max(1,(K[ci].page||1)-1); break;
+    case 'it-add': items.splice(ii+1,0,newItem()); break;
+    case 'it-del': if(items.length<=1) return; items.splice(ii,1); break;
+    case 'it-dup': items.splice(ii+1,0,{...JSON.parse(JSON.stringify(items[ii])),id:uid()}); break;
+    case 'it-up' : mv(items,ii,-1); break;
+    case 'it-dn' : mv(items,ii, 1); break;
+    case 'it-badge': items[ii].badge = items[ii].badge ? '' : 'おすすめ'; break;
+    case 'it-lib': libAddItem(items[ii]); return;
+    case 'ct-lib': openLibPicker(ci); return;
+    case 'it-photo': photoTarget={ci,ii}; const pi=$('#photoInput'); pi.value=''; pi.click(); return;
+    case 'it-photo-del': items[ii].photo=''; break;
+    default: return;
+  }
+  // drop empty trailing pages
+  const mx=Math.max(1,...K.map(c=>c.page||1));
+  for(let p=1;p<=mx;p++){ if(!K.some(c=>(c.page||1)===p)) K.forEach(c=>{ if((c.page||1)>p) c.page--; }); }
+  save(); render();
+});
+
+/* ---------------- sidebar ---------------- */
+const dwrap=$('#designs');
+DESIGNS.forEach(d=>{
+  const b=el('button','dbtn'+(state.design===d.id?' on':''));
+  b.innerHTML=`<span class="sw" style="background:${d.sw}"></span><span class="nm">${d.nm}<small>${d.jp}</small></span>`;
+  b.onclick=()=>{ state.design=d.id; save(); syncUI(); render(); };
+  dwrap.appendChild(b);
+});
+const swrap=$('#swatches');
+COLORS.forEach(c=>{
+  const b=el('button','sw-c'+(state.accent===c?' on':''));
+  b.style.background=c; b.dataset.c=c;
+  b.onclick=()=>{ state.accent=c; save(); syncUI(); render(); };
+  swrap.appendChild(b);
+});
+$('#accentPick').oninput=e=>{ state.accent=e.target.value; save(); syncUI(); render(); };
+$('#fontJp').onchange=e=>{ state.fontJp=e.target.value; save(); render(); };
+$('#fontEn').onchange=e=>{ state.fontEn=e.target.value; save(); render(); };
+const PATTERNS=[['','なし'],['washi','和紙'],['seigaiha','青海波'],['dots','水玉'],
+  ['grid','方眼'],['stripe','斜線'],['check','市松'],['linen','リネン'],
+  ['herr','杉綾'],['wave','波'],['diam','ダイヤ'],['zig','山道'],['rings','輪'],['cross','十字'],
+  ['terrazzo','テラゾー'],['fans','扇'],['leafp','リーフ'],['tilem','タイル'],
+  ['sashiko','刺し子'],['star','星'],['bubble','泡'],['tri','三角'],['argyle','アーガイル'],['hex','六角']];
+const DECOS=[['','なし'],['frame','細枠'],['double','二重'],['corner','角'],['ornfr','飾り'],
+  ['stitch','点線'],['deco2','太枠'],['ticket','チケット'],['flor','花角']];
+const patWrap=$('#patChips');
+PATTERNS.forEach(([id,nm])=>{
+  const b=el('button','chip'); b.dataset.v=id; b.title='背景：'+nm;
+  b.innerHTML=(id?`<span class="pv pattern-w p-${id}" style="--ink:#3f382a;--pat-op:.5"></span>`:'')+`<b>${nm}</b>`;
+  b.onclick=()=>{ state.pattern=id; save(); syncUI(); render(); };
+  patWrap.appendChild(b);
+});
+const decoWrap=$('#decoChips');
+DECOS.forEach(([id,nm])=>{
+  const b=el('button','chip'); b.dataset.v=id; b.title='飾り枠：'+nm;
+  b.innerHTML=(id?`<span class="dv dv-${id}"></span>`:'')+`<b>${nm}</b>`;
+  b.onclick=()=>{ state.deco=id; save(); syncUI(); render(); };
+  decoWrap.appendChild(b);
+});
+$('#patop').oninput=e=>{ state.patOp=+e.target.value; save();
+  $$('.page').forEach(p=>p.style.setProperty('--pat-op',state.patOp)); };
+$('#patscale').oninput=e=>{ state.patScale=+e.target.value; save();
+  $$('.page').forEach(p=>p.style.setProperty('--pat-scale',state.patScale)); };
+$('#patx').oninput=e=>{ state.patX=+e.target.value; save();
+  $$('.page').forEach(p=>p.style.setProperty('--pat-x',state.patX+'mm')); };
+$('#paty').oninput=e=>{ state.patY=+e.target.value; save();
+  $$('.page').forEach(p=>p.style.setProperty('--pat-y',state.patY+'mm')); };
+$('#decoin').oninput=e=>{ state.decoIn=+e.target.value; save();
+  $$('.page').forEach(p=>p.style.setProperty('--deco-in',state.decoIn+'mm')); };
+$$('.cgrid input[type=color]').forEach(inp=>{
+  inp.oninput=()=>{ state.colors[inp.dataset.ck]=inp.value; save(); render(); };
+});
+$$('.cgrid .crst').forEach(b=>{
+  b.onclick=()=>{ state.colors[b.dataset.cr]=''; save(); syncUI(); render(); };
+});
+$('#colsel').onchange =e=>{ state.cols=+e.target.value; save(); render(); };
+$('#cursel').onchange =e=>{ state.cur=e.target.value; save(); render(); };
+$('#fsr').oninput=e=>{ state.fs=+e.target.value; $('#fsv').textContent=Math.round(state.fs*100)+'%'; save();
+  $$('.page').forEach(p=>p.style.setProperty('--fs',state.fs)); clearTimeout(window._ov2); window._ov2=setTimeout(checkOverflow,150); };
+$('#zoomBtn').onclick=()=>{ zoom = zoom==='fit'?'100':'fit';
+  $('#zoomBtn').textContent = zoom==='fit'?'表示：幅に合わせる':'表示：原寸 100%'; fit(); };
+$('#logoBtn').onclick=()=>$('#logoInput').click();
+$('#logoInput').onchange=e=>{
+  const f=e.target.files[0]; if(!f) return;
+  const r=new FileReader(); r.onload=()=>{ state.logo=r.result; save(); render(); }; r.readAsDataURL(f);
+};
+$('#logoDel').onclick=()=>{ state.logo=null; save(); render(); };
+function toast(m){
+  let t=$('#toast'); if(!t){ t=el('div'); t.id='toast'; document.body.appendChild(t); }
+  t.textContent=m; t.classList.add('on');
+  clearTimeout(window._tt); window._tt=setTimeout(()=>t.classList.remove('on'),2000);
+}
+
+/* --- inline decoration toolbar --- */
+const tt=$('#ttool');
+function hideTT(){ tt.hidden=true; }
+document.addEventListener('selectionchange',()=>{
+  const sel=getSelection();
+  if(!sel.rangeCount||sel.isCollapsed){ hideTT(); return; }
+  const nd=x=>x&&(x.nodeType===1?x:x.parentElement);
+  const e1=nd(sel.anchorNode)&&nd(sel.anchorNode).closest('#stage [contenteditable]');
+  const e2=nd(sel.focusNode)&&nd(sel.focusNode).closest('#stage [contenteditable]');
+  if(!e1||e1!==e2){ hideTT(); return; }
+  const r=sel.getRangeAt(0).getBoundingClientRect();
+  if(!r.width&&!r.height){ hideTT(); return; }
+  tt.hidden=false;
+  tt.querySelector('[data-tcmd="fore"]').style.color=state.accent;
+  tt.style.left=Math.max(8,Math.min(innerWidth-tt.offsetWidth-8,r.left+r.width/2-tt.offsetWidth/2))+'px';
+  tt.style.top=Math.max(8,r.top-tt.offsetHeight-8)+'px';
+});
+$('.stagewrap').addEventListener('scroll',hideTT);
+tt.addEventListener('mousedown',e=>e.preventDefault());
+function hexA(hex,a){
+  const m=/^#?([\da-f]{2})([\da-f]{2})([\da-f]{2})/i.exec(hex);
+  if(!m) return 'rgba(201,162,39,'+a+')';
+  return 'rgba('+parseInt(m[1],16)+','+parseInt(m[2],16)+','+parseInt(m[3],16)+','+a+')';
+}
+tt.addEventListener('click',e=>{
+  const b=e.target.closest('[data-tcmd]'); if(!b) return;
+  document.execCommand('styleWithCSS',false,true);
+  const c=b.dataset.tcmd;
+  if(c==='bold') document.execCommand('bold');
+  else if(c==='underline') document.execCommand('underline');
+  else if(c==='mark') document.execCommand('hiliteColor',false,hexA(state.accent,.38));
+  else if(c==='fore') document.execCommand('foreColor',false,state.accent);
+  else if(c==='clear'){ document.execCommand('removeFormat'); document.execCommand('hiliteColor',false,'transparent'); }
+});
+
+/* --- item library --- */
+const ILKEY='menu-template-itemlib-v1';
+const getIL=()=>{ try{ return JSON.parse(localStorage.getItem(ILKEY))||[] }catch(e){ return [] } };
+function libAddItem(it){
+  const lib=getIL();
+  const key=plain(it.name)+'|'+plain(it.price);
+  const rec={name:it.name,price:it.price,desc:it.desc||'',badge:it.badge||'',photo:it.photo||'',ts:Date.now()};
+  const i=lib.findIndex(l=>plain(l.name)+'|'+plain(l.price)===key);
+  if(i>=0) lib[i]=rec; else lib.unshift(rec);
+  try{ localStorage.setItem(ILKEY,JSON.stringify(lib)); toast('「'+(plain(it.name)||'無名の品目')+'」をライブラリに登録しました'); }
+  catch(e){ toast('ブラウザ保存の容量オーバーです（写真つき品目が多すぎる可能性）'); }
+}
+function openLibPicker(ci){
+  const lib=getIL();
+  if(!lib.length){ toast('ライブラリは空です。品目の ☆ から登録できます'); return; }
+  openModal('<h2>品目ライブラリから挿入</h2><div class="liblist">'+lib.map((l,i)=>
+    '<div class="librow"><button class="btn" data-ins="'+i+'">'+(plain(l.name)||'（無名）')+
+    '<small>　'+plain(l.price)+'</small></button><button class="btn dgx" data-ldel="'+i+'">✕</button></div>'
+  ).join('')+'</div><div class="foot"><button class="btn" id="mClose">とじる</button></div>');
+  modal.onclick=e=>{
+    const ins=e.target.closest('[data-ins]'), del=e.target.closest('[data-ldel]');
+    if(ins){ const l=getIL()[+ins.dataset.ins]; if(!l) return;
+      state.categories[ci].items.push({id:uid(),name:l.name,price:l.price,desc:l.desc||'',badge:l.badge||'',photo:l.photo||''});
+      save(); render(); toast('「'+(plain(l.name)||'品目')+'」を挿入しました'); }
+    if(del){ const lib2=getIL(); lib2.splice(+del.dataset.ldel,1);
+      localStorage.setItem(ILKEY,JSON.stringify(lib2)); openLibPicker(ci); }
+  };
+}
+
+/* --- shop profiles --- */
+const SPKEY='menu-template-shoplib-v1';
+const getSP=()=>{ try{ return JSON.parse(localStorage.getItem(SPKEY))||{} }catch(e){ return {} } };
+function refreshShopLib(sel){
+  const sp=getSP(), el2=$('#shopSel');
+  el2.innerHTML='<option value="">店舗プロフィール…（'+Object.keys(sp).length+'件）</option>';
+  Object.keys(sp).sort((a,b)=>sp[b].ts-sp[a].ts).forEach(k=>{
+    const o=document.createElement('option'); o.value=k; o.textContent=k; el2.appendChild(o);
+  });
+  if(sel) el2.value=sel;
+}
+$('#shopSaveBtn').onclick=()=>{
+  const nm=prompt('登録名を入力してください',plain(state.shop.name)||'店舗');
+  if(!nm) return;
+  const sp=getSP();
+  if(sp[nm] && !confirm('「'+nm+'」を上書きしますか？')) return;
+  sp[nm]={ts:Date.now(),shop:JSON.parse(JSON.stringify(state.shop)),foot:JSON.parse(JSON.stringify(state.foot)),logo:state.logo||null};
+  try{ localStorage.setItem(SPKEY,JSON.stringify(sp)); refreshShopLib(nm); toast('店舗情報「'+nm+'」を登録しました'); }
+  catch(e){ toast('容量オーバー：ロゴ画像が大きい可能性があります'); }
+};
+$('#shopApplyBtn').onclick=()=>{
+  const k=$('#shopSel').value; if(!k){ toast('プルダウンから店舗を選んでください'); return; }
+  if(!confirm('店名・住所・ロゴを「'+k+'」の内容に置き換えます。よろしいですか？')) return;
+  const p=getSP()[k]; if(!p) return;
+  state.shop=JSON.parse(JSON.stringify(p.shop)); state.foot=JSON.parse(JSON.stringify(p.foot)); state.logo=p.logo||null;
+  save(); render(); toast('「'+k+'」を適用しました');
+};
+$('#shopDelBtn').onclick=()=>{
+  const k=$('#shopSel').value; if(!k) return;
+  if(!confirm('店舗プロフィール「'+k+'」を削除しますか？')) return;
+  const sp=getSP(); delete sp[k]; localStorage.setItem(SPKEY,JSON.stringify(sp)); refreshShopLib();
+};
+refreshShopLib();
+
+/* --- collapsible sidebar groups --- */
+$$('.side .grp').forEach(g=>{
+  const lb=g.querySelector(':scope > .lb');
+  if(lb) lb.onclick=()=>g.classList.toggle('closed');
+});
+
+let photoTarget=null;
+function shrink(file,maxW,q,cb){
+  const r=new FileReader();
+  r.onload=()=>{ const im=new Image();
+    im.onload=()=>{ const sc=Math.min(1,maxW/im.width);
+      const c=document.createElement('canvas');
+      c.width=Math.max(1,Math.round(im.width*sc)); c.height=Math.max(1,Math.round(im.height*sc));
+      c.getContext('2d').drawImage(im,0,0,c.width,c.height);
+      cb(c.toDataURL('image/jpeg',q)); };
+    im.src=r.result; };
+  r.readAsDataURL(file);
+}
+$('#photoInput').onchange=e=>{
+  const f=e.target.files[0]; if(!f||!photoTarget) return;
+  shrink(f,900,.82,d=>{ const t=photoTarget; photoTarget=null;
+    if(state.categories[t.ci]&&state.categories[t.ci].items[t.ii]) state.categories[t.ci].items[t.ii].photo=d;
+    save(); render(); });
+};
+$('#heroBtn').onclick=()=>{ const h=$('#heroInput'); h.value=''; h.click(); };
+$('#heroInput').onchange=e=>{
+  const f=e.target.files[0]; if(!f) return;
+  shrink(f,1600,.84,d=>{ state.hero=d; save(); render(); });
+};
+$('#heroDel').onclick=()=>{ state.hero=null; save(); render(); };
+$('#bgBtn').onclick=()=>{ const b=$('#bgInput'); b.value=''; b.click(); };
+$('#bgInput').onchange=e=>{
+  const f=e.target.files[0]; if(!f) return;
+  shrink(f,1700,.84,d=>{ state.bgImg=d; save(); render(); });
+};
+$('#bgDel').onclick=()=>{ state.bgImg=null; save(); render(); };
+$('#bgop').oninput=e=>{ state.bgOp=+e.target.value; save();
+  $$('.page').forEach(p=>p.style.setProperty('--bg-op',state.bgOp)); };
+const SLOTKEY='menu-template-slots-v1';
+function getSlots(){ try{ return JSON.parse(localStorage.getItem(SLOTKEY))||{} }catch(e){ return {} } }
+function refreshSlots(sel){
+  const slots=getSlots(), el2=$('#slotSel');
+  el2.innerHTML='<option value="">保存スロット…（'+Object.keys(slots).length+'件）</option>';
+  Object.keys(slots).sort((a,b)=>slots[b].ts-slots[a].ts).forEach(k=>{
+    const o=document.createElement('option'); o.value=k;
+    const d=new Date(slots[k].ts);
+    o.textContent=k+'　'+(d.getMonth()+1)+'/'+d.getDate();
+    el2.appendChild(o);
+  });
+  if(sel) el2.value=sel;
+}
+$('#slotSaveBtn').onclick=()=>{
+  const nm=prompt('保存名を入力してください',(state.shop.name||'メニュー'));
+  if(!nm) return;
+  const slots=getSlots();
+  if(slots[nm] && !confirm('「'+nm+'」を上書きしますか？')) return;
+  slots[nm]={ts:Date.now(),state:JSON.parse(JSON.stringify(state))};
+  try{ localStorage.setItem(SLOTKEY,JSON.stringify(slots)); refreshSlots(nm); }
+  catch(e){ alert('ブラウザ保存の容量を超えました。写真が多い場合は「ファイルに保存（.json）」をご利用ください。'); }
+};
+$('#slotLoadBtn').onclick=()=>{
+  const k=$('#slotSel').value; if(!k) return;
+  if(!confirm('「'+k+'」を開きます。いま編集中の内容は置き換わります。よろしいですか？')) return;
+  state=JSON.parse(JSON.stringify(getSlots()[k].state));
+  if(typeof state.patOp!=='number') state.patOp=.08;
+  if(typeof state.bgOp!=='number') state.bgOp=1;
+  save(); syncUI(); render();
+};
+$('#slotDelBtn').onclick=()=>{
+  const k=$('#slotSel').value; if(!k) return;
+  if(!confirm('スロット「'+k+'」を削除しますか？')) return;
+  const slots=getSlots(); delete slots[k];
+  localStorage.setItem(SLOTKEY,JSON.stringify(slots)); refreshSlots();
+};
+refreshSlots();
+$('#expBtn').onclick=()=>{
+  const blob=new Blob([JSON.stringify(state,null,2)],{type:'application/json'});
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);
+  a.download=((state.shop.name||'menu').replace(/[\\/:*?"<>|]/g,'_'))+'.json';
+  document.body.appendChild(a); a.click(); a.remove();
+};
+$('#impBtn').onclick=()=>$('#impInput').click();
+$('#impInput').onchange=e=>{
+  const f=e.target.files[0]; if(!f) return;
+  const r=new FileReader();
+  r.onload=()=>{ try{ const o=JSON.parse(r.result); if(!o.categories) throw 0; state=o; save(); syncUI(); render(); }
+    catch(err){ alert('このファイルは読み込めませんでした。'); } };
+  r.readAsText(f);
+};
+$('#samplesel').onchange=e=>{
+  const v=e.target.value; e.target.value='';
+  if(!v) return;
+  if(!confirm('いま編集中の内容は消えます。よろしいですか？')) return;
+  state=fresh(v); save(); syncUI(); render();
+};
+function syncUI(){
+  $$('#designs .dbtn').forEach((b,i)=>b.classList.toggle('on',DESIGNS[i].id===state.design));
+  $$('.sw-c').forEach(b=>b.classList.toggle('on',b.dataset.c===state.accent));
+  $('#accentPick').value = /^#[0-9a-f]{6}$/i.test(state.accent)?state.accent:'#000000';
+  $('#fontJp').value=state.fontJp; $('#fontEn').value=state.fontEn;
+  $$('#patChips .chip').forEach(b=>b.classList.toggle('on',b.dataset.v===state.pattern));
+  $$('#decoChips .chip').forEach(b=>b.classList.toggle('on',b.dataset.v===state.deco));
+  $('#patop').value=state.patOp; $('#bgop').value=state.bgOp;
+  $('#patscale').value=state.patScale; $('#patx').value=state.patX; $('#paty').value=state.patY;
+  $('#decoin').value=state.decoIn;
+  const pg0=document.querySelector('.page');
+  const defv=(v,fb)=>{ if(v) return v;
+    if(pg0){ const x=getComputedStyle(pg0).getPropertyValue(fb).trim(); if(/^#([0-9a-f]{6})$/i.test(x)) return x; }
+    return '#888888'; };
+  $('#cpPaper').value=defv(state.colors.paper,'--paper');
+  $('#cpInk').value=defv(state.colors.ink,'--ink');
+  $('#cpPat').value=state.colors.pat||defv(state.colors.ink,'--ink');
+  $('#cpDeco').value=state.colors.deco||(/^#([0-9a-f]{6})$/i.test(state.accent)?state.accent:'#888888');
+  $('#colsel').value=state.cols;
+  $('#cursel').value=state.cur;   $('#fsr').value=state.fs;
+  $('#fsv').textContent=Math.round(state.fs*100)+'%';
+}
+
+/* ---------------- modal ---------------- */
+const mask=$('#mask'), modal=$('#modal');
+mask.onclick=e=>{ if(e.target===mask) mask.classList.remove('on'); };
+function openModal(html){ modal.onclick=null; modal.innerHTML=html; mask.classList.add('on'); }
+document.addEventListener('click',e=>{ if(e.target.id==='mClose') mask.classList.remove('on'); });
+
+$('#printBtn').onclick=()=>{
+  openModal(`
+    <h2>PDF にする前に、ひとつだけ</h2>
+    <p>印刷画面が開いたら、次の 2 か所を確認してください。背景色が印刷されない設定のままだと、濃い色のデザインが白紙になります。</p>
+    <ol>
+      <li><b>送信先（プリンター）</b> → <b>PDF に保存</b></li>
+      <li><b>詳細設定</b> を開き、<b>「背景のグラフィック」にチェック</b></li>
+      <li>用紙サイズ <b>A4</b> ／ 余白 <b>なし</b> ／ 倍率 <b>100%</b></li>
+    </ol>
+    <p style="color:#8a3b17">※ Safari の場合は「背景を印刷」にチェックしてください。</p>
+    <div class="foot">
+      <button class="btn primary" id="doPrint">印刷画面をひらく</button>
+      <button class="btn" id="mClose">とじる</button>
+    </div>`);
+  $('#doPrint').onclick=()=>{ mask.classList.remove('on'); setTimeout(()=>window.print(),160); };
+};
+
+$('#helpBtn').onclick=()=>{
+  openModal(`
+    <h2>使い方</h2>
+    <h3>1. 文字を書き換える</h3>
+    <p>紙の上の文字を<b>クリックして、そのまま打ち替える</b>だけです。空欄になっている所は、うすい文字で内容の目安が出ます。</p>
+    <h3>2. 項目を増やす・減らす</h3>
+    <p>品名やカテゴリーに<b>マウスを乗せる</b>と、小さなボタンが出ます。<br>
+      ↑↓ 並べ替え ／ ⧉ 複製 ／ ★ 「おすすめ」タグ ／ ＋ 下に追加 ／ ✕ 削除<br>
+      カテゴリー側の <b>頁+</b> を押すと、そのカテゴリーごと 2 ページ目に移ります。</p>
+    <h3>3. 写真を入れる</h3>
+    <p>品目にマウスを乗せて <b>📷</b> を押すと、料理写真を入れられます（自動で軽く圧縮されます）。ページ上部の大きな写真は、左の <b>「ヘッダー写真」</b> から。<br>
+      写真をいちばん活かせるのは <b>ALBUM</b> デザインです。KINARI（縦書き）と LUMIERE では、紙面の品位を保つため写真は表示されません。<br>
+      写真を多く入れたときは、<b>「保存（.json）」</b>でのバックアップをおすすめします。</p>
+    <h3>4. 文字を飾る</h3>
+    <p>紙面の文字を<b>ドラッグで選択</b>すると、小さなツールバーが浮かびます。<b>B</b> 太字 ／ <b>U</b> 下線 ／ マーカー ／ <b>A</b> アクセント色 ／ ⌫ 解除。品名のひと文字だけ色を変える、説明の一語にマーカーを引く、といった使い方ができます。</p>
+    <h3>5. よく使う品目・店舗情報を登録する</h3>
+    <p>品目にマウスを乗せて <b>☆</b> を押すと、その品目（写真ごと）が<b>ライブラリ</b>に登録されます。カテゴリーの <b>📋</b> から一覧が開き、クリックで挿入。<br>
+      左パネルの<b>「マイデータ」</b>では、店名・住所・ロゴをまとめて<b>店舗プロフィール</b>として登録・切替できます。系列店や屋号違いの使い分けに。</p>
+    <h3>6. 用紙からはみ出したら</h3>
+    <p>上に注意が出ます。<b>文字サイズ</b>を下げる、<b>2段組み</b>にする、<b>頁+</b> で次のページへ送る、のどれかで収まります。</p>
+    <h3>7. PDF にする・印刷する</h3>
+    <p>左下の <b>「PDF ／ 印刷する」</b> から。A4 ぴったりで出力されます。印刷所に入稿する場合も、この PDF をそのまま渡せます。</p>
+    <h3>8. 保存について</h3>
+    <p>入力した内容は<b>この端末のブラウザに自動保存</b>されます。さらに——</p>
+    <p><b>スロットへ保存</b>：名前を付けてこのブラウザ内に何枚でも保存できます。グランド／ランチ／ドリンクの作り分けや、季節の切り替えに。<br>
+    <b>ファイルに保存（.json）</b>：パソコン上のファイルとして書き出します。別のPCへ渡す・バックアップとして残す・印刷所への支給データと一緒に保管する、といった用途はこちら。<b>「ファイルを開く」</b>でいつでも復元できます。</p>
+    <h3>9. 書体と素材</h3>
+    <p><b>和文15種 × 欧文8種</b> を自由に組み合わせられます（手書き風・筆文字・レトロゲーム風なども）。<b>「背景・装飾」</b>では和紙・青海波・方眼などの背景パターンと飾り枠を重ねられ、濃さも調整できます。パターンの色は各デザインの文字色に自動でなじみます。<br>
+      書体はインターネット経由で読み込むため、<b>オンラインで開く</b>のがおすすめです。オフラインでも編集・印刷はできますが、書体は端末標準のものに置き換わります。推奨ブラウザは <b>Chrome / Edge</b> です。</p>
+    <h3>10. 縦書き（KINARI）のコツ</h3>
+    <p>価格は <b>カンマなしの数字</b>（例：1200）にすると、縦書きの中で数字が横に組まれ、きれいに収まります。</p>
+    <div class="foot"><button class="btn primary" id="mClose">とじる</button></div>`);
+};
+
+/* ---------------- landing page ---------------- */
+const SHARE_URL='https://menufits.kokokikaku.com/';
+const SHARE_TXT='MenuFits — 飲食店メニューを、ひらいて、打ちかえて、PDF。登録不要の無料ツール';
+function showApp(){ document.body.classList.remove('lp-mode'); document.body.classList.add('app-mode'); fit(); }
+function showLP(){ document.body.classList.remove('app-mode'); document.body.classList.add('lp-mode'); window.scrollTo(0,0); }
+const DSAMPLE={kinari:'washoku',shu:'chuka',noir:'bistro',split:'bistro',asia:'chuka'};
+const lpD=$('#lpDesigns');
+if(lpD) DESIGNS.forEach(d=>{
+  const b=el('button','dbtn');
+  b.innerHTML=`<span class="sw" style="background:${d.sw}"></span><span class="nm">${d.nm}<small>${d.jp}</small></span>`;
+  b.onclick=()=>{ state=fresh(DSAMPLE[d.id]||'cafe'); state.design=d.id; save(); syncUI(); render(); showApp(); };
+  lpD.appendChild(b);
+});
+$$('.lpstart').forEach(b=>b.onclick=()=>{
+  const k=b.dataset.sample;
+  if(k && (k==='blank' || !localStorage.getItem(KEY) || confirm('前回の編集内容ではなく、サンプルから始めますか？（キャンセル＝前回の続き）')))
+    { state=fresh(k); save(); syncUI(); render(); }
+  showApp();
+});
+$('#toTop').onclick=showLP;
+const lpHelp=$('#lpHelp'); if(lpHelp) lpHelp.onclick=e=>{ e.preventDefault(); $('#helpBtn').click(); };
+const lpPriv=$('#lpPriv'); if(lpPriv) lpPriv.onclick=e=>{ e.preventDefault();
+  openModal(`
+    <h2>プライバシー・免責</h2>
+    <h3>データの保存について</h3>
+    <p>入力した内容・写真・保存スロット等は、すべて<b>お使いのブラウザ内（localStorage）にのみ保存</b>されます。当方のサーバーに送信・保存されることはありません。ブラウザのデータ消去を行うと編集内容も消えます。大切なデータは「ファイルに保存（.json）」でのバックアップをおすすめします。</p>
+    <h3>通信について</h3>
+    <p>書体（Google Fonts）の読み込みのために Google のサーバーと通信します。それ以外の外部通信はありません。</p>
+    <h3>免責</h3>
+    <p>本ツールは現状有姿で提供されます。出力物の内容（価格・表記・アレルギー表示等）の正確性は利用者ご自身でご確認ください。本ツールの利用により生じたいかなる損害についても、運営者は責任を負いません。</p>
+    <h3>利用範囲</h3>
+    <p>作成したメニューの商用利用・印刷・配布は自由です。ツール本体の再配布・転売はご遠慮ください。</p>
+    <div class="foot"><button class="btn primary" id="mClose">とじる</button></div>`);
+};
+$$('[data-share]').forEach(b=>b.onclick=()=>{
+  const t=b.dataset.share;
+  if(t==='x') window.open('https://twitter.com/intent/tweet?text='+encodeURIComponent(SHARE_TXT)+'&url='+encodeURIComponent(SHARE_URL),'_blank','noopener');
+  else if(t==='line') window.open('https://social-plugins.line.me/lineit/share?url='+encodeURIComponent(SHARE_URL),'_blank','noopener');
+  else if(t==='copy'){ try{ navigator.clipboard.writeText(SHARE_URL); toast('リンクをコピーしました'); }catch(e){ toast(SHARE_URL); } }
+});
+if(localStorage.getItem(KEY)) showApp();
+
+/* ---------------- go ---------------- */
+syncUI(); render();
+setTimeout(fit,600);
+if(document.fonts && document.fonts.ready) document.fonts.ready.then(()=>{ fit(); checkOverflow(); });
+</script>
+</body>
+</html>

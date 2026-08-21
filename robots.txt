@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://menufits.kokokikaku.com/sitemap.xml
