@@ -1,0 +1,11 @@
+{
+  "name": "MenuFits（メニューフィッツ）",
+  "short_name": "MenuFits",
+  "description": "飲食店メニューを、ひらいて、打ちかえて、PDF。",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f4f0e7",
+  "theme_color": "#26231c",
+  "lang": "ja",
+  "icons": [{ "src": "/icon-512.png", "sizes": "512x512", "type": "image/png" }]
+}

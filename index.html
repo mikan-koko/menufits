@@ -10,7 +10,15 @@
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://menufits.kokokikaku.com/">
 <meta property="og:site_name" content="MenuFits">
-<meta name="twitter:card" content="summary">
+<meta property="og:image" content="https://menufits.kokokikaku.com/ogp.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="ja_JP">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://menufits.kokokikaku.com/ogp.png">
+<link rel="canonical" href="https://menufits.kokokikaku.com/">
+<link rel="apple-touch-icon" href="/icon-512.png">
+<link rel="manifest" href="/manifest.webmanifest">
 <meta name="theme-color" content="#26231c">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%2326231c'/%3E%3Ctext x='32' y='44' font-size='36' font-family='Georgia,serif' fill='%23f2ead8' text-anchor='middle'%3EM%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -81,6 +89,10 @@ body.app-mode #lp{display:none}
   font-size:12px;font-weight:600;letter-spacing:.2em;color:#a3785a;margin-bottom:8px}
 .lpsteps b{display:block;font-size:15px;letter-spacing:.14em;margin-bottom:7px}
 .lpsteps span{font-size:12.5px;line-height:1.9;color:#6c675b}
+.lpfaq{max-width:660px;margin:26px auto 0}
+.lpfaq dt{font-size:15px;font-weight:700;letter-spacing:.06em;margin:22px 0 8px;padding-left:26px;position:relative}
+.lpfaq dt::before{content:"Q";position:absolute;left:0;top:1px;font-family:var(--f-en-sans);font-weight:600;color:#a3785a}
+.lpfaq dd{margin:0 0 0 26px;font-size:13.5px;line-height:2;color:#6c675b}
 .lpfoot{padding:40px 0 0;border-top:1px solid rgba(28,25,18,.08);text-align:center}
 .lprow{display:flex;gap:10px;justify-content:center;align-items:center;flex-wrap:wrap;margin-bottom:16px}
 .lprow a{color:#5f594c;font-size:13px;text-decoration:none;border-bottom:1px solid rgba(28,25,18,.25)}
@@ -884,6 +896,28 @@ input[type=range]{width:100%;accent-color:#1b1b1b}
   *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
 }
 </style>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@graph":[
+ {"@type":"WebApplication","@id":"https://menufits.kokokikaku.com/#app",
+  "name":"MenuFits","alternateName":"メニューフィッツ",
+  "url":"https://menufits.kokokikaku.com/",
+  "description":"登録不要・無料。ブラウザだけで飲食店のメニューが作れるWebツール。デザイン11種、縦書き・写真メニュー・文字装飾に対応し、A4のPDFとして出力できます。",
+  "applicationCategory":"DesignApplication","operatingSystem":"Web browser",
+  "inLanguage":"ja","isAccessibleForFree":true,
+  "offers":{"@type":"Offer","price":"0","priceCurrency":"JPY"},
+  "image":"https://menufits.kokokikaku.com/ogp.png",
+  "publisher":{"@id":"https://kokokikaku.com/#org"}},
+ {"@type":"Organization","@id":"https://kokokikaku.com/#org",
+  "name":"ここ企画","url":"https://kokokikaku.com/"},
+ {"@type":"FAQPage","mainEntity":[
+  {"@type":"Question","name":"本当に無料ですか？","acceptedAnswer":{"@type":"Answer","text":"はい。登録・課金・透かしは一切ありません。作成データはお使いのブラウザ内にのみ保存され、サーバーには送信されません。"}},
+  {"@type":"Question","name":"PDFにはどうやって出力しますか？","acceptedAnswer":{"@type":"Answer","text":"「PDF／印刷する」ボタンからブラウザの印刷画面を開き、送信先を「PDFに保存」にするだけです。A4ぴったりで出力され、コンビニ印刷や印刷所への入稿にも使えます。"}},
+  {"@type":"Question","name":"作ったメニューは商用利用できますか？","acceptedAnswer":{"@type":"Answer","text":"はい。作成したメニューの店舗での利用・印刷・配布は自由です。ツール本体の再配布・転売はご遠慮ください。"}},
+  {"@type":"Question","name":"データはどこに保存されますか？","acceptedAnswer":{"@type":"Answer","text":"お使いの端末のブラウザ（localStorage）にのみ自動保存されます。名前を付けたスロット保存や、.jsonファイルへの書き出し・読み込みにも対応しています。"}},
+  {"@type":"Question","name":"縦書きのお品書きは作れますか？","acceptedAnswer":{"@type":"Answer","text":"作れます。KINARIデザインは行が右から左へ流れる本格的な縦書き組版で、価格の数字は縦中横で組まれます。和食店・割烹・居酒屋のお品書きに向いています。"}}
+ ]}
+]}
+</script>
 </head>
 <body class="lp-mode">
 <div id="lp">
@@ -923,6 +957,21 @@ input[type=range]{width:100%;accent-color:#1b1b1b}
     <div class="lpcta bottom">
       <button class="lpbtn primary lpstart" data-sample="cafe">今すぐ作ってみる</button>
     </div>
+  </section>
+  <section class="lpsec">
+    <h2>よくある質問</h2>
+    <dl class="lpfaq">
+      <dt>本当に無料ですか？</dt>
+      <dd>はい。登録・課金・透かしは一切ありません。作成データはあなたのブラウザ内にのみ保存され、サーバーには送信されません。</dd>
+      <dt>PDFにはどうやって出力しますか？</dt>
+      <dd>「PDF／印刷する」ボタンからブラウザの印刷画面を開き、送信先を「PDFに保存」にするだけ。A4ぴったりで出力され、コンビニ印刷や入稿にも使えます。</dd>
+      <dt>作ったメニューは商用利用できますか？</dt>
+      <dd>はい。店舗での利用・印刷・配布は自由です。ツール本体の再配布・転売はご遠慮ください。</dd>
+      <dt>データはどこに保存されますか？</dt>
+      <dd>端末のブラウザ（localStorage）にのみ自動保存。名前付きスロット保存と .json ファイルへの書き出し・読み込みにも対応しています。</dd>
+      <dt>縦書きのお品書きは作れますか？</dt>
+      <dd>作れます。KINARI デザインは右から左へ流れる本格的な縦書き組版で、価格は縦中横。和食店・割烹・居酒屋に。</dd>
+    </dl>
   </section>
   <footer class="lpfoot">
     <div class="lprow">
