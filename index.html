@@ -195,6 +195,7 @@ input[type=range]{width:100%;accent-color:#1b1b1b}
 /* ---------- editable ---------- */
 [contenteditable]{outline:none;cursor:text}
 @media screen{
+  [contenteditable].pos-ov{outline:1px dashed rgba(60,120,255,.4);outline-offset:2px;z-index:6}
   [contenteditable]:hover{box-shadow:inset 0 0 0 1px rgba(120,160,255,.45);border-radius:2px}
   [contenteditable]:focus{box-shadow:inset 0 0 0 1.5px rgba(60,120,255,.8);border-radius:2px;background:rgba(90,140,255,.06)}
   [contenteditable]:empty::before{content:attr(data-ph);opacity:.3;font-style:normal}
@@ -997,6 +998,7 @@ input[type=range]{width:100%;accent-color:#1b1b1b}
   .ph-empty{display:none !important}
   .d-grid .item:has(.ph-empty) .it-top{padding-top:2.6mm}
   [contenteditable]:not(.it-badge){box-shadow:none !important;background:transparent !important}
+  .pos-ov{outline:none !important}
   *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
 }
 
@@ -1339,8 +1341,11 @@ input[type=range]{width:100%;accent-color:#1b1b1b}
   <button data-tcmd="clear" title="装飾を解除">⌫</button>
 </div>
 
-<div class="ttool" id="detachTool" hidden>
-  <button id="detachBtn" title="この文字を自由に動かせるブロックに切り離す">⇱ 自由配置に切り離す</button>
+<div class="ttool" id="fieldTool" hidden>
+  <button id="fieldGrip" title="ドラッグして自由に動かす">⠿</button>
+  <button id="fieldFsDown" title="文字を小さく">A−</button>
+  <button id="fieldFsUp" title="文字を大きく">A＋</button>
+  <button id="fieldReset" title="位置・大きさを元に戻す">↺</button>
 </div>
 
 <div class="mask" id="mask"><div class="modal" id="modal"></div></div>
@@ -1555,7 +1560,7 @@ function fresh(key){
     pattern:'', patOp:.08, patScale:1, patX:0, patY:0, deco:'', decoIn:6.5,
     colors:{paper:'',ink:'',pat:'',deco:''}, bgImg:null, bgOp:1,
     logo:null, hero:null, shop:s.shop, foot:s.foot, categories:s.categories,
-    cover:{front:false,back:false}, coverStyle:'center', backMsg:'', blocks:[]
+    cover:{front:false,back:false}, coverStyle:'center', backMsg:'', blocks:[], pos:{}
   };
 }
 // fill in fields added after a save was written, so old slots/.json files still open
@@ -1574,6 +1579,7 @@ function migrate(s){
   s.coverStyle=s.coverStyle||'center';
   s.backMsg=s.backMsg||'';
   s.blocks=Array.isArray(s.blocks)?s.blocks:[];
+  s.pos=(s.pos&&typeof s.pos==='object')?s.pos:{};
   return s;
 }
 let state, zoom='fit';
@@ -1629,12 +1635,25 @@ function sanitizeHTML(html){
   d.querySelectorAll('b,u,span').forEach(e2=>{ if(!e2.textContent.trim()) e2.remove(); });
   return d.innerHTML.replace(/\u00a0/g,' ').replace(/^\s+|\s+$/g,'');
 }
-function ed(path,cls,ph,tag){
+function ed(path,cls,ph,tag,pg){
   const n=el(tag||'div',cls);
   n.contentEditable='true'; n.spellcheck=false;
   n.dataset.path=path; n.dataset.ph=ph;
   n.innerHTML=sanitizeHTML(get(path)||'');
+  if(pg!=null){
+    n.dataset.pg=pg;
+    const ov=state.pos[pg+'::'+path];
+    if(ov) applyFieldOverride(n,ov);
+  }
   return n;
+}
+function applyFieldOverride(n,ov){
+  const moved=ov.x!=null;
+  n.classList.toggle('pos-ov',moved||ov.fs!=null);
+  if(moved){ n.style.position='absolute'; n.style.left=ov.x+'mm'; n.style.top=ov.y+'mm'; }
+  else { n.style.position=''; n.style.left=''; n.style.top=''; }
+  n.style.width=ov.w?ov.w+'mm':'';
+  n.style.fontSize=ov.fs?('calc('+ov.fs+'pt*var(--fs))'):'';
 }
 function ctl(kind,attrs,btns){
   const d=el('div','ctl ctl-'+kind);
@@ -1645,7 +1664,7 @@ function ctl(kind,attrs,btns){
 }
 
 /* ---------------- build ---------------- */
-function buildItem(ci,ii,it){
+function buildItem(ci,ii,it,pg){
   const li=el('li','item'+(it.badge?' has-badge':'')+(it.photo?' has-photo':''));
   const b=`data-ci="${ci}" data-ii="${ii}"`;
   li.appendChild(ctl('item',b,[
@@ -1660,15 +1679,15 @@ function buildItem(ci,ii,it){
   li.appendChild(ph);
   const top=el('div','it-top');
   const nw=el('span','it-nw');
-  nw.appendChild(ed(`categories.${ci}.items.${ii}.name`,'it-name','品名','span'));
-  nw.appendChild(ed(`categories.${ci}.items.${ii}.badge`,'it-badge','タグ','span'));
+  nw.appendChild(ed(`categories.${ci}.items.${ii}.name`,'it-name','品名','span',pg));
+  nw.appendChild(ed(`categories.${ci}.items.${ii}.badge`,'it-badge','タグ','span',pg));
   top.appendChild(nw);
-  top.appendChild(ed(`categories.${ci}.items.${ii}.price`,'it-price','0','span'));
+  top.appendChild(ed(`categories.${ci}.items.${ii}.price`,'it-price','0','span',pg));
   li.appendChild(top);
-  li.appendChild(ed(`categories.${ci}.items.${ii}.desc`,'it-desc','説明（空欄でも可）','div'));
+  li.appendChild(ed(`categories.${ci}.items.${ii}.desc`,'it-desc','説明（空欄でも可）','div',pg));
   return li;
 }
-function buildCat(c,ci){
+function buildCat(c,ci,pg){
   const s=el('section','cat');
   s.appendChild(ctl('cat',`data-ci="${ci}"`,[
     ['ct-up','↑',0,'上へ'],['ct-dn','↓',0,'下へ'],['ct-dup','⧉',0,'複製'],['ct-lib','📋',0,'ライブラリから品目を挿入'],
@@ -1676,11 +1695,11 @@ function buildCat(c,ci){
     ['ct-add','＋',0,'下にカテゴリーを追加'],['ct-del','✕',1,'削除']
   ]));
   const h=el('div','cat-head');
-  h.appendChild(ed(`categories.${ci}.title`,'cat-ttl','カテゴリー名','h2'));
-  h.appendChild(ed(`categories.${ci}.titleEn`,'cat-en','English','span'));
+  h.appendChild(ed(`categories.${ci}.title`,'cat-ttl','カテゴリー名','h2',pg));
+  h.appendChild(ed(`categories.${ci}.titleEn`,'cat-en','English','span',pg));
   s.appendChild(h);
   const ul=el('ul','items');
-  c.items.forEach((it,ii)=>ul.appendChild(buildItem(ci,ii,it)));
+  c.items.forEach((it,ii)=>ul.appendChild(buildItem(ci,ii,it,pg)));
   s.appendChild(ul);
   return s;
 }
@@ -1762,14 +1781,14 @@ function buildPage(p){
   }
   const hd=el('header','mhead');
   const hl=el('div','h-l');
-  hl.appendChild(ed('shop.nameEn','h-en','ENGLISH NAME','div'));
-  hl.appendChild(ed('shop.name','h-ttl','店名を入力','h1'));
+  hl.appendChild(ed('shop.nameEn','h-en','ENGLISH NAME','div',p));
+  hl.appendChild(ed('shop.name','h-ttl','店名を入力','h1',p));
   hd.appendChild(hl);
-  hd.appendChild(ed('shop.tagline','h-tag','ひとことキャッチコピー','div'));
+  hd.appendChild(ed('shop.tagline','h-tag','ひとことキャッチコピー','div',p));
   inn.appendChild(hd);
 
   const body=el('div','mbody');
-  state.categories.forEach((c,ci)=>{ if((c.page||1)===p) body.appendChild(buildCat(c,ci)); });
+  state.categories.forEach((c,ci)=>{ if((c.page||1)===p) body.appendChild(buildCat(c,ci,p)); });
   inn.appendChild(body);
 
   const add=el('button','addcat','＋ カテゴリーを追加');
@@ -1777,8 +1796,8 @@ function buildPage(p){
   inn.appendChild(add);
 
   const ft=el('footer','mfoot');
-  ft.appendChild(ed('foot.l1','f1','住所・電話番号など','div'));
-  ft.appendChild(ed('foot.l2','f2','営業時間・SNSなど','div'));
+  ft.appendChild(ed('foot.l1','f1','住所・電話番号など','div',p));
+  ft.appendChild(ed('foot.l2','f2','営業時間・SNSなど','div',p));
   inn.appendChild(ft);
 
   page.appendChild(inn);
@@ -1794,9 +1813,9 @@ function buildCoverFront(){
   if(state.hero){
     const hw=el('div','cov-img'); const im=document.createElement('img'); im.src=state.hero; hw.appendChild(im); inn.appendChild(hw);
   }
-  inn.appendChild(ed('shop.nameEn','cov-en','ENGLISH NAME','div'));
-  inn.appendChild(ed('shop.name','cov-title','店名を入力','h1'));
-  inn.appendChild(ed('shop.tagline','cov-tag','ひとことキャッチコピー','div'));
+  inn.appendChild(ed('shop.nameEn','cov-en','ENGLISH NAME','div','front'));
+  inn.appendChild(ed('shop.name','cov-title','店名を入力','h1','front'));
+  inn.appendChild(ed('shop.tagline','cov-tag','ひとことキャッチコピー','div','front'));
   page.appendChild(inn);
   attachBlocks(page,'front');
   return page;
@@ -1807,11 +1826,11 @@ function buildCoverBack(){
   if(state.logo){
     const lw=el('div','cov-logo'); const im=document.createElement('img'); im.src=state.logo; lw.appendChild(im); inn.appendChild(lw);
   }
-  inn.appendChild(ed('shop.name','cov-title','店名を入力','div'));
-  inn.appendChild(ed('backMsg','cov-msg','ご来店ありがとうございました。またのお越しをお待ちしております。','div'));
+  inn.appendChild(ed('shop.name','cov-title','店名を入力','div','back'));
+  inn.appendChild(ed('backMsg','cov-msg','ご来店ありがとうございました。またのお越しをお待ちしております。','div','back'));
   const ft=el('div','cov-foot');
-  ft.appendChild(ed('foot.l1','f1','住所・電話番号など','div'));
-  ft.appendChild(ed('foot.l2','f2','営業時間・SNSなど','div'));
+  ft.appendChild(ed('foot.l1','f1','住所・電話番号など','div','back'));
+  ft.appendChild(ed('foot.l2','f2','営業時間・SNSなど','div','back'));
   inn.appendChild(ft);
   page.appendChild(inn);
   attachBlocks(page,'back');
@@ -2110,62 +2129,96 @@ function toast(m){
   clearTimeout(window._tt); window._tt=setTimeout(()=>t.classList.remove('on'),2000);
 }
 
-/* --- inline decoration toolbar / detach-to-block toolbar --- */
+/* --- inline decoration toolbar --- */
 const tt=$('#ttool');
 function hideTT(){ tt.hidden=true; }
-const dtool=$('#detachTool');
-let detachTarget=null;
-function hideDetach(){ dtool.hidden=true; detachTarget=null; }
-function showDetach(node){
-  detachTarget=node;
+
+/* --- per-field move / resize-font toolbar (edits the template text in place) --- */
+const ftool=$('#fieldTool');
+let fieldTarget=null;
+function hideFieldTool(){ ftool.hidden=true; fieldTarget=null; }
+function showFieldTool(node){
+  fieldTarget=node;
   const r=node.getBoundingClientRect();
-  dtool.hidden=false;
-  dtool.style.left=Math.max(8,Math.min(innerWidth-dtool.offsetWidth-8,r.left))+'px';
-  dtool.style.top=Math.max(8,r.top-dtool.offsetHeight-8)+'px';
+  ftool.hidden=false;
+  ftool.style.left=Math.max(8,Math.min(innerWidth-ftool.offsetWidth-8,r.left))+'px';
+  ftool.style.top=Math.max(8,r.top-ftool.offsetHeight-8)+'px';
 }
-dtool.addEventListener('mousedown',e=>e.preventDefault());
+ftool.addEventListener('mousedown',e=>e.preventDefault());
 document.addEventListener('selectionchange',()=>{
   const sel=getSelection();
   const nd=x=>x&&(x.nodeType===1?x:x.parentElement);
   const anchor=nd(sel.anchorNode);
   const field=anchor&&anchor.closest('#stage [contenteditable][data-path]');
-  if(!sel.rangeCount || !field || field.closest('.blk')){ hideTT(); hideDetach(); return; }
-  if(sel.isCollapsed){ hideTT(); showDetach(field); return; }
+  if(!sel.rangeCount || !field || field.closest('.blk')){ hideTT(); hideFieldTool(); return; }
+  if(sel.isCollapsed){ hideTT(); showFieldTool(field); return; }
   const e2=nd(sel.focusNode)&&nd(sel.focusNode).closest('#stage [contenteditable]');
-  if(e2!==field){ hideTT(); hideDetach(); return; }
+  if(e2!==field){ hideTT(); hideFieldTool(); return; }
   const r=sel.getRangeAt(0).getBoundingClientRect();
-  if(!r.width&&!r.height){ hideTT(); hideDetach(); return; }
-  hideDetach();
+  if(!r.width&&!r.height){ hideTT(); hideFieldTool(); return; }
+  hideFieldTool();
   tt.hidden=false;
   tt.querySelector('[data-tcmd="fore"]').style.color=state.accent;
   tt.style.left=Math.max(8,Math.min(innerWidth-tt.offsetWidth-8,r.left+r.width/2-tt.offsetWidth/2))+'px';
   tt.style.top=Math.max(8,r.top-tt.offsetHeight-8)+'px';
 });
-const SHARED_PATHS=new Set(['shop.name','shop.nameEn','shop.tagline','foot.l1','foot.l2']);
-$('#detachBtn').addEventListener('click',()=>{
-  const node=detachTarget; if(!node) return;
-  const html=sanitizeHTML(node.innerHTML);
-  if(!plain(html).trim()){ toast('空の項目は切り離せません'); return; }
+function fieldKey(node){ return node.dataset.pg+'::'+node.dataset.path; }
+function fieldOverride(node){
+  const key=fieldKey(node);
+  let ov=state.pos[key];
+  if(!ov){ ov={x:null,y:null,w:null,fs:null}; state.pos[key]=ov; }
+  return ov;
+}
+$('#fieldGrip').addEventListener('pointerdown',e=>{
+  const node=fieldTarget; if(!node) return;
   const page=node.closest('.page'); if(!page) return;
-  const pageRect=page.getBoundingClientRect(), nodeRect=node.getBoundingClientRect();
+  e.preventDefault();
+  const pageRect=page.getBoundingClientRect();
   const mmPerPx=PAGE_W/pageRect.width;
-  const x=clamp(+((nodeRect.left-pageRect.left)*mmPerPx).toFixed(1),0,PAGE_W-20);
-  const y=clamp(+((nodeRect.top-pageRect.top)*mmPerPx).toFixed(1),0,PAGE_H-20);
-  const w=clamp(+(nodeRect.width*mmPerPx).toFixed(1),20,PAGE_W);
-  const fsPx=parseFloat(getComputedStyle(node).fontSize)||14;
-  const fs=clamp(Math.round(fsPx*.75),5,72);
-  const b={id:uid(),pg:page.dataset.pg,type:'text',x,y,w,fs,z:1,html};
-  state.blocks.push(b);
-  const path=node.dataset.path;
-  if(SHARED_PATHS.has(path)){
-    toast('コピーを自由配置にしました（元の文字は他ページ・表紙にも出るため残しています）');
-  } else {
-    set(path,''); $$('[data-path="'+path+'"]').forEach(n=>{ n.innerHTML=''; });
-    toast('自由配置ブロックに切り離しました');
+  const ov=fieldOverride(node);
+  if(ov.x==null){
+    const r=node.getBoundingClientRect();
+    ov.x=clamp(+((r.left-pageRect.left)*mmPerPx).toFixed(1),0,PAGE_W-8);
+    ov.y=clamp(+((r.top-pageRect.top)*mmPerPx).toFixed(1),0,PAGE_H-8);
   }
-  hideDetach(); save(); syncUI(); render();
-  const newNode=$(`.blk[data-blk="${b.id}"] .blk-body`);
-  if(newNode){ selectBlk(b.id); newNode.focus(); }
+  applyFieldOverride(node,ov);
+  ftool.hidden=true;
+  const sx=e.clientX, sy=e.clientY, ox=ov.x, oy=ov.y;
+  const move=ev=>{
+    const dx=(ev.clientX-sx)*mmPerPx, dy=(ev.clientY-sy)*mmPerPx;
+    ov.x=+clamp(ox+dx,0,PAGE_W-8).toFixed(1);
+    ov.y=+clamp(oy+dy,0,PAGE_H-8).toFixed(1);
+    node.style.left=ov.x+'mm'; node.style.top=ov.y+'mm';
+  };
+  const up=()=>{
+    document.removeEventListener('pointermove',move);
+    document.removeEventListener('pointerup',up);
+    save(); showFieldTool(node);
+  };
+  document.addEventListener('pointermove',move);
+  document.addEventListener('pointerup',up);
+});
+function adjustFieldFs(delta){
+  const node=fieldTarget; if(!node) return;
+  const ov=fieldOverride(node);
+  let base=ov.fs;
+  if(base==null){
+    const px=parseFloat(getComputedStyle(node).fontSize)||14;
+    base=Math.round(px*.75/(state.fs||1));
+  }
+  ov.fs=clamp(base+delta,5,72);
+  applyFieldOverride(node,ov);
+  save(); showFieldTool(node);
+}
+$('#fieldFsUp').addEventListener('click',()=>adjustFieldFs(1));
+$('#fieldFsDown').addEventListener('click',()=>adjustFieldFs(-1));
+$('#fieldReset').addEventListener('click',()=>{
+  const node=fieldTarget; if(!node) return;
+  const key=fieldKey(node);
+  if(!state.pos[key]){ toast('変更はありません'); return; }
+  delete state.pos[key];
+  hideFieldTool(); save(); syncUI(); render();
+  toast('元の位置・大きさに戻しました');
 });
 $('.stagewrap').addEventListener('scroll',hideTT);
 tt.addEventListener('mousedown',e=>e.preventDefault());
@@ -2424,8 +2477,9 @@ $('#helpBtn').onclick=()=>{
     <p>ブロックにマウスを乗せると出るツールバーで操作します。<br>
       <b>⠿</b> ドラッグして移動 ／ <b>A− A＋</b> 文字の大きさ ／ <b>📷</b> 画像の差し替え ／ <b>⬆ ⬇</b> 前面・背面 ／ <b>✕</b> 削除<br>
       右下の丸いハンドルを<b>ドラッグすると幅が変わります</b>（画像は縦横比を保ったまま拡大縮小します）。テキストは通常の文字と同じようにクリックして打ち替えられ、ドラッグ選択すれば太字やマーカーも使えます。</p>
-    <p><b>店名・品目名・価格など、テンプレートに元から入っている文字</b>を個別に動かしたいときは、その文字をクリックすると <b>「⇱ 自由配置に切り離す」</b> ボタンが出ます。押すとその文字だけが自由配置ブロックに変わり、自由に移動・拡大縮小できるようになります。<br>
-      店名・住所など<b>他のページや表紙にも同じ内容が出ている文字</b>は、切り離してもコピーが増えるだけで元の表示は残ります（他のページの表示を消さないための仕様です）。品目名や説明文などページ固有の文字は、切り離すと元の場所から消えます。</p>
+    <p><b>店名・品目名・価格など、テンプレートに元から入っている文字</b>も、そのまま動かしたり大きさを変えたりできます。文字をクリックすると上に小さなツールバーが出ます。<br>
+      <b>⠿</b> ドラッグでその場から自由に移動 ／ <b>A− A＋</b> その文字だけの大きさを調整 ／ <b>↺</b> 元の位置・大きさに戻す。<br>
+      内容を書き換える・コピーするわけではなく、見た目の位置と大きさだけをその文字に対して調整する機能です。同じ店名が他のページや表紙にも表示されている場合も、そのページの表示だけが動き、他のページには影響しません。</p>
     <h3>8. PDF にする・印刷する</h3>
     <p>左下の <b>「PDF ／ 印刷する」</b> から。A4 ぴったりで出力されます。印刷所に入稿する場合も、この PDF をそのまま渡せます。</p>
     <h3>9. 保存について</h3>
