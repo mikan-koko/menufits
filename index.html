@@ -1580,6 +1580,25 @@ function migrate(s){
   s.backMsg=s.backMsg||'';
   s.blocks=Array.isArray(s.blocks)?s.blocks:[];
   s.pos=(s.pos&&typeof s.pos==='object')?s.pos:{};
+  // one-time migration: position overrides used to be keyed by array index
+  // (`pg::categories.N.items.M.field`), which silently reattached to the wrong
+  // item after a reorder/delete. Re-key by the item/category's stable id instead.
+  const np={};
+  Object.keys(s.pos).forEach(k=>{
+    const i=k.indexOf('::'); const path=i<0?'':k.slice(i+2);
+    const mi=path.match(/^categories\.(\d+)\.items\.(\d+)\.(\w+)$/);
+    const mc=path.match(/^categories\.(\d+)\.(title|titleEn)$/);
+    if(mi){
+      const it=(s.categories[+mi[1]]||{}).items&&s.categories[+mi[1]].items[+mi[2]];
+      if(it) np['item::'+it.id+'::'+mi[3]]=s.pos[k];
+    } else if(mc){
+      const c=s.categories[+mc[1]];
+      if(c) np['cat::'+c.id+'::'+mc[2]]=s.pos[k];
+    } else {
+      np[k]=s.pos[k]; // shop.*/foot.*/backMsg keys were already `pg::path` and stay valid
+    }
+  });
+  s.pos=np;
   return s;
 }
 let state, zoom='fit';
@@ -1635,18 +1654,21 @@ function sanitizeHTML(html){
   d.querySelectorAll('b,u,span').forEach(e2=>{ if(!e2.textContent.trim()) e2.remove(); });
   return d.innerHTML.replace(/\u00a0/g,' ').replace(/^\s+|\s+$/g,'');
 }
-function ed(path,cls,ph,tag,pg){
+function ed(path,cls,ph,tag,ovKey){
   const n=el(tag||'div',cls);
   n.contentEditable='true'; n.spellcheck=false;
   n.dataset.path=path; n.dataset.ph=ph;
   n.innerHTML=sanitizeHTML(get(path)||'');
-  if(pg!=null){
-    n.dataset.pg=pg;
-    const ov=state.pos[pg+'::'+path];
+  if(ovKey){
+    n.dataset.ovkey=ovKey;
+    const ov=state.pos[ovKey];
     if(ov) applyFieldOverride(n,ov);
   }
   return n;
 }
+// remove every position/size override whose key starts with `prefix` (used when the
+// category/item it belongs to is deleted, so stale entries don't linger in saved data)
+function purgePos(prefix){ Object.keys(state.pos).forEach(k=>{ if(k.indexOf(prefix)===0) delete state.pos[k]; }); }
 function applyFieldOverride(n,ov){
   const moved=ov.x!=null;
   n.classList.toggle('pos-ov',moved||ov.fs!=null);
@@ -1664,7 +1686,7 @@ function ctl(kind,attrs,btns){
 }
 
 /* ---------------- build ---------------- */
-function buildItem(ci,ii,it,pg){
+function buildItem(ci,ii,it){
   const li=el('li','item'+(it.badge?' has-badge':'')+(it.photo?' has-photo':''));
   const b=`data-ci="${ci}" data-ii="${ii}"`;
   li.appendChild(ctl('item',b,[
@@ -1679,15 +1701,17 @@ function buildItem(ci,ii,it,pg){
   li.appendChild(ph);
   const top=el('div','it-top');
   const nw=el('span','it-nw');
-  nw.appendChild(ed(`categories.${ci}.items.${ii}.name`,'it-name','品名','span',pg));
-  nw.appendChild(ed(`categories.${ci}.items.${ii}.badge`,'it-badge','タグ','span',pg));
+  // ovKey is keyed off the item's own stable id, not its array index — an item keeps its
+  // custom position/size when reordered, duplicated elsewhere, or another item is deleted.
+  nw.appendChild(ed(`categories.${ci}.items.${ii}.name`,'it-name','品名','span','item::'+it.id+'::name'));
+  nw.appendChild(ed(`categories.${ci}.items.${ii}.badge`,'it-badge','タグ','span','item::'+it.id+'::badge'));
   top.appendChild(nw);
-  top.appendChild(ed(`categories.${ci}.items.${ii}.price`,'it-price','0','span',pg));
+  top.appendChild(ed(`categories.${ci}.items.${ii}.price`,'it-price','0','span','item::'+it.id+'::price'));
   li.appendChild(top);
-  li.appendChild(ed(`categories.${ci}.items.${ii}.desc`,'it-desc','説明（空欄でも可）','div',pg));
+  li.appendChild(ed(`categories.${ci}.items.${ii}.desc`,'it-desc','説明（空欄でも可）','div','item::'+it.id+'::desc'));
   return li;
 }
-function buildCat(c,ci,pg){
+function buildCat(c,ci){
   const s=el('section','cat');
   s.appendChild(ctl('cat',`data-ci="${ci}"`,[
     ['ct-up','↑',0,'上へ'],['ct-dn','↓',0,'下へ'],['ct-dup','⧉',0,'複製'],['ct-lib','📋',0,'ライブラリから品目を挿入'],
@@ -1695,11 +1719,11 @@ function buildCat(c,ci,pg){
     ['ct-add','＋',0,'下にカテゴリーを追加'],['ct-del','✕',1,'削除']
   ]));
   const h=el('div','cat-head');
-  h.appendChild(ed(`categories.${ci}.title`,'cat-ttl','カテゴリー名','h2',pg));
-  h.appendChild(ed(`categories.${ci}.titleEn`,'cat-en','English','span',pg));
+  h.appendChild(ed(`categories.${ci}.title`,'cat-ttl','カテゴリー名','h2','cat::'+c.id+'::title'));
+  h.appendChild(ed(`categories.${ci}.titleEn`,'cat-en','English','span','cat::'+c.id+'::titleEn'));
   s.appendChild(h);
   const ul=el('ul','items');
-  c.items.forEach((it,ii)=>ul.appendChild(buildItem(ci,ii,it,pg)));
+  c.items.forEach((it,ii)=>ul.appendChild(buildItem(ci,ii,it)));
   s.appendChild(ul);
   return s;
 }
@@ -1781,14 +1805,14 @@ function buildPage(p){
   }
   const hd=el('header','mhead');
   const hl=el('div','h-l');
-  hl.appendChild(ed('shop.nameEn','h-en','ENGLISH NAME','div',p));
-  hl.appendChild(ed('shop.name','h-ttl','店名を入力','h1',p));
+  hl.appendChild(ed('shop.nameEn','h-en','ENGLISH NAME','div',p+'::shop.nameEn'));
+  hl.appendChild(ed('shop.name','h-ttl','店名を入力','h1',p+'::shop.name'));
   hd.appendChild(hl);
-  hd.appendChild(ed('shop.tagline','h-tag','ひとことキャッチコピー','div',p));
+  hd.appendChild(ed('shop.tagline','h-tag','ひとことキャッチコピー','div',p+'::shop.tagline'));
   inn.appendChild(hd);
 
   const body=el('div','mbody');
-  state.categories.forEach((c,ci)=>{ if((c.page||1)===p) body.appendChild(buildCat(c,ci,p)); });
+  state.categories.forEach((c,ci)=>{ if((c.page||1)===p) body.appendChild(buildCat(c,ci)); });
   inn.appendChild(body);
 
   const add=el('button','addcat','＋ カテゴリーを追加');
@@ -1796,8 +1820,8 @@ function buildPage(p){
   inn.appendChild(add);
 
   const ft=el('footer','mfoot');
-  ft.appendChild(ed('foot.l1','f1','住所・電話番号など','div',p));
-  ft.appendChild(ed('foot.l2','f2','営業時間・SNSなど','div',p));
+  ft.appendChild(ed('foot.l1','f1','住所・電話番号など','div',p+'::foot.l1'));
+  ft.appendChild(ed('foot.l2','f2','営業時間・SNSなど','div',p+'::foot.l2'));
   inn.appendChild(ft);
 
   page.appendChild(inn);
@@ -1813,9 +1837,9 @@ function buildCoverFront(){
   if(state.hero){
     const hw=el('div','cov-img'); const im=document.createElement('img'); im.src=state.hero; hw.appendChild(im); inn.appendChild(hw);
   }
-  inn.appendChild(ed('shop.nameEn','cov-en','ENGLISH NAME','div','front'));
-  inn.appendChild(ed('shop.name','cov-title','店名を入力','h1','front'));
-  inn.appendChild(ed('shop.tagline','cov-tag','ひとことキャッチコピー','div','front'));
+  inn.appendChild(ed('shop.nameEn','cov-en','ENGLISH NAME','div','front::shop.nameEn'));
+  inn.appendChild(ed('shop.name','cov-title','店名を入力','h1','front::shop.name'));
+  inn.appendChild(ed('shop.tagline','cov-tag','ひとことキャッチコピー','div','front::shop.tagline'));
   page.appendChild(inn);
   attachBlocks(page,'front');
   return page;
@@ -1826,11 +1850,11 @@ function buildCoverBack(){
   if(state.logo){
     const lw=el('div','cov-logo'); const im=document.createElement('img'); im.src=state.logo; lw.appendChild(im); inn.appendChild(lw);
   }
-  inn.appendChild(ed('shop.name','cov-title','店名を入力','div','back'));
-  inn.appendChild(ed('backMsg','cov-msg','ご来店ありがとうございました。またのお越しをお待ちしております。','div','back'));
+  inn.appendChild(ed('shop.name','cov-title','店名を入力','div','back::shop.name'));
+  inn.appendChild(ed('backMsg','cov-msg','ご来店ありがとうございました。またのお越しをお待ちしております。','div','back::backMsg'));
   const ft=el('div','cov-foot');
-  ft.appendChild(ed('foot.l1','f1','住所・電話番号など','div','back'));
-  ft.appendChild(ed('foot.l2','f2','営業時間・SNSなど','div','back'));
+  ft.appendChild(ed('foot.l1','f1','住所・電話番号など','div','back::foot.l1'));
+  ft.appendChild(ed('foot.l2','f2','営業時間・SNSなど','div','back::foot.l2'));
   inn.appendChild(ft);
   page.appendChild(inn);
   attachBlocks(page,'back');
@@ -1861,6 +1885,14 @@ function isOver(p){
   const inn=p.querySelector('.page-in'), mb=p.querySelector('.mbody');
   if(inn.scrollHeight>inn.clientHeight+2) return true;
   if(mb && (mb.scrollHeight>mb.clientHeight+2 || mb.scrollWidth>mb.clientWidth+2)) return true;
+  // free-positioned fields and blocks sit outside the normal flow, so growing their text
+  // (or a drag that lands right at the edge) can push them past the page without the
+  // checks above ever noticing — check their own boxes against the page's directly.
+  const pr=p.getBoundingClientRect();
+  for(const f of p.querySelectorAll('.pos-ov, .blk')){
+    const r=f.getBoundingClientRect();
+    if(r.right>pr.right+2 || r.bottom>pr.bottom+2) return true;
+  }
   return false;
 }
 function checkOverflow(){
@@ -1924,14 +1956,18 @@ document.addEventListener('click',e=>{
   switch(a){
     case 'ct-add-end': K.push({id:uid(),title:'新しいカテゴリー',titleEn:'',page:+b.dataset.page||1,items:[newItem(),newItem()]}); break;
     case 'ct-add': K.splice(ci+1,0,{id:uid(),title:'新しいカテゴリー',titleEn:'',page:K[ci].page||1,items:[newItem(),newItem()]}); break;
-    case 'ct-del': if(K.length<=1) return; K.splice(ci,1); break;
-    case 'ct-dup': K.splice(ci+1,0,JSON.parse(JSON.stringify({...K[ci],id:uid()}))); break;
+    case 'ct-del': purgePos('cat::'+K[ci].id+'::'); K[ci].items.forEach(it=>purgePos('item::'+it.id+'::')); if(K.length<=1) return; K.splice(ci,1); break;
+    case 'ct-dup': {
+      const clone=JSON.parse(JSON.stringify({...K[ci],id:uid()}));
+      clone.items.forEach(it=>it.id=uid()); // nested items must not keep the originals' ids (position overrides key off it)
+      K.splice(ci+1,0,clone); break;
+    }
     case 'ct-up' : mv(K,ci,-1); break;
     case 'ct-dn' : mv(K,ci, 1); break;
     case 'ct-pg+': K[ci].page=(K[ci].page||1)+1; break;
     case 'ct-pg-': K[ci].page=Math.max(1,(K[ci].page||1)-1); break;
     case 'it-add': items.splice(ii+1,0,newItem()); break;
-    case 'it-del': if(items.length<=1) return; items.splice(ii,1); break;
+    case 'it-del': purgePos('item::'+items[ii].id+'::'); if(items.length<=1) return; items.splice(ii,1); break;
     case 'it-dup': items.splice(ii+1,0,{...JSON.parse(JSON.stringify(items[ii])),id:uid()}); break;
     case 'it-up' : mv(items,ii,-1); break;
     case 'it-dn' : mv(items,ii, 1); break;
@@ -1945,6 +1981,11 @@ document.addEventListener('click',e=>{
   // drop empty trailing pages
   const mx=Math.max(1,...K.map(c=>c.page||1));
   for(let p=1;p<=mx;p++){ if(!K.some(c=>(c.page||1)===p)) K.forEach(c=>{ if((c.page||1)>p) c.page--; }); }
+  // a free block anchored to a page number can outlive that page (the category that used
+  // to justify it moved away); fold any now-nonexistent page back onto the last real one
+  // instead of leaving the block orphaned and invisible.
+  const newMx=Math.max(1,...K.map(c=>c.page||1));
+  state.blocks.forEach(bl=>{ const n=+bl.pg; if(!isNaN(n)&&n>newMx) bl.pg=String(newMx); });
   save(); render();
 });
 
@@ -2162,7 +2203,7 @@ document.addEventListener('selectionchange',()=>{
   tt.style.left=Math.max(8,Math.min(innerWidth-tt.offsetWidth-8,r.left+r.width/2-tt.offsetWidth/2))+'px';
   tt.style.top=Math.max(8,r.top-tt.offsetHeight-8)+'px';
 });
-function fieldKey(node){ return node.dataset.pg+'::'+node.dataset.path; }
+function fieldKey(node){ return node.dataset.ovkey; }
 function fieldOverride(node){
   const key=fieldKey(node);
   let ov=state.pos[key];
