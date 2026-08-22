@@ -1339,6 +1339,10 @@ input[type=range]{width:100%;accent-color:#1b1b1b}
   <button data-tcmd="clear" title="装飾を解除">⌫</button>
 </div>
 
+<div class="ttool" id="detachTool" hidden>
+  <button id="detachBtn" title="この文字を自由に動かせるブロックに切り離す">⇱ 自由配置に切り離す</button>
+</div>
+
 <div class="mask" id="mask"><div class="modal" id="modal"></div></div>
 
 <script>
@@ -1734,6 +1738,7 @@ function buildBlock(b){
   return n;
 }
 function attachBlocks(page,pg){
+  page.dataset.pg=pg;
   const layer=el('div','blk-layer');
   blocksOf(pg).forEach(b=>layer.appendChild(buildBlock(b)));
   page.appendChild(layer);
@@ -2105,22 +2110,62 @@ function toast(m){
   clearTimeout(window._tt); window._tt=setTimeout(()=>t.classList.remove('on'),2000);
 }
 
-/* --- inline decoration toolbar --- */
+/* --- inline decoration toolbar / detach-to-block toolbar --- */
 const tt=$('#ttool');
 function hideTT(){ tt.hidden=true; }
+const dtool=$('#detachTool');
+let detachTarget=null;
+function hideDetach(){ dtool.hidden=true; detachTarget=null; }
+function showDetach(node){
+  detachTarget=node;
+  const r=node.getBoundingClientRect();
+  dtool.hidden=false;
+  dtool.style.left=Math.max(8,Math.min(innerWidth-dtool.offsetWidth-8,r.left))+'px';
+  dtool.style.top=Math.max(8,r.top-dtool.offsetHeight-8)+'px';
+}
+dtool.addEventListener('mousedown',e=>e.preventDefault());
 document.addEventListener('selectionchange',()=>{
   const sel=getSelection();
-  if(!sel.rangeCount||sel.isCollapsed){ hideTT(); return; }
   const nd=x=>x&&(x.nodeType===1?x:x.parentElement);
-  const e1=nd(sel.anchorNode)&&nd(sel.anchorNode).closest('#stage [contenteditable]');
+  const anchor=nd(sel.anchorNode);
+  const field=anchor&&anchor.closest('#stage [contenteditable][data-path]');
+  if(!sel.rangeCount || !field || field.closest('.blk')){ hideTT(); hideDetach(); return; }
+  if(sel.isCollapsed){ hideTT(); showDetach(field); return; }
   const e2=nd(sel.focusNode)&&nd(sel.focusNode).closest('#stage [contenteditable]');
-  if(!e1||e1!==e2){ hideTT(); return; }
+  if(e2!==field){ hideTT(); hideDetach(); return; }
   const r=sel.getRangeAt(0).getBoundingClientRect();
-  if(!r.width&&!r.height){ hideTT(); return; }
+  if(!r.width&&!r.height){ hideTT(); hideDetach(); return; }
+  hideDetach();
   tt.hidden=false;
   tt.querySelector('[data-tcmd="fore"]').style.color=state.accent;
   tt.style.left=Math.max(8,Math.min(innerWidth-tt.offsetWidth-8,r.left+r.width/2-tt.offsetWidth/2))+'px';
   tt.style.top=Math.max(8,r.top-tt.offsetHeight-8)+'px';
+});
+const SHARED_PATHS=new Set(['shop.name','shop.nameEn','shop.tagline','foot.l1','foot.l2']);
+$('#detachBtn').addEventListener('click',()=>{
+  const node=detachTarget; if(!node) return;
+  const html=sanitizeHTML(node.innerHTML);
+  if(!plain(html).trim()){ toast('空の項目は切り離せません'); return; }
+  const page=node.closest('.page'); if(!page) return;
+  const pageRect=page.getBoundingClientRect(), nodeRect=node.getBoundingClientRect();
+  const mmPerPx=PAGE_W/pageRect.width;
+  const x=clamp(+((nodeRect.left-pageRect.left)*mmPerPx).toFixed(1),0,PAGE_W-20);
+  const y=clamp(+((nodeRect.top-pageRect.top)*mmPerPx).toFixed(1),0,PAGE_H-20);
+  const w=clamp(+(nodeRect.width*mmPerPx).toFixed(1),20,PAGE_W);
+  const fsPx=parseFloat(getComputedStyle(node).fontSize)||14;
+  const fs=clamp(Math.round(fsPx*.75),5,72);
+  const b={id:uid(),pg:page.dataset.pg,type:'text',x,y,w,fs,z:1,html};
+  state.blocks.push(b);
+  const path=node.dataset.path;
+  if(SHARED_PATHS.has(path)){
+    toast('コピーを自由配置にしました（元の文字は他ページ・表紙にも出るため残しています）');
+  } else {
+    set(path,''); $$('[data-path="'+path+'"]').forEach(n=>{ n.innerHTML=''; });
+    toast('自由配置ブロックに切り離しました');
+  }
+  hideDetach(); save(); syncUI(); render();
+  const newNode=$(`.blk[data-blk="${b.id}"] .blk-body`);
+  if(newNode){ selectBlk(b.id); newNode.focus(); }
 });
 $('.stagewrap').addEventListener('scroll',hideTT);
 tt.addEventListener('mousedown',e=>e.preventDefault());
@@ -2379,6 +2424,8 @@ $('#helpBtn').onclick=()=>{
     <p>ブロックにマウスを乗せると出るツールバーで操作します。<br>
       <b>⠿</b> ドラッグして移動 ／ <b>A− A＋</b> 文字の大きさ ／ <b>📷</b> 画像の差し替え ／ <b>⬆ ⬇</b> 前面・背面 ／ <b>✕</b> 削除<br>
       右下の丸いハンドルを<b>ドラッグすると幅が変わります</b>（画像は縦横比を保ったまま拡大縮小します）。テキストは通常の文字と同じようにクリックして打ち替えられ、ドラッグ選択すれば太字やマーカーも使えます。</p>
+    <p><b>店名・品目名・価格など、テンプレートに元から入っている文字</b>を個別に動かしたいときは、その文字をクリックすると <b>「⇱ 自由配置に切り離す」</b> ボタンが出ます。押すとその文字だけが自由配置ブロックに変わり、自由に移動・拡大縮小できるようになります。<br>
+      店名・住所など<b>他のページや表紙にも同じ内容が出ている文字</b>は、切り離してもコピーが増えるだけで元の表示は残ります（他のページの表示を消さないための仕様です）。品目名や説明文などページ固有の文字は、切り離すと元の場所から消えます。</p>
     <h3>8. PDF にする・印刷する</h3>
     <p>左下の <b>「PDF ／ 印刷する」</b> から。A4 ぴったりで出力されます。印刷所に入稿する場合も、この PDF をそのまま渡せます。</p>
     <h3>9. 保存について</h3>
